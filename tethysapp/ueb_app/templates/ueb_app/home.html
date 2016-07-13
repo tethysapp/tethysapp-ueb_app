@@ -1,0 +1,31 @@
+{% extends "ueb_app/base.html" %}
+{% load staticfiles %}
+
+{%block app_navigation%}
+{%endblock%}
+
+
+{% block app_content %}
+  <h1>Welcome to UEB Model Services! </h1>
+
+  <div class='col-md-12' style="margin-top:40px;margin-bottom:50px">
+    <table style="width:700px">
+      <tr align="center">
+        <td><a href=""><img align="middle" src="{% static 'ueb_app/images/model_input.png' %}" width="200px" hight="200px"/></a></td>
+        <td><a href=""><img align="middle" src="{% static 'ueb_app/images/model_simu.png' %}" width="200px" hight="200px"/></a></td>
+      </tr>
+      <tr align="center">
+        <td><a href=""><p style="font-size:150%">Model Inputs Preparation </p></a></td>
+        <td><a href=""><p style="font-size:150%">Model Simulation</p></a></td>
+      </tr>
+    </table>
+
+  </div>
+
+
+{% endblock %}
+
+
+{% block app_actions %}
+
+{% endblock %}
