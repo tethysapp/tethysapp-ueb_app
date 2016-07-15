@@ -1,0 +1,91 @@
+{% extends "ueb_app/base.html" %}
+{% load staticfiles %}
+{% load tethys_gizmos %}
+
+
+{%block app_navigation%}
+<h5><a href="/apps/ueb-app">Back to Mainpage</a></h5>
+{%endblock%}
+
+
+{% block app_content %}
+<div id='title' style="margin-bottom:30px">
+    <h3 style="color:#0073e6">UEB Model Inputs Preperation</h3>
+    <p style="margin-bottom:20px">This service will help to retrieve data from different data sources and preprocess them as UEB model input files. <br> These files will be shared as model instance resource in HydroShare
+    </p>
+</div>
+
+
+<div id="main">
+<div id='form' class='col-md-6'style="margin-bottom:30px">
+
+    <form method="get" action='/apps/demo-app/toolbox/result'>
+        {% csrf_token %}
+        <div id="model domain">
+            <h5>Model Domain</h5>
+            <p>Bounding Box</p>
+            <table>
+                <tr>
+                    <td>{% gizmo text_input north_lat %}</td>
+                    <td>{% gizmo text_input south_lat %}</td>
+                </tr>
+                <tr>
+                    <td>{% gizmo text_input west_lon %}</td>
+                    <td>{% gizmo text_input east_lon %}</td>
+                </tr>
+            </table>
+
+            <p>Outlet Point</p>
+            <table>
+                <tr>
+                    <td>{% gizmo text_input outlet_x %}</td>
+                    <td>{% gizmo text_input outlet_y %}</td>
+                </tr>
+            </table>
+
+            <p>EPSG Code</p>
+            {% gizmo select_input epsg_code %}
+
+            <p>Time Period</p>
+            <table>
+                <tr>
+                    <td>{% gizmo date_picker start_time %}</td>
+                    <td>{% gizmo date_picker end_time %}</td>
+                </tr>
+            </table>
+
+            <p>Cell size for reprojection (required)</p>
+            <table>
+                <tr>
+                    <td>{% gizmo text_input x_size %}</td>
+                    <td>{% gizmo text_input y_size %}</td>
+                </tr>
+            </table>
+
+            <p>Cell size for model simulation (optional)</p>
+            <table>
+                <tr>
+                    <td>{% gizmo text_input dx_size %}</td>
+                    <td>{% gizmo text_input yy_size %}</td>
+                </tr>
+            </table>
+
+        </div>
+
+
+        <input type="submit" value="Run Service" name='run-service' class="btn btn-success btn-lg">
+    </form>
+</div>
+
+<div id='map' class="col-md-6">
+    <p>This will be a map</p>
+</div>
+
+</div>
+
+{%endblock%}
+
+
+{% block scripts %}
+  {{ block.super }}
+{% endblock %}
