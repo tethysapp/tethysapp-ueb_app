@@ -9,64 +9,69 @@
 
 
 {% block app_content %}
-<div id='title' style="margin-bottom:30px">
+<div id='title' style="margin-bottom:10px">
     <h3 style="color:#0073e6">UEB Model Inputs Preperation</h3>
-    <p style="margin-bottom:20px">This service will help to retrieve data from different data sources and preprocess them as UEB model input files. <br> These files will be shared as model instance resource in HydroShare
+    <p style="margin-bottom:20px">This service will help to retrieve data from different data sources and preprocess them as UEB model input files. These files will be shared as model instance resource in HydroShare
     </p>
 </div>
 
 
 <div id="main">
-<div id='form' class='col-md-6'style="margin-bottom:30px">
+<div id='form' class='col-md-4'style="margin-bottom:30px">
 
     <form method="get" action='/apps/demo-app/toolbox/result'>
         {% csrf_token %}
         <div id="model domain">
-            <h5>Model Domain</h5>
-            <p>Bounding Box</p>
+            <h5>Watershed Bounding Box</h5>
             <table>
                 <tr>
                     <td>{% gizmo text_input north_lat %}</td>
+                    <td width="10px"/>
                     <td>{% gizmo text_input south_lat %}</td>
                 </tr>
                 <tr>
                     <td>{% gizmo text_input west_lon %}</td>
+                    <td width="10px"/>
                     <td>{% gizmo text_input east_lon %}</td>
                 </tr>
             </table>
 
-            <p>Outlet Point</p>
+            <h5>Watershed Outlet Point</h5>
             <table>
                 <tr>
                     <td>{% gizmo text_input outlet_x %}</td>
+                    <td width="10px"/>
                     <td>{% gizmo text_input outlet_y %}</td>
                 </tr>
             </table>
 
-            <p>EPSG Code</p>
-            {% gizmo select_input epsg_code %}
+            <h5>EPSG Code</h5>
+            <div width="30%">{% gizmo select_input epsg_code %}</div>
 
-            <p>Time Period</p>
+            <h5>Model Simulation Time Period</h5>
             <table>
                 <tr>
                     <td>{% gizmo date_picker start_time %}</td>
+                    <td width="10px"/>
                     <td>{% gizmo date_picker end_time %}</td>
                 </tr>
             </table>
 
-            <p>Cell size for reprojection (required)</p>
+            <h5>Cell size for reprojection (required)</h5>
             <table>
                 <tr>
                     <td>{% gizmo text_input x_size %}</td>
+                    <td width="10px"/>
                     <td>{% gizmo text_input y_size %}</td>
                 </tr>
             </table>
 
-            <p>Cell size for model simulation (optional)</p>
+            <h5>Cell size for model simulation (optional)</h5>
             <table>
                 <tr>
                     <td>{% gizmo text_input dx_size %}</td>
-                    <td>{% gizmo text_input yy_size %}</td>
+                    <td width="10px"/>
+                    <td>{% gizmo text_input dy_size %}</td>
                 </tr>
             </table>
 
@@ -77,15 +82,23 @@
     </form>
 </div>
 
-<div id='map' class="col-md-6">
-    <p>This will be a map</p>
+<div id='map' class="col-md-8">
+    <h5>Draw watershed boundary and outlet point in map (US continent only)</h5>
+    {% gizmo google_map_view google_map_view_options %}
 </div>
 
 </div>
 
 {%endblock%}
 
+{% block app_actions_override %}
+{% endblock %}
 
 {% block scripts %}
   {{ block.super }}
+{% endblock %}
+
+{% block content_dependent_styles %}
+  {{ block.super }}
+  <link href="{% static 'ueb_app/css/model_input.css' %}" rel="stylesheet"/>
 {% endblock %}
