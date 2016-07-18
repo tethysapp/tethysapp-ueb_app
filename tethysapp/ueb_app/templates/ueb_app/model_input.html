@@ -86,16 +86,53 @@
     <h5>Draw watershed boundary and outlet point in map (US continent only)</h5>
     <div id="map" style="width:800px; height:600px"></div>
     <script>
+        var allRectangles = [];
+      var allMarkers = [];
+
       function initMap() {
         var mapDiv = document.getElementById('map');
         var map = new google.maps.Map(mapDiv, {
             center: {lat: 37.09024, lng: -95.712891},
             zoom: 4
         });
+
+        var drawingManager = new google.maps.drawing.DrawingManager({
+            drawingControl: true,
+            drawingControlOptions: {
+              position: google.maps.ControlPosition.TOP_CENTER,
+              drawingModes: [
+                google.maps.drawing.OverlayType.MARKER,
+                google.maps.drawing.OverlayType.RECTANGLE
+              ]
+             },
+            rectangleOptions: {
+                editable: true,
+                draggable: true
+            }
+         });
+
+         drawingManager.setMap(map);
+
+         google.maps.event.addListener(drawingManager, 'rectanglecomplete', function (rectangle) {
+            <!--alert(allRectangle.length);-->
+            for (var i = 0; i < allRectangles.length; i++) {
+                    allRectangles[i].setMap(null);
+             };
+            allRectangles.push(rectangle);
+         });
+
+         google.maps.event.addListener(drawingManager, 'markercomplete', function (marker) {
+            <!--alert(allRectangle.length);-->
+            for (var i = 0; i < allMarkers.length; i++) {
+                    allMarkers[i].setMap(null);
+             };
+            allMarkers.push(marker);
+         });
+
       }
     </script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHOUQD9R_tLb6NKA22cuTTvF0j6X8wkgI&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHOUQD9R_tLb6NKA22cuTTvF0j6X8wkgI&callback=initMap&libraries=drawing">
     </script>
 </div>
 
