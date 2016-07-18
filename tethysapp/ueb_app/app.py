@@ -29,6 +29,9 @@ class UebApp(TethysAppBase):
                     UrlMap(name='model_input',
                            url='ueb-app/model_input',
                            controller='ueb_app.controllers.model_input'),
+                    UrlMap(name='test',
+                           url='ueb-app/test',
+                           controller='ueb_app.controllers.test'),
         )
 
         return url_maps

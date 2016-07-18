@@ -82,9 +82,21 @@
     </form>
 </div>
 
-<div id='map' class="col-md-8">
+<div id='my-map' class="col-md-8">
     <h5>Draw watershed boundary and outlet point in map (US continent only)</h5>
-    {% gizmo google_map_view google_map_view_options %}
+    <div id="map" style="width:800px; height:600px"></div>
+    <script>
+      function initMap() {
+        var mapDiv = document.getElementById('map');
+        var map = new google.maps.Map(mapDiv, {
+            center: {lat: 37.09024, lng: -95.712891},
+            zoom: 4
+        });
+      }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHOUQD9R_tLb6NKA22cuTTvF0j6X8wkgI&callback=initMap">
+    </script>
 </div>
 
 </div>

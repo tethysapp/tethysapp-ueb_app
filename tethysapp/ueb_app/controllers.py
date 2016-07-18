@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from tethys_sdk.gizmos import TextInput, SelectInput,DatePicker, GoogleMapView
 
 
-
 @login_required()
 def home(request):
     """
@@ -12,6 +11,15 @@ def home(request):
     context = {}
 
     return render(request, 'ueb_app/home.html', context)
+
+
+def test(request):
+    """
+    Controller for the app home page.
+    """
+    context = {}
+
+    return render(request, 'ueb_app/test.html', context)
 
 
 @login_required()
@@ -85,21 +93,6 @@ def model_input(request):
                         name='dy_size',
                         )
 
-    # map
-    google_map_view = GoogleMapView(height='600px',
-                                    width='100%',
-                                    drawing_types_enabled=['POLYGONS', 'POINTS'],
-                                    initial_drawing_mode='POLYGONS',
-                                    output_format='WKT')
-
-
-    # GeoJSON Example
-    google_map_view_options = {'height': '700px',
-                               'width': '100%',
-                               'maps_api_key': 'AIzaSyCHOUQD9R_tLb6NKA22cuTTvF0j6X8wkgI',
-                               'drawing_types_enabled': ['POLYGONS', 'POINTS'],
-                               'initial_drawing_mode': 'POLYGONS',
-                            }
     # context
     context = {'north_lat': north_lat,
                'south_lat': south_lat,
@@ -114,8 +107,6 @@ def model_input(request):
                'y_size': y_size,
                'dx_size': dx_size,
                'dy_size': dy_size,
-               'google_map_view_options': google_map_view_options,
-               'google_map_view': google_map_view
                }
 
     return render(request, 'ueb_app/model_input.html', context)
