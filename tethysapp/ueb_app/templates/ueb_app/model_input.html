@@ -85,8 +85,10 @@
 <div id='my-map' class="col-md-8">
     <h5>Draw watershed boundary and outlet point in map (US continent only)</h5>
     <div id="map" style="width:800px; height:600px"></div>
+
     <script>
-        var allRectangles = [];
+
+      var allRectangles = [];
       var allMarkers = [];
 
       function initMap() {
@@ -114,22 +116,57 @@
          drawingManager.setMap(map);
 
          google.maps.event.addListener(drawingManager, 'rectanglecomplete', function (rectangle) {
-            <!--alert(allRectangle.length);-->
+
             for (var i = 0; i < allRectangles.length; i++) {
                     allRectangles[i].setMap(null);
              };
             allRectangles.push(rectangle);
+
+            var coordinates = (rectangle.getBounds());
+            processDrawing(coordinates, 'rectangle');
+            rectangle.addListener('bounds_changed', function () {
+                var coordinates = (rectangle.getBounds());
+                processDrawing(coordinates, "rectangle");
+            });
+
          });
 
          google.maps.event.addListener(drawingManager, 'markercomplete', function (marker) {
-            <!--alert(allRectangle.length);-->
+
             for (var i = 0; i < allMarkers.length; i++) {
                     allMarkers[i].setMap(null);
              };
+
+            var coordinates = (marker.getPosition());
+            processDrawing(coordinates, 'marker');
             allMarkers.push(marker);
          });
 
-      }
+      } // end of initmap function
+
+
+
+      function processDrawing (coordinates, shape) {
+            if (shape == "rectangle"){
+                // get coordinate value
+                var bounds = {
+                    north: parseFloat(coordinates.getNorthEast().lat()),
+                    south: parseFloat(coordinates.getSouthWest().lat()),
+                    east: parseFloat(coordinates.getNorthEast().lng()),
+                    west: parseFloat(coordinates.getSouthWest().lng())
+                };
+
+                // update form fields
+                $("#north_lat").val(bounds.north);
+                $("#south_lat").val(bounds.south);
+                $("#east_lon").val(bounds.east);
+                $("#west_lon").val(bounds.west);
+            }
+            else {
+                $("#outlet_x").val(coordinates.lng());
+                $("#outlet_y").val(coordinates.lat());
+            }
+       }
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHOUQD9R_tLb6NKA22cuTTvF0j6X8wkgI&callback=initMap&libraries=drawing">
