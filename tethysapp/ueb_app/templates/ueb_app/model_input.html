@@ -183,10 +183,14 @@
             var badInput = false;
 
             if (myLatLng.lat > 90 || myLatLng.lat < -90) {
+                alert('Latitude should between -90 and 90 degree');
+                $("#outlet_y").val('');
                 badInput = true;
             }
 
             if (myLatLng.lng > 180 || myLatLng.lng < -180) {
+                alert('Longitude should between -180 and 180 degree');
+                $("#outlet_x").val('');
                 badInput = true;
             }
 
@@ -203,6 +207,76 @@
 
             allMarkers.push(marker);
 
+        } // end of drawMarkerOnTextChange
+
+
+       function drawRectangleOnTextChange(){
+            var bounds = {
+                north: parseFloat($("#north_lat").val()),
+                south: parseFloat($("#south_lat").val()),
+                east: parseFloat($("#east_lon").val()),
+                west: parseFloat($("#west_lon").val())
+            };
+
+            // Delete previous drawings
+            for (var i = 0; i < allRectangles.length; i++) {
+                    allRectangles[i].setMap(null);
+             };
+
+            // Bounds validation
+            var badInput = false;
+            // North
+            if (bounds.north > 90 || bounds.north < -90) {
+                alert('Latitude should between -90 and 90 degree');
+                badInput = true;
+                $("#north_lat").val('');
+            }
+
+            // East
+            if (bounds.east > 180 || bounds.east < -180) {
+                alert('Longitude should between -180 and 180 degree');
+                badInput = true;
+                $("#east_lon").val('');
+            }
+
+            // South
+            if (bounds.south < -90 || bounds.south > 90) {
+                alert('Latitude should between -90 and 90 degree');
+                badInput = true;
+                $("#south_lat").val('');
+            }
+
+            // West
+            if (bounds.west < -180 || bounds.west > 180) {
+                alert('Longitude should between -180 and 180 degree');
+                badInput = true;
+                $("#west_lon").val('');
+
+            }
+
+            if (badInput || isNaN(bounds.north) || isNaN(bounds.south) || isNaN(bounds.east) || isNaN(bounds.west)) {
+                return;
+            }
+
+            // Define the rectangle and set its editable property to true.
+            var rectangle = new google.maps.Rectangle({
+                bounds: bounds,
+                editable: true,
+                draggable: true
+            });
+            rectangle.setMap(map);
+
+            rectangle.addListener('bounds_changed', function () {
+                var coordinates = (rectangle.getBounds());
+                processDrawing(coordinates, "rectangle");
+            });
+
+            var southWest = new google.maps.LatLng(bounds.south,bounds.west);
+            var northEast = new google.maps.LatLng(bounds.north,bounds.east);
+            var bounds = new google.maps.LatLngBounds(southWest,northEast);
+            map.fitBounds(bounds);
+
+            allRectangles.push(rectangle);
         }
 
     </script>
@@ -217,6 +291,12 @@
         // Draw marker on text change
         $("#outlet_x").bind('input', drawMarkerOnTextChange);
         $("#outlet_y").bind('input', drawMarkerOnTextChange);
+
+        // Draw rectangle on text change
+        $("#north_lat").bind('input', drawRectangleOnTextChange);
+        $("#south_lat").bind('input', drawRectangleOnTextChange);
+        $("#east_lon").bind('input', drawRectangleOnTextChange);
+        $("#west_lon").bind('input', drawRectangleOnTextChange);
 
        });
     </script>
