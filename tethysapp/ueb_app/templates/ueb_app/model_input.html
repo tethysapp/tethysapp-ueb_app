@@ -90,10 +90,12 @@
 
       var allRectangles = [];
       var allMarkers = [];
+      var map; // global variable
+      var drawingManager;
 
       function initMap() {
         var mapDiv = document.getElementById('map');
-        var map = new google.maps.Map(mapDiv, {
+        map = new google.maps.Map(mapDiv, {
             center: {lat: 37.09024, lng: -95.712891},
             zoom: 4
         });
@@ -166,10 +168,57 @@
                 $("#outlet_x").val(coordinates.lng());
                 $("#outlet_y").val(coordinates.lat());
             }
-       }
+       } // end of processingDrawing function
+
+
+       function drawMarkerOnTextChange(){
+            var myLatLng = {lat: parseFloat($("#outlet_y").val()), lng: parseFloat($("#outlet_x").val())};
+
+            // Delete previous drawings
+            for (var i = 0; i < allMarkers.length; i++) {
+                    allMarkers[i].setMap(null);
+             };
+
+            // Bounds validation
+            var badInput = false;
+
+            if (myLatLng.lat > 90 || myLatLng.lat < -90) {
+                badInput = true;
+            }
+
+            if (myLatLng.lng > 180 || myLatLng.lng < -180) {
+                badInput = true;
+            }
+
+            if (badInput || isNaN(myLatLng.lat) || isNaN(myLatLng.lng)) {
+                return;
+            }
+
+            // Define the marker
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map
+            });
+            map.setCenter(marker.getPosition());
+
+            allMarkers.push(marker);
+
+        }
+
     </script>
+
+
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHOUQD9R_tLb6NKA22cuTTvF0j6X8wkgI&callback=initMap&libraries=drawing">
+    </script>
+
+    <script>
+     $(document).ready(function() {
+        // Draw marker on text change
+        $("#outlet_x").bind('input', drawMarkerOnTextChange);
+        $("#outlet_y").bind('input', drawMarkerOnTextChange);
+
+       });
     </script>
 </div>
 
