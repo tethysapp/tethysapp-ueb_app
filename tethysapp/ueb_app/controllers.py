@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from tethys_sdk.gizmos import TextInput, SelectInput,DatePicker, GoogleMapView
+import EPSG_List
 
 
 @login_required()
@@ -55,7 +56,7 @@ def model_input(request):
     epsg_code = SelectInput(display_text='',
                             name='epsg_code',
                             multiple=False,
-                            options=['1','2','3'],
+                            options=EPSG_List.EPSG_List,
                             attributes={'style': 'width:200px'}
                            )
 
