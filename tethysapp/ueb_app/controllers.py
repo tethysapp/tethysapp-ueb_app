@@ -94,6 +94,17 @@ def model_input(request):
                         name='dy_size',
                         )
 
+    # resource info
+    res_title = TextInput(display_text='HydroShare resource title',
+                       name='res_title',
+                       placeholder='e.g My New UEB model inputs',
+                       attributes={'style': 'width:350px'}
+                       )
+    res_keywords = TextInput(display_text='HydroShare resource keywords',
+                       name='res_keywords',
+                       placeholder='e.g. keyword1, keyword2',
+                       attributes={'style': 'width:350px'}
+                       )
     # context
     context = {'north_lat': north_lat,
                'south_lat': south_lat,
@@ -108,6 +119,8 @@ def model_input(request):
                'y_size': y_size,
                'dx_size': dx_size,
                'dy_size': dy_size,
+               'res_title': res_title,
+               'res_keywords': res_keywords,
                }
 
     return render(request, 'ueb_app/model_input.html', context)
