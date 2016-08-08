@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from tethys_sdk.gizmos import TextInput, SelectInput,DatePicker, GoogleMapView
 import EPSG_List
+import json
 
 
 @login_required()
@@ -124,3 +126,20 @@ def model_input(request):
                }
 
     return render(request, 'ueb_app/model_input.html', context)
+
+
+@login_required()
+def model_input_submit(request):
+    # name = 'empty'
+    #
+    # if request.is_ajax and request.method == 'POST':
+    #     name = 'nice'
+    # else:
+    #     name = 'wrong'
+
+    return HttpResponse(json.dumps({'name': 'name'}))
+
+
+def test_submit(request):
+
+    return HttpResponse(json.dumps({'name':'name'}))

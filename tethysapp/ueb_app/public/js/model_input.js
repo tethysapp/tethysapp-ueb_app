@@ -4,15 +4,43 @@ var map; // global variable
 var drawingManager;
 
 $(document).ready(function() {
-// Draw marker on text change
-$("#outlet_x").bind('input', drawMarkerOnTextChange);
-$("#outlet_y").bind('input', drawMarkerOnTextChange);
+    // Draw marker on text change
+    $("#outlet_x").bind('input', drawMarkerOnTextChange);
+    $("#outlet_y").bind('input', drawMarkerOnTextChange);
 
-// Draw rectangle on text change
-$("#north_lat").bind('input', drawRectangleOnTextChange);
-$("#south_lat").bind('input', drawRectangleOnTextChange);
-$("#east_lon").bind('input', drawRectangleOnTextChange);
-$("#west_lon").bind('input', drawRectangleOnTextChange);
+    // Draw rectangle on text change
+    $("#north_lat").bind('input', drawRectangleOnTextChange);
+    $("#south_lat").bind('input', drawRectangleOnTextChange);
+    $("#east_lon").bind('input', drawRectangleOnTextChange);
+    $("#west_lon").bind('input', drawRectangleOnTextChange);
+
+
+    // ajax call function to submit the form
+    var user_form= $('#user-form');
+
+    user_form.submit(function(){
+        alert($('#user-form').length);
+        $.ajax({
+            type: user_form.attr('method'),
+            url: user_form.attr('action'),
+            data: user_form.serialize(),
+
+            success: function(result) {
+                console.log(result);
+                json_response = JSON.parse(result);
+                console.log(json_response);
+                alert('happy');
+                alert(json_response.name);
+            },
+            error: function() {
+                alert('sad');
+            },
+            complete: function(){
+                alert('complete')
+            }
+        });
+        return false;
+    });
 
 });
 
