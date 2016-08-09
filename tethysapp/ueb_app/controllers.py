@@ -31,27 +31,33 @@ def model_input(request):
     # bounding box
     north_lat = TextInput(display_text='North Latitude',
                           name='north_lat',
+                          attributes={'required': True}
                           )
 
     south_lat = TextInput(display_text='South Latitude',
                           name='south_lat',
+                          attributes={'required': True}
                           )
 
     west_lon = TextInput(display_text='West Longitude',
                          name='west_lon',
+                         attributes={'required': True}
                           )
 
     east_lon = TextInput(display_text='East Longitude',
                          name='east_lon',
+                         attributes={'required': True}
                          )
 
     # outlet point
     outlet_x = TextInput(display_text='Longitude',
                        name='outlet_x',
+                       attributes={'required': True}
                        )
 
     outlet_y = TextInput(display_text='Latitude',
                        name='outlet_y',
+                       attributes={'required': True}
                        )
 
     # epsg code
@@ -59,33 +65,37 @@ def model_input(request):
                             name='epsg_code',
                             multiple=False,
                             options=EPSG_List.EPSG_List,
-                            attributes={'style': 'width:200px'}
+                            attributes={'style': 'width:200px', 'required': True}
                            )
 
     # time period
     start_time = DatePicker(name='start_time',
                          display_text='Start Date',
                          autoclose=True,
-                         format='MM d, yyyy',
+                         format='yyyy/mm/dd',
                          today_button=True,
-                         multidate='1'
+                         multidate='1',
+                         attributes={'required': True}
                         )
 
-    end_time = DatePicker(name='start_time',
+    end_time = DatePicker(name='end_time',
                             display_text='End Date',
                             autoclose=True,
-                            format='MM d, yyyy',
+                            format='yyyy/mm/dd',
                             today_button=True,
-                            multidate='1'
+                            multidate='1',
+                            attributes={'required': True}
                             )
 
     # model resolution
     x_size = TextInput(display_text='X size(m)',
                        name='x_size',
+                       attributes={'required': True}
                        )
 
     y_size = TextInput(display_text='Y size(m)',
                        name='y_size',
+                       attributes={'required': True}
                        )
 
     dx_size = TextInput(display_text='dX size(m)',
@@ -100,12 +110,12 @@ def model_input(request):
     res_title = TextInput(display_text='HydroShare resource title',
                        name='res_title',
                        placeholder='e.g My New UEB model inputs',
-                       attributes={'style': 'width:350px'}
+                       attributes={'style': 'width:350px','required':True}
                        )
     res_keywords = TextInput(display_text='HydroShare resource keywords',
                        name='res_keywords',
                        placeholder='e.g. keyword1, keyword2',
-                       attributes={'style': 'width:350px'}
+                       attributes={'style': 'width:350px','required':True}
                        )
     # context
     context = {'north_lat': north_lat,
