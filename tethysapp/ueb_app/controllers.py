@@ -1,11 +1,15 @@
+import json
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+
 from tethys_sdk.gizmos import TextInput, SelectInput,DatePicker, GoogleMapView
+
 import EPSG_List
-import json
 
 
+# home page views
 @login_required()
 def home(request):
     """
@@ -16,15 +20,7 @@ def home(request):
     return render(request, 'ueb_app/home.html', context)
 
 
-def test(request):
-    """
-    Controller for the app home page.
-    """
-    context = {}
-
-    return render(request, 'ueb_app/test.html', context)
-
-
+# model input views and ajax
 @login_required()
 def model_input(request):
 
@@ -148,6 +144,16 @@ def model_input_submit(request):
     #     name = 'wrong'
 
     return HttpResponse(json.dumps({'name': 'name'}))
+
+
+# test part #
+def test(request):
+    """
+    Controller for the app home page.
+    """
+    context = {}
+
+    return render(request, 'ueb_app/test.html', context)
 
 
 def test_submit(request):
