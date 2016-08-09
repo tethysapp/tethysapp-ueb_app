@@ -11,7 +11,7 @@
         {% csrf_token %}
         <h5> Model inputs settings </h5>
         <div id="model domain">
-            <p class="form-subtitle">Watershed Bounding Box (US continent only)</p>
+            <p id='box_title' class="form-subtitle">Watershed Bounding Box (US continent only)</p>
             <table>
                 <tr>
                     <td>{% gizmo text_input north_lat %}</td>
@@ -25,7 +25,7 @@
                 </tr>
             </table>
 
-            <p class="form-subtitle">Watershed Outlet Point (US continent only)</p>
+            <p id='point_title' class="form-subtitle">Watershed Outlet Point (US continent only)</p>
             <table>
                 <tr>
                     <td>{% gizmo text_input outlet_x %}</td>
@@ -34,10 +34,10 @@
                 </tr>
             </table>
 
-            <p class="form-subtitle">EPSG Code</p>
+            <p id='epsg_title' class="form-subtitle">EPSG Code</p>
             <div width="30%">{% gizmo select_input epsg_code %}</div>
 
-            <p class="form-subtitle">Model Simulation Time Period</p>
+            <p id='time_title' class="form-subtitle">Model Simulation Time Period</p>
             <table>
                 <tr>
                     <td>{% gizmo date_picker start_time %}</td>
@@ -46,7 +46,7 @@
                 </tr>
             </table>
 
-            <p class="form-subtitle">Cell size for reprojection (required)</p>
+            <p id='proj_cell_title' class="form-subtitle">Cell size for reprojection (required)</p>
             <table>
                 <tr>
                     <td>{% gizmo text_input x_size %}</td>
@@ -55,7 +55,7 @@
                 </tr>
             </table>
 
-            <p class="form-subtitle">Cell size for model simulation (optional)</p>
+            <p id='model_cell_title' class="form-subtitle">Cell size for model simulation (optional)</p>
             <table>
                 <tr>
                     <td>{% gizmo text_input dx_size %}</td>

@@ -6,7 +6,8 @@ from django.http import HttpResponse
 
 from tethys_sdk.gizmos import TextInput, SelectInput,DatePicker, GoogleMapView
 
-import EPSG_List
+from epsg_list import EPSG_List
+from model_input_utils import *
 
 
 # home page views
@@ -60,9 +61,9 @@ def model_input(request):
     epsg_code = SelectInput(display_text='',
                             name='epsg_code',
                             multiple=False,
-                            options=EPSG_List.EPSG_List,
+                            options=EPSG_List,
                             attributes={'style': 'width:200px', 'required': True}
-                           )
+                            )
 
     # time period
     start_time = DatePicker(name='start_time',
@@ -136,14 +137,24 @@ def model_input(request):
 
 @login_required()
 def model_input_submit(request):
-    # name = 'empty'
-    #
-    # if request.is_ajax and request.method == 'POST':
-    #     name = 'nice'
-    # else:
-    #     name = 'wrong'
+    ajax_response = {}
 
-    return HttpResponse(json.dumps({'name': 'name'}))
+    if request.is_ajax and request.method == 'POST':
+
+        validation = validate_model_input_form(request)
+
+        if validation['is_valid']:
+            model_input_job = submit_model_input_job(validation['result'])
+            ajax_response = model_input_job
+        else:
+            ajax_response['status'] = 'Error'
+            ajax_response['result'] = validation['result']
+
+    else:
+        ajax_response['status'] = 'Error'
+        ajax_response['result'] = 'Please verify that the request is ajax call with post method'
+
+    return HttpResponse(json.dumps(ajax_response))
 
 
 # test part #

@@ -30,7 +30,23 @@ $(document).ready(function() {
                 json_response = JSON.parse(result);
                 console.log(json_response);
                 alert('happy');
-                alert(json_response.name);
+                alert(json_response.status);
+                alert(json_response.result.start_time);
+                alert(json_response.result.end_time);
+                alert(json_response.result.north_lat);
+                alert(json_response.result.south_lat);
+                alert(json_response.result.west_lon);
+                alert(json_response.result.east_lon);
+                alert(json_response.result.outlet_x);
+                alert(json_response.result.outlet_y);
+                alert(json_response.result.epsg_code);
+                alert(json_response.result.x_size);
+                alert(json_response.result.y_size);
+                alert(json_response.result.dx_size);
+                alert(json_response.result.dy_size);
+                alert(json_response.result.res_title);
+                alert(json_response.result.res_keywords);
+
             },
             error: function() {
                 alert('sad');
