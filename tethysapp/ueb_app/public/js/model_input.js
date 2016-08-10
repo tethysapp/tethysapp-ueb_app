@@ -39,24 +39,19 @@ $(document).ready(function() {
                     document.getElementById("submit-response").style.backgroundColor = '#eafaea';
                 }
 
-                $('#response-result').text(json_response.result)
-                $('#response-status').text(json_response.status)
-//                alert(json_response.result.start_time);
-//                alert(json_response.result.end_time);
-//                alert(json_response.result.north_lat);
-//                alert(json_response.result.south_lat);
-//                alert(json_response.result.west_lon);
-//                alert(json_response.result.east_lon);
-//                alert(json_response.result.outlet_x);
-//                alert(json_response.result.outlet_y);
-//                alert(json_response.result.epsg_code);
-//                alert(json_response.result.x_size);
-//                alert(json_response.result.y_size);
-//                alert(json_response.result.dx_size);
-//                alert(json_response.result.dy_size);
-//                alert(json_response.result.res_title);
-//                alert(json_response.result.res_keywords);
 
+                $('#response-status').text(json_response.status)
+
+                var my_text='';
+                if (json_response.status == 'Success') {
+                    for (var key in json_response.result) {
+                        my_text = my_text + key + json_response.result[key]+' ';
+                    }
+                    $('#response-result').text(my_text);
+                }
+                else {
+                    $('#response-result').text(json_response.result);
+                }
             },
             error: function() {
                 alert('sad');

@@ -3,7 +3,7 @@ Utilities for model input preparation web services
 """
 from datetime import datetime
 from epsg_list import EPSG_List
-
+from hydrods_model_input import hydrods_model_input_service
 
 def validate_model_input_form(request):
 
@@ -72,7 +72,7 @@ def validate_model_input_form(request):
 
     if point_type_valid:
         error_info = []
-        if not (outlet_x >= west_lon and outlet_x <= east_lon) :
+        if not (outlet_x >= west_lon and outlet_x <= east_lon):
             error_info.append('The outlet point longitude should be in the bounding box.')
 
         if not (outlet_y >= south_lat and outlet_y <= north_lat):
@@ -81,6 +81,24 @@ def validate_model_input_form(request):
         if error_info:
             validation['is_valid'] = False
             validation['result']['point_title'] = ' '.join(error_info)
+
+
+    # check watershed name and stream threshold
+    watershed_name = request.POST['watershed_name']
+    if watershed_name:
+        watershed_name = watershed_name.replace(' ', '_') + '_'
+    else:
+        watershed_name = 'my_watershed_'
+
+
+   # check stream threshold
+    stream_threshold = request.POST['stream_threshold']
+    try:
+        stream_threshold = int(stream_threshold)
+        thresh_type_valid = True
+    except:
+        validation['is_valid'] = False
+        validation['result']['threshold_title'] = 'The stream threshold should be an integer or as default value 1000.'
 
 
     # check epsg
@@ -142,20 +160,27 @@ def validate_model_input_form(request):
 
     # create job parameter if input is valid
     if validation['is_valid']:
-        validation['result'] = {
+        # TODO: prepare the authentication info
+       validation['result'] = {
+            'hs_name': 'hs_name',
+            'hs_password': 'hs_password',
+            'hydrods_name': 'hydrods_name',
+            'hydrods_password': 'hydrods_password',
             'north_lat': north_lat,
             'south_lat': south_lat,
             'west_lon': west_lon,
             'east_lon': east_lon,
             'outlet_x': outlet_x,
             'outlet_y': outlet_y,
+            'watershed_name': watershed_name,
+            'stream_threshold': stream_threshold,
             'epsg_code': epsg_code,
             'start_time': start_time_str,
             'end_time': end_time_str,
             'x_size': x_size,
             'y_size': y_size,
-            'dx_size': dx_size,
-            'dy_size': dy_size,
+            'dx_size': dx_size if dx_size else x_size,
+            'dy_size': dy_size if dy_size else y_size,
             'res_title': res_title,
             'res_keywords': res_keywords
         }
@@ -165,9 +190,36 @@ def validate_model_input_form(request):
 
 def submit_model_input_job(job_parameters):
 
-    model_input_job = {
-        'status': 'Success',
-        'result': job_parameters
+
+    # generate parameter dict
+    model_input_parameters = {
+        'hs_name': job_parameters['hs_name'],
+        'hs_password': job_parameters['hs_password'],
+        'hydrods_name': job_parameters['hydrods_name'],
+        'hydrods_password': job_parameters['hydrods_password'],
+        'topY': job_parameters['north_lat'],
+        'bottomY': job_parameters['south_lat'],
+        'leftX': job_parameters['west_lon'],
+        'rightX': job_parameters['east_lon'],
+        'lat_outlet': job_parameters['outlet_y'],
+        'lon_outlet': job_parameters['outlet_x'],
+        'epsgCode': job_parameters['epsg_code'],
+        'startDateTime': job_parameters['start_time'],
+        'endDateTime': job_parameters['end_time'],
+        'dx': job_parameters['x_size'],
+        'dy': job_parameters['y_size'],
+        'dxRes': job_parameters['dx_size'],
+        'dyRes': job_parameters['dy_size'],
+        'res_title': job_parameters['res_title'],
+        'res_keywords': job_parameters['res_keywords'],
     }
 
-    return model_input_job
+    # call the hs model input preparation service
+    # service_response = hydrods_model_input_service(** model_input_parameters)
+
+    service_response = {
+        'status': 'Success',
+        'result': model_input_parameters
+    }
+
+    return service_response

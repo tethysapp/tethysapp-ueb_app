@@ -16,6 +16,10 @@
         {% csrf_token %}
 
         <div id="model domain">
+
+            <p id='name_title' class="form-subtitle"> Research Domain Watershed Name</p>
+            {% gizmo text_input watershed_name %}
+
             <p id='box_title' class="form-subtitle">Watershed Bounding Box (US continent only)</p>
             <table>
                 <tr>
@@ -39,6 +43,9 @@
                 </tr>
             </table>
 
+            <p id='threshold_title' class="form-subtitle"> Watershed Delineation Stream Threshold</p>
+            {% gizmo text_input stream_threshold %}
+
             <p id='epsg_title' class="form-subtitle">EPSG Code</p>
             <div width="30%">{% gizmo select_input epsg_code %}</div>
 
@@ -51,7 +58,7 @@
                 </tr>
             </table>
 
-            <p id='proj_cell_title' class="form-subtitle">Cell size for reprojection (required)</p>
+            <p id='proj_cell_title' class="form-subtitle">Cell size for reprojection </p>
             <table>
                 <tr>
                     <td>{% gizmo text_input x_size %}</td>
