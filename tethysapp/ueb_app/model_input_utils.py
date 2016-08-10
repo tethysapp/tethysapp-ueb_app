@@ -4,6 +4,7 @@ Utilities for model input preparation web services
 from datetime import datetime
 from epsg_list import EPSG_List
 from hydrods_model_input import hydrods_model_input_service
+from user_settings import *
 
 def validate_model_input_form(request):
 
@@ -104,8 +105,10 @@ def validate_model_input_form(request):
     # check epsg
     epsg_code = request.POST['epsg_code']
     if epsg_code not in [item[1] for item in EPSG_List]:
+        validation['is_valid'] = False
         validation['result']['epsg_title'] = 'Please provide the valide epsg code from the dropdown list.'
-
+    else:
+        epsg_code = int(epsg_code)
 
     # check the date
     start_time_str = request.POST['start_time']
@@ -131,8 +134,8 @@ def validate_model_input_form(request):
     y_size = request.POST['y_size']
 
     try:
-        x_size = float(x_size)
-        y_size = float(y_size)
+        x_size = int(x_size)
+        y_size = int(y_size)
         proj_cell_valid = True
     except:
         validation['is_valid'] = False
@@ -146,8 +149,8 @@ def validate_model_input_form(request):
 
     if dx_size or dy_size:
         try:
-            dx_size = float(dx_size)
-            dy_size = float(dy_size)
+            dx_size = int(dx_size)
+            dy_size = int(dy_size)
         except:
             validation['is_valid'] = False
             validation['result']['model_cell_title'] = 'The cell size for model simulation should be number values or as empty.'
@@ -162,10 +165,10 @@ def validate_model_input_form(request):
     if validation['is_valid']:
         # TODO: prepare the authentication info
        validation['result'] = {
-            'hs_name': 'hs_name',
-            'hs_password': 'hs_password',
-            'hydrods_name': 'hydrods_name',
-            'hydrods_password': 'hydrods_password',
+            'hs_name': hs_name,
+            'hs_password': hs_password,
+            'hydrods_name': hydrods_name,
+            'hydrods_password': hydrods_password,
             'north_lat': north_lat,
             'south_lat': south_lat,
             'west_lon': west_lon,
@@ -215,11 +218,11 @@ def submit_model_input_job(job_parameters):
     }
 
     # call the hs model input preparation service
-    # service_response = hydrods_model_input_service(** model_input_parameters)
+    service_response = hydrods_model_input_service(** model_input_parameters)
 
-    service_response = {
-        'status': 'Success',
-        'result': model_input_parameters
-    }
+    # service_response = {
+    #     'status': 'Success',
+    #     'result': model_input_parameters
+    # }
 
     return service_response

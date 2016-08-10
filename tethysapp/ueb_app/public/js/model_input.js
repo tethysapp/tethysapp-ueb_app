@@ -18,7 +18,8 @@ $(document).ready(function() {
     var user_form= $('#user-form');
 
     user_form.submit(function(){
-        alert($('#user-form').length);
+        $('#submit-response').hide();
+        $('#submit-model-input-btn').prop('disabled', true);
         $.ajax({
             type: user_form.attr('method'),
             url: user_form.attr('action'),
@@ -41,23 +42,24 @@ $(document).ready(function() {
 
 
                 $('#response-status').text(json_response.status)
-
-                var my_text='';
-                if (json_response.status == 'Success') {
-                    for (var key in json_response.result) {
-                        my_text = my_text + key + json_response.result[key]+' ';
-                    }
-                    $('#response-result').text(my_text);
-                }
-                else {
-                    $('#response-result').text(json_response.result);
-                }
+                $('#response-result').text(json_response.result);
+//                var my_text='';
+//                if (json_response.status == 'Success') {
+//                    for (var key in json_response.result) {
+//                        my_text = my_text + key + json_response.result[key]+' ';
+//                    }
+//                    $('#response-result').text(my_text);
+//                }
+//                else {
+//                    $('#response-result').text(json_response.result);
+//                }
             },
             error: function() {
                 alert('sad');
             },
             complete: function(){
-                alert('complete')
+                alert('complete');
+                $('#submit-model-input-btn').prop('disabled', false);
             }
         });
         return false;
@@ -131,10 +133,10 @@ function processDrawing (coordinates, shape) {
         };
 
         // update form fields
-        $("#north_lat").val(bounds.north);
-        $("#south_lat").val(bounds.south);
-        $("#east_lon").val(bounds.east);
-        $("#west_lon").val(bounds.west);
+        $("#north_lat").val(bounds.north.toFixed(3));
+        $("#south_lat").val(bounds.south.toFixed(3));
+        $("#east_lon").val(bounds.east.toFixed(3));
+        $("#west_lon").val(bounds.west.toFixed(3));
     }
     else {
         $("#outlet_x").val(coordinates.lng());
