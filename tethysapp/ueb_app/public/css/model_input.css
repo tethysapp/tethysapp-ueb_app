@@ -21,3 +21,24 @@
     font-size:120%;
     margin-top:10px;
 }
+
+#response-status {
+    color: #000000;
+    font-size: 120%;
+}
+
+#response-result {
+    color: #000000;
+    font-size: 120%;
+}
+
+#submit-response {
+    display:none;
+    padding-left: 10px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-top:5px;
+    margin-bottom:20px;
+    margin-top:10px;
+    margin-right:10px;
+}

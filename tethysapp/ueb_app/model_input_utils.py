@@ -118,7 +118,7 @@ def validate_model_input_form(request):
         proj_cell_valid = True
     except:
         validation['is_valid'] = False
-        validation['result']['proj_cell_title'] = 'The cell size should be number value.'
+        validation['result']['proj_cell_title'] = 'The cell size for reprojection should be number value.'
         proj_cell_valid = False
 
 
@@ -126,12 +126,13 @@ def validate_model_input_form(request):
     dx_size = request.POST['dx_size']
     dy_size = request.POST['dy_size']
 
-    try:
-        dx_size = float(dx_size)
-        dy_size = float(dy_size)
-    except:
-        validation['is_valid'] = False
-        validation['result']['proj_cell_title'] = 'The cell size should be number values or as empty.'
+    if dx_size or dy_size:
+        try:
+            dx_size = float(dx_size)
+            dy_size = float(dy_size)
+        except:
+            validation['is_valid'] = False
+            validation['result']['model_cell_title'] = 'The cell size for model simulation should be number values or as empty.'
 
 
     # check HS res name and keywords

@@ -7,9 +7,14 @@
 
 <div id='form-container' class='col-md-3'style="margin-bottom:30px">
 
+    <h5> Model inputs settings </h5>
+
+
+
+
     <form id='user-form' method="post" action='model_input_submit/'>
         {% csrf_token %}
-        <h5> Model inputs settings </h5>
+
         <div id="model domain">
             <p id='box_title' class="form-subtitle">Watershed Bounding Box (US continent only)</p>
             <table>
@@ -70,7 +75,12 @@
 
         </div>
 
-        <input type="submit" value="Run Service" name='run-service' class="btn btn-success btn-lg">
+        <div id="submit-response" >
+            <p id="response-status">asdf</p>
+            <p id="response-result"></p>
+        </div>
+
+        <input type="submit" value="Run Service" name='run-service' class="btn btn-success btn-lg pull-right">
     </form>
 
 </div>

@@ -148,7 +148,7 @@ def model_input_submit(request):
             ajax_response = model_input_job
         else:
             ajax_response['status'] = 'Error'
-            ajax_response['result'] = validation['result']
+            ajax_response['result'] = ' '.join(validation['result'].values())
 
     else:
         ajax_response['status'] = 'Error'

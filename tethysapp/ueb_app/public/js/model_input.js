@@ -14,7 +14,6 @@ $(document).ready(function() {
     $("#east_lon").bind('input', drawRectangleOnTextChange);
     $("#west_lon").bind('input', drawRectangleOnTextChange);
 
-
     // ajax call function to submit the form
     var user_form= $('#user-form');
 
@@ -30,22 +29,33 @@ $(document).ready(function() {
                 json_response = JSON.parse(result);
                 console.log(json_response);
                 alert('happy');
-                alert(json_response.status);
-                alert(json_response.result.start_time);
-                alert(json_response.result.end_time);
-                alert(json_response.result.north_lat);
-                alert(json_response.result.south_lat);
-                alert(json_response.result.west_lon);
-                alert(json_response.result.east_lon);
-                alert(json_response.result.outlet_x);
-                alert(json_response.result.outlet_y);
-                alert(json_response.result.epsg_code);
-                alert(json_response.result.x_size);
-                alert(json_response.result.y_size);
-                alert(json_response.result.dx_size);
-                alert(json_response.result.dy_size);
-                alert(json_response.result.res_title);
-                alert(json_response.result.res_keywords);
+//                alert(json_response.status);
+//                alert(json_response.result);
+                $('#submit-response').show()
+                if (json_response.status == 'Error'){
+                    document.getElementById("submit-response").style.backgroundColor = '#ffebe6';
+                }
+                else {
+                    document.getElementById("submit-response").style.backgroundColor = '#eafaea';
+                }
+
+                $('#response-result').text(json_response.result)
+                $('#response-status').text(json_response.status)
+//                alert(json_response.result.start_time);
+//                alert(json_response.result.end_time);
+//                alert(json_response.result.north_lat);
+//                alert(json_response.result.south_lat);
+//                alert(json_response.result.west_lon);
+//                alert(json_response.result.east_lon);
+//                alert(json_response.result.outlet_x);
+//                alert(json_response.result.outlet_y);
+//                alert(json_response.result.epsg_code);
+//                alert(json_response.result.x_size);
+//                alert(json_response.result.y_size);
+//                alert(json_response.result.dx_size);
+//                alert(json_response.result.dy_size);
+//                alert(json_response.result.res_title);
+//                alert(json_response.result.res_keywords);
 
             },
             error: function() {
