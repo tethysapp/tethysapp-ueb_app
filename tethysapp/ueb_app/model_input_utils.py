@@ -136,10 +136,12 @@ def validate_model_input_form(request):
     try:
         x_size = int(x_size)
         y_size = int(y_size)
-        proj_cell_valid = True
+        if x_size <= 0 or y_size <= 0:
+            validation['is_valid'] = False
+            validation['result']['model_cell_title'] = 'The cell size for reprojection should be positive integer.'
     except:
         validation['is_valid'] = False
-        validation['result']['proj_cell_title'] = 'The cell size for reprojection should be number value.'
+        validation['result']['proj_cell_title'] = 'The cell size for reprojection should be positive integer.'
         proj_cell_valid = False
 
 
@@ -147,13 +149,15 @@ def validate_model_input_form(request):
     dx_size = request.POST['dx_size']
     dy_size = request.POST['dy_size']
 
-    if dx_size or dy_size:
-        try:
-            dx_size = int(dx_size)
-            dy_size = int(dy_size)
-        except:
+    try:
+        dx_size = int(dx_size)
+        dy_size = int(dy_size)
+        if dx_size < 0 or dy_size < 0:
             validation['is_valid'] = False
-            validation['result']['model_cell_title'] = 'The cell size for model simulation should be number values or as empty.'
+            validation['result']['model_cell_title'] = 'The cell size for model simulation should be positive integer or as empty.'
+    except:
+        validation['is_valid'] = False
+        validation['result']['model_cell_title'] = 'The cell size for model simulation should be positive integer or as empty.'
 
 
     # check HS res name and keywords
@@ -182,8 +186,8 @@ def validate_model_input_form(request):
             'end_time': end_time_str,
             'x_size': x_size,
             'y_size': y_size,
-            'dx_size': dx_size if dx_size else x_size,
-            'dy_size': dy_size if dy_size else y_size,
+            'dx_size': dx_size,
+            'dy_size': dy_size,
             'res_title': res_title,
             'res_keywords': res_keywords
         }

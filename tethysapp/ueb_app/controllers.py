@@ -75,6 +75,7 @@ def model_input(request):
                             name='epsg_code',
                             multiple=False,
                             options=EPSG_List,
+                            initial=['4326'],
                             attributes={'style': 'width:200px', 'required': True}
                             )
 
@@ -110,10 +111,12 @@ def model_input(request):
 
     dx_size = TextInput(display_text='dX size(m)',
                        name='dx_size',
+                       attributes={'required': True}
                        )
 
     dy_size = TextInput(display_text='dY size(m)',
                         name='dy_size',
+                        attributes={'required': True}
                         )
 
     # resource info

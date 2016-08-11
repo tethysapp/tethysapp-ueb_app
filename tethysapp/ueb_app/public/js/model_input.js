@@ -139,8 +139,8 @@ function processDrawing (coordinates, shape) {
         $("#west_lon").val(bounds.west.toFixed(3));
     }
     else {
-        $("#outlet_x").val(coordinates.lng());
-        $("#outlet_y").val(coordinates.lat());
+        $("#outlet_x").val(parseFloat(coordinates.lng()).toFixed(3));
+        $("#outlet_y").val(parseFloat(coordinates.lat()).toFixed(3));
     }
 } // end of processingDrawing function
 

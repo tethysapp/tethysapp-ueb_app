@@ -7,10 +7,7 @@
 
 <div id='form-container' class='col-md-3'style="margin-bottom:30px">
 
-    <h5> Model inputs settings </h5>
-
-
-
+    <h5> Model inputs preparation parameters</h5>
 
     <form id='user-form' method="post" action='model_input_submit/'>
         {% csrf_token %}
@@ -92,7 +89,7 @@
 
 </div>
 
-<div id='map-container' class="col-md-7">
+<div id='map-container' class="col-md-8">
     <div id='title' style="margin-bottom:10px">
     <h3 style="color:#0073e6">UEB Model Inputs Preperation</h3>
     <p style="margin-bottom:20px">This service will help to retrieve data from different data sources and preprocess them as UEB model input files. <br>
@@ -101,7 +98,7 @@
 </div>
 
     <h5>Draw watershed boundary and outlet point in map (US continent only)</h5>
-    <div id="map" style="width:900px; height:600px"></div>
+    <div id="map" style="width:1000px; height:800px"></div>
 
 
 </div>
