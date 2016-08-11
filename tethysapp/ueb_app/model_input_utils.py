@@ -20,10 +20,10 @@ def validate_model_input_form(request):
     east_lon = request.POST['east_lon']
 
     try:
-        north_lat = float(north_lat)
-        south_lat = float(south_lat)
-        west_lon = float(west_lon)
-        east_lon = float(east_lon)
+        north_lat = round(float(north_lat), 4)
+        south_lat = round(float(south_lat), 4)
+        west_lon = round(float(west_lon), 4)
+        east_lon = round(float(east_lon), 4)
         box_type_valid = True
 
     except Exception:
@@ -196,7 +196,6 @@ def validate_model_input_form(request):
 
 
 def submit_model_input_job(job_parameters):
-
 
     # generate parameter dict
     model_input_parameters = {

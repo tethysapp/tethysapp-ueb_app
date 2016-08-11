@@ -30,8 +30,6 @@ $(document).ready(function() {
                 json_response = JSON.parse(result);
                 console.log(json_response);
                 alert('happy');
-//                alert(json_response.status);
-//                alert(json_response.result);
                 $('#submit-response').show()
                 if (json_response.status == 'Error'){
                     document.getElementById("submit-response").style.backgroundColor = '#ffebe6';
@@ -40,23 +38,14 @@ $(document).ready(function() {
                     document.getElementById("submit-response").style.backgroundColor = '#eafaea';
                 }
 
-
                 $('#response-status').text(json_response.status)
                 $('#response-result').text(json_response.result);
-//                var my_text='';
-//                if (json_response.status == 'Success') {
-//                    for (var key in json_response.result) {
-//                        my_text = my_text + key + json_response.result[key]+' ';
-//                    }
-//                    $('#response-result').text(my_text);
-//                }
-//                else {
-//                    $('#response-result').text(json_response.result);
-//                }
             },
+
             error: function() {
                 alert('sad');
             },
+
             complete: function(){
                 alert('complete');
                 $('#submit-model-input-btn').prop('disabled', false);
@@ -133,14 +122,14 @@ function processDrawing (coordinates, shape) {
         };
 
         // update form fields
-        $("#north_lat").val(bounds.north.toFixed(3));
-        $("#south_lat").val(bounds.south.toFixed(3));
-        $("#east_lon").val(bounds.east.toFixed(3));
-        $("#west_lon").val(bounds.west.toFixed(3));
+        $("#north_lat").val(bounds.north.toFixed(4));
+        $("#south_lat").val(bounds.south.toFixed(4));
+        $("#east_lon").val(bounds.east.toFixed(4));
+        $("#west_lon").val(bounds.west.toFixed(4));
     }
     else {
-        $("#outlet_x").val(parseFloat(coordinates.lng()).toFixed(3));
-        $("#outlet_y").val(parseFloat(coordinates.lat()).toFixed(3));
+        $("#outlet_x").val(parseFloat(coordinates.lng()).toFixed(4));
+        $("#outlet_y").val(parseFloat(coordinates.lat()).toFixed(4));
     }
 } // end of processingDrawing function
 
