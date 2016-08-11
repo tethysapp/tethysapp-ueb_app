@@ -75,7 +75,7 @@ def model_input(request):
                             name='epsg_code',
                             multiple=False,
                             options=EPSG_List,
-                            initial=['4326'],
+                            initial=['4326 : WGS 84'],
                             attributes={'style': 'width:200px', 'required': True}
                             )
 
