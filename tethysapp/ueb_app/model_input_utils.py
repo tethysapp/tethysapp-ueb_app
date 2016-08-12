@@ -124,10 +124,18 @@ def validate_model_input_form(request):
         time_type_valid = False
 
     if time_type_valid:
+        # TODO check the supported time period for simulation based on the data source (2009-2015, 2005-2015)
+        start_limit_obj = datetime.strptime('2010/01/01', '%Y/%M/%d')
+        end_limit_obj = datetime.strptime('2011/12/31', '%Y/%M/%d')
+
         if start_time_obj > end_time_obj:
             validation['is_valid'] = False
             validation['result']['time_title'] = 'The end time should be equal as or later than the start time.'
-    # TODO check the supported time period for simulation based on the data source
+        if not(start_time_obj >= start_limit_obj and end_time_obj <= end_limit_obj):
+            validation['is_valid'] = False
+            validation['result']['time_tile'] = 'The start and end time should be a date between {} and {}.'.\
+                format(start_limit_obj.strftime('%Y/%M/%d'), end_limit_obj.strftime('%Y/%M/%d'))
+
 
     # check x, y
     x_size = request.POST['x_size']
