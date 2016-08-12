@@ -122,7 +122,7 @@ def model_input(request):
     # resource info
     res_title = TextInput(display_text='HydroShare resource title',
                        name='res_title',
-                       placeholder='e.g My New UEB model inputs',
+                       placeholder='The title should include at least 5 characters',
                        attributes={'style': 'width:350px','required':True}
                        )
     res_keywords = TextInput(display_text='HydroShare resource keywords',

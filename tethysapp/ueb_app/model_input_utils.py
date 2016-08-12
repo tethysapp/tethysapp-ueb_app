@@ -171,6 +171,10 @@ def validate_model_input_form(request):
     res_title = request.POST['res_title']
     res_keywords = request.POST['res_keywords']
 
+    if len(res_title) < 5:
+        validation['is_valid'] = False
+        validation['result']['res_title'] = 'The resource title should include at least 5 characters.'
+
 
     # create job parameter if input is valid
     if validation['is_valid']:
