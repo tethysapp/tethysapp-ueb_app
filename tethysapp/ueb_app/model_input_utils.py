@@ -220,6 +220,8 @@ def submit_model_input_job(job_parameters):
         'rightX': job_parameters['east_lon'],
         'lat_outlet': job_parameters['outlet_y'],
         'lon_outlet': job_parameters['outlet_x'],
+        'streamThreshold': job_parameters['stream_threshold'],
+        'watershedName': job_parameters['watershed_name'],
         'epsgCode': job_parameters['epsg_code'],
         'startDateTime': job_parameters['start_time'],
         'endDateTime': job_parameters['end_time'],

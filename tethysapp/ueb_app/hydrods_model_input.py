@@ -3,9 +3,10 @@ from datetime import datetime
 
 
 # TODO make the streamthreshold and watershedname as user inputs!!!
-def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_password, topY, bottomY, leftX, rightX, lat_outlet, lon_outlet,
+def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_password, topY, bottomY, leftX, rightX,
+                                lat_outlet, lon_outlet, streamThreshold, watershedName,
                                 epsgCode, startDateTime, endDateTime, dx, dy, dxRes, dyRes, res_title, res_keywords,
-                                streamThreshold=1000, watershedName='my_watershed_', **kwargs):
+                                 **kwargs):
     service_response = {
         'status': 'Success',
         'result': 'The model input has been shared in HydroShare'
@@ -177,7 +178,7 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
     # share result to HydroShare
     try:
         #upload ueb input package to hydroshare
-        ueb_inputPackage_dict = ['watershed.nc', 'aspect.nc', 'slope.nc', 'cc.nc', 'hcan.nc', 'lai.nc',
+        ueb_inputPackage_dict = [myWatershedDEM, watershedName + 'OutletProj.zip', 'watershed.nc', 'aspect.nc', 'slope.nc', 'cc.nc', 'hcan.nc', 'lai.nc',
                              'vp0.nc', 'srad0.nc', 'tmin0.nc', 'tmax0.nc', 'prcp0.nc']
         zip_files_result = HDS.zip_files(files_to_zip=ueb_inputPackage_dict, zip_file_name=watershedName+str(dxRes)+'.zip')
 

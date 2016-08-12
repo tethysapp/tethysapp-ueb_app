@@ -46,6 +46,8 @@ $(document).ready(function() {
 
             error: function() {
                 alert('sad');
+                $('#response-status').text('Error')
+                $('#response-result').text('Failed to run the web service. Please try it again.');
             },
 
             complete: function(){
