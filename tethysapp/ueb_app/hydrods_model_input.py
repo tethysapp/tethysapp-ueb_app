@@ -186,15 +186,18 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
         hs_abstract = 'It was created using HydroShare UEB model application which utilized the HydroDS modeling web services.'
         hs_keywords = res_keywords.split(',')
         HDS.set_hydroshare_account(hs_name, hs_password)
+        metadata = [{"coverage": {"type":"period", "value": {"start":startDateTime, "end":endDateTime}}}]
+        metadata = str(metadata)
+        # TODO create the metadata for ueb model instance: box, time, resolution, watershed name, streamthreshold,epsg code, outlet point
         res_info = HDS.create_hydroshare_resource(file_name=watershedName+str(dxRes)+'.zip', resource_type='ModelInstanceResource', title=hs_title,
-                                   abstract = hs_abstract, keywords = hs_keywords)
+                                   abstract=hs_abstract, keywords=hs_keywords)
     except Exception as e:
         service_response['status'] = 'Error'
         service_response['result'] = 'Failed to share the results to HydroShare.' + e.message
         # TODO clean up the space
         return service_response
 
-    service_response['result'] = "A model instance resource with name '{}' has been created with link here https://www.hydroshare.org/resoruce/{}".format(
+    service_response['result'] = "A model instance resource with name '{}' has been created with link https://www.hydroshare.org/resoruce/{}".format(
                                     res_title, res_info['resource_id'])
 
     return service_response

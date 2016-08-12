@@ -80,14 +80,34 @@
         </div>
 
         <div id="submit-response" >
-            <p id="response-status">asdf</p>
+            <p id="response-status"></p>
             <p id="response-result"></p>
         </div>
 
-        <input id='submit-model-input-btn' type="submit" value="Run Service" name='run-service' class="btn btn-success btn-lg pull-right">
+        <input id='submit-model-input-btn' type="submit" value="Run Service" name='run-service' data-toggle="modal" data-target="#wait" class="btn btn-success btn-lg pull-right">
     </form>
 
+    <div id="wait" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Please wait for form processing..</h4>
+                </div>
+                <div class="modal-body">
+                    <img align="middle" src="{% static 'ueb_app/images/waiting.gif' %}" width="550px" height="20px"/>
+                </div>
+            </div>
+            <!--End modal content-->
+        </div>
+    </div>
+
 </div>
+
+
+
+
+
 
 <div id='map-container' class="col-md-8">
     <div id='title' style="margin-bottom:10px">

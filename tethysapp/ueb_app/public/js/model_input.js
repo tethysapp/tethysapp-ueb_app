@@ -20,6 +20,8 @@ $(document).ready(function() {
     user_form.submit(function(){
         $('#submit-response').hide();
         $('#submit-model-input-btn').prop('disabled', true);
+        $('#wait').modal();
+
         $.ajax({
             type: user_form.attr('method'),
             url: user_form.attr('action'),
@@ -48,6 +50,7 @@ $(document).ready(function() {
 
             complete: function(){
                 alert('complete');
+                $('#wait').modal('hide');
                 $('#submit-model-input-btn').prop('disabled', false);
             }
         });
