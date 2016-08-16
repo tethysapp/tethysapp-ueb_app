@@ -181,17 +181,43 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
         ueb_inputPackage_dict = [myWatershedDEM, watershedName + 'OutletProj.zip', 'watershed.nc', 'aspect.nc', 'slope.nc', 'cc.nc', 'hcan.nc', 'lai.nc',
                              'vp0.nc', 'srad0.nc', 'tmin0.nc', 'tmax0.nc', 'prcp0.nc']
         zip_files_result = HDS.zip_files(files_to_zip=ueb_inputPackage_dict, zip_file_name=watershedName+str(dxRes)+'.zip')
+        parameter_file_names = ['control.dat','inputcontrol.dat','outputcontrol.dat','param.dat','siteinitial.dat']
 
-        #save UEB input package as HydroShare resource
+        # create resource metadata list
+        # TODO create the metadata for ueb model instance: box, time, resolution, watershed name, streamthreshold,epsg code, outlet poi
         hs_title = res_title
-        hs_abstract = 'It was created using HydroShare UEB model application which utilized the HydroDS modeling web services.'
+        hs_abstract = 'It was created using HydroShare UEB model inputs preparation application which utilized the HydroDS modeling web services. ' \
+                      'The prepared files include: {}. This model instance resource is not complete for model simulation. ' \
+                      'It still needs wind data and model parameter files {}'.format(', '.join(ueb_inputPackage_dict), ', '.join(parameter_file_names))
         hs_keywords = res_keywords.split(',')
+
+        metadata = []
+        metadata.append({"coverage": {"type": "box",
+                                      "value": {"northlimit": str(topY),
+                                                "southlimit": str(bottomY),
+                                                "eastlimit": str(rightX),
+                                                "westlimit": str(leftX),
+                                                "units": 'Decimal degrees',
+                                                "projection": 'WGS 84 EPSG:4326'
+                                                }
+                                      }
+                         })
+
+        start_obj = datetime.strptime(startDateTime, '%Y/%M/%d')
+        end_obj = datetime.strptime(endDateTime, '%Y/%M/%d')
+        metadata.append({"coverage": {"type": "period",
+                                      "value": {"start": datetime.strftime(start_obj, '%M/%d/%Y'),
+                                                "end": datetime.strftime(end_obj, '%M/%d/%Y'),
+                                                }
+                                      }
+                         })
+        # metadata.append({'contributor': {'name': 'John Smith', 'email': 'jsmith@gmail.com'}})
+        # metadata.append({'relation': {'type': 'cites', 'value': 'http'}})
+
+        # create resource
         HDS.set_hydroshare_account(hs_name, hs_password)
-        metadata = [{"coverage": {"type":"period", "value": {"start":startDateTime, "end":endDateTime}}}]
-        metadata = str(metadata)
-        # TODO create the metadata for ueb model instance: box, time, resolution, watershed name, streamthreshold,epsg code, outlet point
         res_info = HDS.create_hydroshare_resource(file_name=watershedName+str(dxRes)+'.zip', resource_type='ModelInstanceResource', title=hs_title,
-                                   abstract=hs_abstract, keywords=hs_keywords)
+                                   abstract=hs_abstract, keywords=hs_keywords, metadata=metadata)
     except Exception as e:
         service_response['status'] = 'Error'
         service_response['result'] = 'Failed to share the results to HydroShare.' + e.message
