@@ -75,7 +75,7 @@ def model_input(request):
                             name='epsg_code',
                             multiple=False,
                             options=EPSG_List,
-                            initial=['4326 : WGS 84'],
+                            initial=['5072 : NAD83(NSRS2007) / Conus Albers'],
                             attributes={'style': 'width:200px', 'required': True}
                             )
 

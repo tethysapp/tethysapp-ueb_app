@@ -178,7 +178,7 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
     # share result to HydroShare
     try:
         #upload ueb input package to hydroshare
-        ueb_inputPackage_dict = [myWatershedDEM, watershedName + 'OutletProj.zip', 'watershed.nc', 'aspect.nc', 'slope.nc', 'cc.nc', 'hcan.nc', 'lai.nc',
+        ueb_inputPackage_dict = ['watershed.nc', 'aspect.nc', 'slope.nc', 'cc.nc', 'hcan.nc', 'lai.nc',
                              'vp0.nc', 'srad0.nc', 'tmin0.nc', 'tmax0.nc', 'prcp0.nc']
         zip_files_result = HDS.zip_files(files_to_zip=ueb_inputPackage_dict, zip_file_name=watershedName+str(dxRes)+'.zip')
         parameter_file_names = ['control.dat','inputcontrol.dat','outputcontrol.dat','param.dat','siteinitial.dat']
