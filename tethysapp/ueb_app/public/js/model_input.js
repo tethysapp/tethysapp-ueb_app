@@ -65,9 +65,10 @@ function initMap() {
 var mapDiv = document.getElementById('map');
 map = new google.maps.Map(mapDiv, {
     center: {lat: 37.09024, lng: -95.712891},
-    zoom: 4
+    zoom: 4,
 });
 
+map.setMapTypeId('terrain');
 var drawingManager = new google.maps.drawing.DrawingManager({
     drawingControl: true,
     drawingControlOptions: {
