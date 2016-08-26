@@ -1,6 +1,10 @@
-from hydrogate import HydroDS
+import shutil
 from datetime import datetime
+import tempfile
+import os
 
+from hydrogate import HydroDS
+from model_parameters_list import file_contents_dict
 
 # TODO make the streamthreshold and watershedname as user inputs!!!
 def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_password, topY, bottomY, leftX, rightX,
@@ -175,20 +179,57 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
         return service_response
 
 
+    # prepare the parameter files
+    try:
+        # create temp parameter files
+        temp_dir = tempfile.mkdtemp()
+
+        # update the file contents
+
+        # write list back to file
+        for file_name, file_content in file_contents_dict.items():
+            file_path = os.path.join(temp_dir, file_name)
+            with open(file_path, 'w') as para_file:
+                para_file.write('\r\n'.join(file_content)) # the line separator is \r\n
+
+        # upload files to Hydro-DS
+        for file_name in file_contents_dict.keys():
+            HDS.upload_file(file_to_upload=os.path.join(temp_dir, file_name))
+
+        # clean up tempdir
+        parameter_file_names = file_contents_dict.keys()
+        shutil.rmtree(temp_dir)
+
+    except Exception as e:
+        parameter_file_names = []
+        shutil.rmtree(temp_dir)
+
+        # TODO remove the lines below
+        service_response['status'] = 'Error'
+        service_response['result'] = 'Failed to prepare the parameter files.' + e.message
+        return service_response
+
+
     # share result to HydroShare
     try:
         #upload ueb input package to hydroshare
         ueb_inputPackage_dict = ['watershed.nc', 'aspect.nc', 'slope.nc', 'cc.nc', 'hcan.nc', 'lai.nc',
-                             'vp0.nc', 'srad0.nc', 'tmin0.nc', 'tmax0.nc', 'prcp0.nc']
-        zip_files_result = HDS.zip_files(files_to_zip=ueb_inputPackage_dict, zip_file_name=watershedName+str(dxRes)+'.zip')
-        parameter_file_names = ['control.dat','inputcontrol.dat','outputcontrol.dat','param.dat','siteinitial.dat']
+                                 'vp0.nc', 'srad0.nc', 'tmin0.nc', 'tmax0.nc', 'prcp0.nc']
+        HDS.zip_files(files_to_zip=ueb_inputPackage_dict+parameter_file_names, zip_file_name=watershedName+str(dxRes)+'.zip')
 
         # create resource metadata list
         # TODO create the metadata for ueb model instance: box, time, resolution, watershed name, streamthreshold,epsg code, outlet poi
         hs_title = res_title
-        hs_abstract = 'It was created using HydroShare UEB model inputs preparation application which utilized the HydroDS modeling web services. ' \
-                      'The prepared files include: {}. This model instance resource is not complete for model simulation. ' \
-                      'It still needs wind data and model parameter files {}'.format(', '.join(ueb_inputPackage_dict), ', '.join(parameter_file_names))
+
+        if parameter_file_names:
+            hs_abstract = 'It was created using HydroShare UEB model inputs preparation application which utilized the HydroDS modeling web services. ' \
+                          'The model inputs data files include: {}. The model parameter files include: {}. This model instance resource is complete for model simulation. ' \
+                          .format(', '.join(ueb_inputPackage_dict), ', '.join(file_contents_dict.keys()))
+        else:
+            hs_abstract = 'It was created using HydroShare UEB model inputs preparation application which utilized the HydroDS modeling web services. ' \
+                          'The prepared files include: {}. This model instance resource still needs model parameter files {}'\
+                           .format(', '.join(ueb_inputPackage_dict), ', '.join(file_contents_dict.keys()))
+
         hs_keywords = res_keywords.split(',')
 
         metadata = []
