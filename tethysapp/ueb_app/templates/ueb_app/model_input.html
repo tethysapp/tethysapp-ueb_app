@@ -112,9 +112,23 @@
 <div id='map-container' class="col-md-8">
     <div id='title' style="margin-bottom:10px">
     <h3 style="color:#0073e6">UEB Model Inputs Preperation</h3>
-    <p style="margin-bottom:20px">This service will help to retrieve data from different data sources and preprocess them as UEB model input files. <br>
-        These files will be shared as a new model instance resource in HydroShare.
+    <p style="font-size:120%">
+        This application will help prepare a complete model input package for UEB model simulation in a user defined research domain (Within US domain).<br>
+        The model input package include different forcing datasets and model parameter files,
+        which will be automatically created as Model Instance resource in HydroShare.
+
     </p>
+    <p data-toggle="collapse" data-target="#intro-detail" style="color: green; margin-bottom: 20px"><strong><u>Click here to see detailed model input package info</u></strong></p>
+    <div id="intro-detail" class="collapse" style="background-color:#f2f2f2">
+        <p style="font-size:120%">
+            <strong>Terrain variables:</strong> terrain slope and aspect. Data are derived from National Elevation Datasets USGS.<br>
+            <strong>Land cover variables:</strong> canopy coverage fraction, canopy height, leaf area index. Data are derived from National Land Cover Dataset.<br>
+            <strong>Climate variables:</strong> incoming shortwave, minimum air temperature, maximum air temperature, air vapor pressure, precipitation. Data are derived from Daymet .<br>
+            <strong>Model parameter files:</strong> control.dat, param.dat, siteinitial.dat, inputcontrol.dat, outputcontrol.dat.
+        </p>
+    </div>
+
+    </details>
 </div>
 
     <h5>Draw watershed boundary and outlet point in map (US continent only)</h5>
