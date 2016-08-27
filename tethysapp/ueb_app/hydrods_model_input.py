@@ -184,13 +184,25 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
         # create temp parameter files
         temp_dir = tempfile.mkdtemp()
 
-        # update the file contents
+        # update the control.dat content
+        start_obj = datetime.strptime(startDateTime, '%Y/%M/%d')
+        end_obj = datetime.strptime(endDateTime, '%Y/%M/%d')
+        start_str = datetime.strftime(start_obj, '%Y %M %d') + ' 0.0'
+        end_str = datetime.strftime(end_obj, '%Y %M %d') + ' 0.0'
+        file_contents_dict['control.dat'][8] = start_str
+        file_contents_dict['control.dat'][9] = end_str
 
-        # write list back to file
+        # update the siteinitial.dat content
+        lat = 0.5 * (topY+bottomY)
+        lon = 0.5 * (rightX+leftX)
+        file_contents_dict['siteinitial.dat'][45] = str(lat)
+        file_contents_dict['siteinitial.dat'][96] = str(lon)
+
+        # write list in parameter files
         for file_name, file_content in file_contents_dict.items():
             file_path = os.path.join(temp_dir, file_name)
             with open(file_path, 'w') as para_file:
-                para_file.write('\r\n'.join(file_content)) # the line separator is \r\n
+                para_file.write('\r\n'.join(file_content))  # the line separator is \r\n
 
         # upload files to Hydro-DS
         for file_name in file_contents_dict.keys():
@@ -204,10 +216,10 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
         parameter_file_names = []
         shutil.rmtree(temp_dir)
 
-        # TODO remove the lines below
-        service_response['status'] = 'Error'
-        service_response['result'] = 'Failed to prepare the parameter files.' + e.message
-        return service_response
+        # # TODO remove the lines below
+        # service_response['status'] = 'Error'
+        # service_response['result'] = 'Failed to prepare the parameter files.' + e.message
+        # return service_response
 
 
     # share result to HydroShare
