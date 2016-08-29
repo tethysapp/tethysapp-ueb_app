@@ -2,25 +2,46 @@
 {% load staticfiles %}
 
 {%block app_navigation%}
+
 {%endblock%}
 
 
 {% block app_content %}
-  <h1>Welcome to UEB Model Services! </h1>
 
-  <div class='col-md-12' style="margin-top:40px;margin-bottom:50px">
-    <table style="width:700px">
+  <!--intro section-->
+  <h1>Welcome to UEB Model Services! </h1>
+  <p style="font-size:125%; margin-bottom: 50px">
+    Utha Energy Balance model is a snowmelt model developed for the prediction of rapid snowmelt rates
+    potentially responsible for soil erosion and surface water inputs.
+    <a target='_blanck'href="http://hydrology.usu.edu/dtarb/snow/snow.html"> See more details </a> <br>
+
+    This application will provide different services to help the user automatically prepare a complete model input package
+    for a user-defined research domain (Within US continent).<br>
+
+    This application will also execute the UEB model using cloud computing resources for a complete model input package provided by the user.
+  </p>
+
+
+
+  <!--icon section-->
+  <div class='col-md-12' style="margin-top:40px;margin-bottom:150px">
+    <table style="width:1200px">
       <tr align="center">
-        <td><a href="model_input/"><img align="middle" src="{% static 'ueb_app/images/model_input.png' %}" width="200px" hight="200px"/></a></td>
-        <td><a href=""><img align="middle" src="{% static 'ueb_app/images/model_simu.png' %}" width="200px" hight="200px"/></a></td>
+        <td width="300px"><a href="model_input/"><img align="middle" src="{% static 'ueb_app/images/model_input.png' %}" width="200px" hight="200px"/></a></td>
+        <td width="300px"><a href=""><img align="middle" src="{% static 'ueb_app/images/model_simu.png' %}" width="200px" hight="200px"/></a></td>
+        <td width="300px"><a href=""><img align="middle" src="{% static 'ueb_app/images/model_stat.png' %}" width="200px" hight="200px"/></a></td>
+        <td width="300px"><a href=""><img align="middle" src="{% static 'ueb_app/images/model_help.png' %}" width="220px" hight="220px"/></a></td>
       </tr>
       <tr align="center">
         <td><a href="model_input/"><p style="font-size:150%">Model Inputs Preparation </p></a></td>
         <td><a href=""><p style="font-size:150%">Model Simulation</p></a></td>
+        <td><a href=""><p style="font-size:150%">Job Status Check</p></a></td>
+        <td><a href=""><p style="font-size:150%">Help and Tutorials</p></a></td>
       </tr>
     </table>
 
   </div>
+
 
 
 {% endblock %}
