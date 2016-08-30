@@ -20,7 +20,7 @@ $(document).ready(function() {
     user_form.submit(function(){
         $('#submit-response').hide();
         $('#submit-model-input-btn').prop('disabled', true);
-        $('#wait').modal();
+        $('#wait').modal('show');
 
         $.ajax({
             type: user_form.attr('method'),
