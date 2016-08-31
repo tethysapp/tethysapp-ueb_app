@@ -8,18 +8,19 @@
 <!--Model simulation user form-->
 <div id='form-container' class='col-md-3'style="margin-bottom:30px">
 
-    <form id='user-form' method="post" action='model_run_submit/'>
+    <form id='user-form' method="post" action=''>
         {% csrf_token %}
-            <p id='epsg_title' class="form-subtitle">Spatial Coordinate System</p>
-            <div width="30%">{% gizmo select_input epsg_code %}</div>
+        <p id='model-input-list' class="form-subtitle">Select a model instance resource from HydroShare</p>
+        <div width="30%">{% gizmo select_input resource_list %}</div>
 
+        <input id='load-metadata-btn' type="submit" value="Load Resource Metadata" name='load-metadata' class="btn btn-primary btn-lg pull-left" >
 
         <div id="submit-response" >
             <p id="response-status"></p>
             <p id="response-result"></p>
         </div>
 
-        <input id='submit-model-input-btn' type="submit" value="Run Service" name='run-service' class="btn btn-success btn-lg pull-right">
+        <input id='submit-model-input-btn' type="submit" value="Submit Model Execution" name='run-service' class="btn btn-success btn-lg pull-right" style="display:none">
     </form>
 
     <div id="wait" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">

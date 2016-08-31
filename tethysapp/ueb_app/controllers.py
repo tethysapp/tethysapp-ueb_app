@@ -6,8 +6,11 @@ from django.http import HttpResponse
 
 from tethys_sdk.gizmos import TextInput, SelectInput,DatePicker, GoogleMapView
 
+from hs_restclient import HydroShare, HydroShareAuthBasic
+
 from epsg_list import EPSG_List
 from model_input_utils import *
+from user_settings import *
 
 
 # home page views
@@ -180,21 +183,28 @@ def model_input_submit(request):
 # model run views and ajax submit
 @login_required()
 def model_run(request):
+    # get user editable resource list
+    auth = HydroShareAuthBasic(hs_name, hs_password)
+    hs = HydroShare(auth=auth)
 
+    hs_editable_res_name_list = []
 
-    # epsg code
-    epsg_code = SelectInput(display_text='',
+    for resource in hs.getResourceList(owner=hs_name, types=["ModelInstanceResource"]):
+        hs_editable_res_name_list.append((resource['resource_title'], resource['resource_id']))
+
+    # resource list
+    resource_list = SelectInput(
+                            display_text='',
                             name='epsg_code',
                             multiple=False,
-                            options=EPSG_List,
-                            initial=['5072 : NAD83(NSRS2007) / Conus Albers'],
+                            options=hs_editable_res_name_list if hs_editable_res_name_list else [('No model instance resource is available', '')],
                             attributes={'style': 'width:200px', 'required': True}
                             )
 
 
     # context
     context = {
-               'epsg_code': epsg_code,
+               'resource_list': resource_list,
                }
 
     return render(request, 'ueb_app/model_run.html', context)
