@@ -1,0 +1,80 @@
+{% extends "ueb_app/base.html" %}
+{% load staticfiles %}
+{% load tethys_gizmos %}
+
+
+{% block app_content_override %}
+
+<!--Model simulation user form-->
+<div id='form-container' class='col-md-3'style="margin-bottom:30px">
+
+    <form id='user-form' method="post" action='model_run_submit/'>
+        {% csrf_token %}
+            <p id='epsg_title' class="form-subtitle">Spatial Coordinate System</p>
+            <div width="30%">{% gizmo select_input epsg_code %}</div>
+
+
+        <div id="submit-response" >
+            <p id="response-status"></p>
+            <p id="response-result"></p>
+        </div>
+
+        <input id='submit-model-input-btn' type="submit" value="Run Service" name='run-service' class="btn btn-success btn-lg pull-right">
+    </form>
+
+    <div id="wait" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Please wait for form processing..</h4>
+                </div>
+                <div class="modal-body">
+                    <img align="middle" src="{% static 'ueb_app/images/waiting.gif' %}" width="550px" height="20px"/>
+                </div>
+            </div>
+            <!--End modal content-->
+        </div>
+    </div>
+
+</div>
+
+
+
+<!--Google map-->
+<div id='map-container' class="col-md-8">
+    <!-- app intro-->
+    <div id='title' style="margin-bottom:20px">
+        <h3 style="color:#0073e6">UEB Model Submit for Execution</h3>
+
+        <p style="font-size:120%">
+            The application provides service to submit a UEB model package for execution on a server or
+            high performance computing center installation.
+        </p>
+
+    </div>
+
+    <!-- map -->
+    <h5>Research domain of model input data</h5>
+    <div id="map" style="width:1000px; height:800px"></div>
+
+</div>
+
+
+{%endblock%}
+
+{% block app_actions_override %}
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHOUQD9R_tLb6NKA22cuTTvF0j6X8wkgI&callback=initMap&libraries=drawing">
+    </script>
+    <script src="{% static 'ueb_app/js/model_run.js' %} " type="text/javascript"></script>
+{% endblock %}
+
+{% block content_dependent_styles %}
+  {{ block.super }}
+  <link href="{% static 'ueb_app/css/model_input.css' %}" rel="stylesheet"/>
+{% endblock %}

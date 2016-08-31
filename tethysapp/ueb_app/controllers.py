@@ -21,7 +21,7 @@ def home(request):
     return render(request, 'ueb_app/home.html', context)
 
 
-# model input views and ajax
+# model input views and ajax submit
 @login_required()
 def model_input(request):
 
@@ -175,6 +175,29 @@ def model_input_submit(request):
         ajax_response['result'] = 'Please verify that the request is ajax call with post method'
 
     return HttpResponse(json.dumps(ajax_response))
+
+
+# model run views and ajax submit
+@login_required()
+def model_run(request):
+
+
+    # epsg code
+    epsg_code = SelectInput(display_text='',
+                            name='epsg_code',
+                            multiple=False,
+                            options=EPSG_List,
+                            initial=['5072 : NAD83(NSRS2007) / Conus Albers'],
+                            attributes={'style': 'width:200px', 'required': True}
+                            )
+
+
+    # context
+    context = {
+               'epsg_code': epsg_code,
+               }
+
+    return render(request, 'ueb_app/model_run.html', context)
 
 
 # test part #
