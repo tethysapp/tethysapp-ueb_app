@@ -47,24 +47,26 @@ def model_input(request):
                          )
 
     # outlet point
-    outlet_x = TextInput(display_text='Longitude',
+    outlet_x = TextInput(display_text='Point Longitude',
                        name='outlet_x',
                        attributes={'required': True}
                        )
 
-    outlet_y = TextInput(display_text='Latitude',
+    outlet_y = TextInput(display_text='Point Latitude',
                        name='outlet_y',
                        attributes={'required': True}
                        )
 
     # wathershed name and threshold
-    watershed_name = TextInput(display_text='Watershed Name',
+    watershed_name = TextInput(
+                       # display_text='Watershed Name',
                        name='watershed_name',
                        initial='my watershed',
                        attributes={'style': 'width:350px'}
                        )
 
-    stream_threshold = TextInput(display_text='Stream Threshold',
+    stream_threshold = TextInput(
+                       # display_text='Stream Threshold',
                        name='stream_threshold',
                        initial='1000',
                        attributes={'style': 'width:350px'}

@@ -13,28 +13,32 @@
 
         <div id="model domain">
 
-            <p id='name_title' class="form-subtitle"> Research Domain Watershed Name</p>
+            <p id='name_title' class="form-subtitle"> Name</p>
             {% gizmo text_input watershed_name %}
 
-            <p id='box_title' class="form-subtitle">Watershed Bounding Box (US continent only)</p>
+            <p id='box_title' class="form-subtitle"> Bounding Box and Outlet Point (US continent only)</p>
             <table>
                 <tr>
-                    <td>{% gizmo text_input north_lat %}</td>
-                    <td width="10px"/>
-                    <td>{% gizmo text_input south_lat %}</td>
+                    <td/>
+                    <td >{% gizmo text_input north_lat %}</td>
+                    <td/>
                 </tr>
                 <tr>
-                    <td>{% gizmo text_input west_lon %}</td>
-                    <td width="10px"/>
-                    <td>{% gizmo text_input east_lon %}</td>
+                    <td width="200px">{% gizmo text_input east_lon %}</td>
+                    <td width="200px"/>
+                    <td width="200px">{% gizmo text_input west_lon %}</td>
+                </tr>
+                    <td/>
+                    <td >{% gizmo text_input south_lat %}</td>
+                    <td/>
                 </tr>
             </table>
 
-            <p id='point_title' class="form-subtitle">Watershed Outlet Point (US continent only)</p>
-            <table>
+            <!--<p id='point_title' class="form-subtitle">Watershed Outlet Point (US continent only)</p>-->
+            <table style="margin-top:20px">
                 <tr>
                     <td>{% gizmo text_input outlet_x %}</td>
-                    <td width="10px"/>
+                    <td width="100px"/>
                     <td>{% gizmo text_input outlet_y %}</td>
                 </tr>
             </table>
@@ -42,10 +46,10 @@
             <p id='threshold_title' class="form-subtitle"> Watershed Delineation Stream Threshold</p>
             {% gizmo text_input stream_threshold %}
 
-            <p id='epsg_title' class="form-subtitle">EPSG Code</p>
+            <p id='epsg_title' class="form-subtitle">Spatial Coordinate System</p>
             <div width="30%">{% gizmo select_input epsg_code %}</div>
 
-            <p id='time_title' class="form-subtitle">Model Simulation Time Period</p>
+            <p id='time_title' class="form-subtitle">Time Period</p>
             <table>
                 <tr>
                     <td>{% gizmo date_picker start_time %}</td>
@@ -63,7 +67,7 @@
                 </tr>
             </table>
 
-            <p id='model_cell_title' class="form-subtitle">Cell size for model simulation (optional)</p>
+            <p id='model_cell_title' class="form-subtitle">Cell size for model simulation </p>
             <table>
                 <tr>
                     <td>{% gizmo text_input dx_size %}</td>
@@ -107,31 +111,36 @@
 
 <!--Google map-->
 <div id='map-container' class="col-md-8">
+    <!-- app intro-->
     <div id='title' style="margin-bottom:10px">
-    <h3 style="color:#0073e6">UEB Model Inputs Preperation</h3>
-    <p style="font-size:120%">
-        This application will help prepare a complete model input package for UEB model simulation in a user defined research domain (Within US continent).<br>
-        The model input package includes different forcing datasets and model parameter files,
-        which will be automatically created as Model Instance resource in HydroShare.
+        <h3 style="color:#0073e6">UEB Model Input Data Preparation</h3>
 
-    </p>
-    <p data-toggle="collapse" data-target="#intro-detail" style="color: green; margin-bottom: 20px"><strong><u>See more details</u></strong></p>
-    <div id="intro-detail" class="collapse" style="background-color:#f2f2f2">
         <p style="font-size:120%">
-            <strong>Terrain variables:</strong> terrain slope and aspect. Data are derived from National Elevation Datasets USGS.<br>
-            <strong>Land cover variables:</strong> canopy coverage fraction, canopy height, leaf area index. Data are derived from National Land Cover Dataset.<br>
-            <strong>Climate variables:</strong> incoming shortwave, minimum air temperature, maximum air temperature, air vapor pressure, precipitation. Data are derived from Daymet .<br>
-            <strong>Model parameter files:</strong> control.dat, param.dat, siteinitial.dat, inputcontrol.dat, outputcontrol.dat.
+            This application helps prepare a complete model input package for UEB model simulation for a user
+            defined area (within the bounds of supporting data in the continental US).<br>
+            The model input package includes different forcing dataset and model parameter files,
+            which will be automatically created as Model Instance resource in HydroShare.
         </p>
+
+        <p data-toggle="collapse" data-target="#intro-detail" style="color: green; margin-bottom: 20px"><strong><u>See more details</u></strong></p>
+
+        <div id="intro-detail" class="collapse" style="background-color:#f2f2f2">
+            <p style="font-size:120%">
+                <strong>Terrain variables:</strong> terrain slope and aspect. Data are derived from National Elevation Datasets USGS.<br>
+                <strong>Land cover variables:</strong> canopy coverage fraction, canopy height, leaf area index. Data are derived from National Land Cover Dataset.<br>
+                <strong>Climate variables:</strong> incoming shortwave, minimum air temperature, maximum air temperature, air vapor pressure, precipitation. Data are derived from Daymet .<br>
+                <strong>Model parameter files:</strong> control.dat, param.dat, siteinitial.dat, inputcontrol.dat, outputcontrol.dat.
+            </p>
+        </div>
+
     </div>
 
-</div>
-
+    <!-- map -->
     <h5>You can draw the research domain and outlet point in the map (US continent only)</h5>
     <div id="map" style="width:1000px; height:800px"></div>
 
-
 </div>
+
 
 {%endblock%}
 
