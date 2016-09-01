@@ -8,19 +8,93 @@
 <!--Model simulation user form-->
 <div id='form-container' class='col-md-3'style="margin-bottom:30px">
 
-    <form id='user-form' method="post" action=''>
+    <form id='user-form' method="post" >
         {% csrf_token %}
+        <!-- res list selection field-->
         <p id='model-input-list' class="form-subtitle">Select a model instance resource from HydroShare</p>
         <div width="30%">{% gizmo select_input resource_list %}</div>
 
-        <input id='load-metadata-btn' type="submit" value="Load Resource Metadata" name='load-metadata' class="btn btn-primary btn-lg pull-left" >
+        <!--load metadata info-->
+        <input id='load-metadata-btn' type="submit" value="Load Resource Metadata" name='load-metadata' class="btn btn-primary btn-lg pull-left" > <br><br>
 
-        <div id="submit-response" >
-            <p id="response-status"></p>
-            <p id="response-result"></p>
+        <div id="load-metadata-response" style="margin-top:50px; margin-bottom:50px; display:none">
+
+            <p class="metadata-title"> Resource ID</p>
+            <p id='res-id' class='metadata-result'></p>
+
+            <p class="metadata-title">Bounding Box</p>
+            <table id="bounding-box-table">
+                <tr>
+                    <td width="200px"></td>
+                    <td width='200px'>
+                        <label>North Latitude</label>
+                        <p style="display:inline-block"id="north-lat"></p>
+
+                    </td>
+                    <td width="200px"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>West Longitude</label>
+                        <p id="west-lon"></p>
+                    </td>
+                    <td ></td>
+                    <td>
+                        <label>East Longitude</label>
+                        <p id="east-lon"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td ></td>
+                    <td>
+                        <label>South Latitude</label>
+                        <p id="south-lat"></p>
+                    </td>
+                    <td ></td>
+                </tr>
+            </table>
+
+            <p class="metadata-title">Outlet Point</p>
+            <table id="outlet-point-table">
+                <tr>
+                    <td width="200px"><label>Outlet Longitude: </label></td>
+                    <td width="200px" id="outlet-x"></td>
+                    <td width="200px"><label>Outlet Latitude:</label></td>
+                    <td width="200px" id="outlet-y"></td>
+                </tr>
+            </table>
+
+            <p class="metadata-title">Time Period</p>
+            <table id="time-period-table">
+                <tr>
+                    <td width="200px"><label>Start Time </label></td>
+                    <td width="200px" id="start-time"></td>
+                    <td width="200px"><label>End Time</label></td>
+                    <td width="200px" id="end-time"></td>
+                </tr>
+            </table>
+
+            <p class="metadata-title">Spatial Coordinate System</p>
+            <p id="epsg-code"></p>
+
+            <p class="metadata-title">Model Simulation Cell Size</p>
+            <table id="model-cell-size-table">
+                <tr>
+                    <td width="200px"><label>Cell X Size </label></td>
+                    <td width="200px" id="cell-x-size"></td>
+                    <td width="200px"><label>Cell Y Size</label></td>
+                    <td width="200px" id="cell-y-size"></td>
+                </tr>
+            </table>
+
         </div>
 
-        <input id='submit-model-input-btn' type="submit" value="Submit Model Execution" name='run-service' class="btn btn-success btn-lg pull-right" style="display:none">
+        <div id="submit-response" >
+            <p id="response-status">s</p>
+            <p id="response-result">s</p>
+        </div>
+
+        <input id='submit-model-run-btn' type="button" value="Submit Model Execution" name='run-service' class="btn btn-success btn-lg pull-right" style="display:none">
     </form>
 
     <div id="wait" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">

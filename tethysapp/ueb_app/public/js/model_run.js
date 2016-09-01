@@ -4,6 +4,7 @@ var map; // global variable
 var drawingManager;
 
 $(document).ready(function() {
+
     // Draw marker on text change
     $("#outlet_x").bind('input', drawMarkerOnTextChange);
     $("#outlet_y").bind('input', drawMarkerOnTextChange);
@@ -18,45 +19,98 @@ $(document).ready(function() {
     var user_form= $('#user-form');
 
     user_form.submit(function(){
-        $('#submit-response').hide();
-        $('#submit-model-input-btn').prop('disabled', true);
-        $('#wait').modal('show');
+        var btn_val = $(this).find("input[type=submit]:focus" ).val();
 
-        $.ajax({
-            type: user_form.attr('method'),
-            url: user_form.attr('action'),
-            data: user_form.serialize(),
+        if (btn_val == 'Load Resource Metadata') {
 
-            success: function(result) {
-                console.log(result);
-                json_response = JSON.parse(result);
-                console.log(json_response);
-                alert('happy');
-                $('#submit-response').show()
-                if (json_response.status == 'Error'){
-                    document.getElementById("submit-response").style.backgroundColor = '#ffebe6';
+            $(this).attr('action','model_run_load_metadata/');
+
+            $.ajax({
+                type: user_form.attr('method'),
+                url: user_form.attr('action'),
+                data: user_form.serialize(),
+
+                success: function(result) {
+                    console.log(result);
+                    json_response = JSON.parse(result);
+                    console.log(json_response);
+                    alert('happy');
+
+                    // show metadata elements info
+                    $('#res-id').text(json_response.result.res_id);
+                    $('#north-lat').text(json_response.result.north_lat);
+                    $('#south-lat').text(json_response.result.south_lat);
+                    $('#east-lon').text(json_response.result.east_lon);
+                    $('#west-lon').text(json_response.result.west_lon);
+                    $('#outlet-x').text(json_response.result.outlet_x);
+                    $('#outlet-y').text(json_response.result.outlet_y);
+                    $('#start-time').text(json_response.result.start_time);
+                    $('#end-time').text(json_response.result.end_time);
+                    $('#cell-x-size').text(json_response.result.cell_x_size);
+                    $('#cell-y-size').text(json_response.result.cell_y_size);
+                    $('#epsg-code').text(json_response.result.epsg_code);
+
+
+                    document.getElementById('load-metadata-response').style.display = 'block';
+                    document.getElementById('submit-model-run-btn').style.display = 'block';
+
+                },
+
+                error: function() {
+                    alert('sad');
+                },
+
+                complete: function(){
+                    alert('complete');
                 }
-                else {
-                    document.getElementById("submit-response").style.backgroundColor = '#eafaea';
-                }
+            });
+            return false;
 
-                $('#response-status').text(json_response.status)
-                $('#response-result').text(json_response.result);
-            },
+        }
+        else {
+        // run service
+        }
 
-            error: function() {
-                alert('sad');
-                $('#response-status').text('Error')
-                $('#response-result').text('Failed to run the web service. Please try it again.');
-            },
 
-            complete: function(){
-                alert('complete');
-                $('#wait').modal('hide');
-                $('#submit-model-input-btn').prop('disabled', false);
-            }
-        });
-        return false;
+//        $('#submit-response').hide();
+//        $('#submit-model-input-btn').prop('disabled', true);
+//        $('#wait').modal('show');
+
+//        $.ajax({
+//            type: user_form.attr('method'),
+//            url: user_form.attr('action'),
+//            data: user_form.serialize(),
+//
+//            success: function(result) {
+//                console.log(result);
+//                json_response = JSON.parse(result);
+//                console.log(json_response);
+//                alert('happy');
+//                $('#submit-response').show()
+//                if (json_response.status == 'Error'){
+//                    document.getElementById("submit-response").style.backgroundColor = '#ffebe6';
+//                }
+//                else {
+//                    document.getElementById("submit-response").style.backgroundColor = '#eafaea';
+//                }
+//
+//                $('#response-status').text(json_response.status)
+//                $('#response-result').text(json_response.result);
+//            },
+//
+//            error: function() {
+//                alert('sad');
+//                $('#response-status').text('Error')
+//                $('#response-result').text('Failed to run the web service. Please try it again.');
+//            },
+//
+//            complete: function(){
+//                alert('complete');
+//                $('#wait').modal('hide');
+//                $('#submit-model-input-btn').prop('disabled', false);
+//            }
+//        });
+//        return false;
     });
 
 });

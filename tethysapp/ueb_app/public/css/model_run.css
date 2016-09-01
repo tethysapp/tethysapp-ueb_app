@@ -20,7 +20,7 @@
 
 .form-subtitle{
     color:#0059b3;
-    font-size:120%;
+    font-size:130%;
     margin-top:10px;
 }
 
@@ -43,4 +43,10 @@
     margin-bottom:20px;
     margin-top:10px;
     margin-right:10px;
+}
+
+.metadata-title {
+    color:#0059b3;
+    font-size:130%;
+    margin-top:35px
 }

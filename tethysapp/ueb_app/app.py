@@ -37,6 +37,9 @@ class UebApp(TethysAppBase):
                     UrlMap(name='model_run',
                            url='ueb-app/model_run',
                            controller='ueb_app.controllers.model_run'),
+                    UrlMap(name='model_run_load_metadata',
+                           url='ueb-app/model_run/model_run_load_metadata',
+                           controller='ueb_app.controllers.model_run_load_metadata'),
 
                     # testing url
                     UrlMap(name='test',

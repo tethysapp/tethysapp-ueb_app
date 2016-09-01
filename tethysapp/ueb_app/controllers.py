@@ -11,6 +11,7 @@ from hs_restclient import HydroShare, HydroShareAuthBasic
 from epsg_list import EPSG_List
 from model_input_utils import *
 from user_settings import *
+import xmltodict
 
 
 # home page views
@@ -203,11 +204,36 @@ def model_run(request):
 
 
     # context
-    context = {
-               'resource_list': resource_list,
-               }
+    context = {'resource_list': resource_list }
 
     return render(request, 'ueb_app/model_run.html', context)
+
+
+@login_required()
+def model_run_load_metadata(request):
+    # md_dict = xmltodict.parse(hs.getScienceMetadata(res_id))
+    result = {
+        'res_id': 'res_id',
+        'north_lat': 'str(md_dict)',
+        'south_lat': '1',
+        'east_lon': '2',
+        'west_lon': '3',
+        'outlet_x': '4',
+        'outlet_y': '5',
+        'outlet_point': 'unknown',
+        'start_time': '6',
+        'end_time': '7',
+        'cell_x_size': '8',
+        'cell_y_size': '9',
+        'epsg_code': 'unknown',
+
+    }
+    ajax_response = {
+        'status': 'Success',
+        'result': result
+    }
+
+    return HttpResponse(json.dumps(ajax_response))
 
 
 # test part #
