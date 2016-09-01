@@ -15,7 +15,13 @@ $(document).ready(function() {
     $("#east_lon").bind('input', drawRectangleOnTextChange);
     $("#west_lon").bind('input', drawRectangleOnTextChange);
 
-    // ajax call function to submit the form
+    // Hide the metadata section and model run btn when user changes the selection
+    $('#resource_list').change(function(){
+        $('#submit-model-run-btn').hide();
+        $('#load-metadata-response').hide();
+    })
+
+    // ajax call function to submit the form for metadat loading or
     var user_form= $('#user-form');
 
     user_form.submit(function(){

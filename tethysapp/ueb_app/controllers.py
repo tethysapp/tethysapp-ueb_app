@@ -196,7 +196,7 @@ def model_run(request):
     # resource list
     resource_list = SelectInput(
                             display_text='',
-                            name='epsg_code',
+                            name='resource_list',
                             multiple=False,
                             options=hs_editable_res_name_list if hs_editable_res_name_list else [('No model instance resource is available', '')],
                             attributes={'style': 'width:200px', 'required': True}
@@ -211,9 +211,10 @@ def model_run(request):
 
 @login_required()
 def model_run_load_metadata(request):
+    res_id = request.POST['resource_list']
     # md_dict = xmltodict.parse(hs.getScienceMetadata(res_id))
     result = {
-        'res_id': 'res_id',
+        'res_id': res_id,
         'north_lat': 'str(md_dict)',
         'south_lat': '1',
         'east_lon': '2',
