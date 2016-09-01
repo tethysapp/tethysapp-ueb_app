@@ -229,27 +229,28 @@ def model_run_load_metadata(request):
         start_time = 'unknown'
         end_time = 'unknown'
 
-        cov_dict = md_dict['rdf:RDF']['rdf:Description'][0]['dc:coverage']
-        for item in cov_dict:
-            if 'dcterms:box' in item.keys():
-                bounding_box_list = item['dcterms:box']['rdf:value'].split(';')
-                for item in bounding_box_list:
-                    if 'northlimit' in item:
-                        north_lat = item.split('=')[1]
-                    elif 'southlimit' in item:
-                        south_lat = item.split('=')[1]
-                    elif 'eastlimit' in item:
-                        east_lon = item.split('=')[1]
-                    elif 'westlimit' in item:
-                        west_lon = item.split('=')[1]
+        cov_dict = md_dict['rdf:RDF']['rdf:Description'][0].get('dc:coverage')
+        if cov_dict:
+            for item in cov_dict:
+                if 'dcterms:box' in item.keys():
+                    bounding_box_list = item['dcterms:box']['rdf:value'].split(';')
+                    for item in bounding_box_list:
+                        if 'northlimit' in item:
+                            north_lat = item.split('=')[1]
+                        elif 'southlimit' in item:
+                            south_lat = item.split('=')[1]
+                        elif 'eastlimit' in item:
+                            east_lon = item.split('=')[1]
+                        elif 'westlimit' in item:
+                            west_lon = item.split('=')[1]
 
-            elif 'dcterms:period' in item.keys():
-                time_list = item['dcterms:period']['rdf:value'].split(';')
-                for item in time_list:
-                    if 'start' in item:
-                        start_time = item.split('=')[1]
-                    elif 'end' in item:
-                        end_time = item.split('=')[1]
+                elif 'dcterms:period' in item.keys():
+                    time_list = item['dcterms:period']['rdf:value'].split(';')
+                    for item in time_list:
+                        if 'start' in item:
+                            start_time = item.split('=')[1]
+                        elif 'end' in item:
+                            end_time = item.split('=')[1]
 
         result = {
             'res_id': res_id,

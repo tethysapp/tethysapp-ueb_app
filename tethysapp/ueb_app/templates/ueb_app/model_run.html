@@ -56,9 +56,9 @@
             <p class="metadata-title">Outlet Point</p>
             <table id="outlet-point-table">
                 <tr>
-                    <td width="200px"><label>Outlet Longitude: </label></td>
+                    <td width="200px"><label>Outlet Longitude </label></td>
                     <td width="200px" id="outlet-x"></td>
-                    <td width="200px"><label>Outlet Latitude:</label></td>
+                    <td width="200px"><label>Outlet Latitude</label></td>
                     <td width="200px" id="outlet-y"></td>
                 </tr>
             </table>
@@ -88,6 +88,11 @@
 
         </div>
 
+        <div id="load-metadata-fail" style="margin-top:50px; margin-bottom:50px; display:none">
+            <p id="load-metadata-error"></p>
+        </div>
+
+        <!--show model simulation submit info-->
         <div id="submit-response" >
             <p id="response-status">s</p>
             <p id="response-result">s</p>
@@ -101,7 +106,7 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Please wait for form processing..</h4>
+                    <h4 class="modal-title">Please wait for processing..</h4>
                 </div>
                 <div class="modal-body">
                     <img align="middle" src="{% static 'ueb_app/images/waiting.gif' %}" width="550px" height="20px"/>

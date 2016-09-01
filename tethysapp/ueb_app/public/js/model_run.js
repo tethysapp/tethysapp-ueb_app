@@ -19,6 +19,7 @@ $(document).ready(function() {
     $('#resource_list').change(function(){
         $('#submit-model-run-btn').hide();
         $('#load-metadata-response').hide();
+        $('#load-metadata-fail').hide();
     })
 
     // ajax call function to submit the form for metadat loading or
@@ -28,6 +29,7 @@ $(document).ready(function() {
         var btn_val = $(this).find("input[type=submit]:focus" ).val();
 
         if (btn_val == 'Load Resource Metadata') {
+            $('#wait').modal();
 
             $(this).attr('action','model_run_load_metadata/');
 
@@ -42,23 +44,29 @@ $(document).ready(function() {
                     console.log(json_response);
                     alert('happy');
 
-                    // show metadata elements info
-                    $('#res-id').text(json_response.result.res_id);
-                    $('#north-lat').text(json_response.result.north_lat);
-                    $('#south-lat').text(json_response.result.south_lat);
-                    $('#east-lon').text(json_response.result.east_lon);
-                    $('#west-lon').text(json_response.result.west_lon);
-                    $('#outlet-x').text(json_response.result.outlet_x);
-                    $('#outlet-y').text(json_response.result.outlet_y);
-                    $('#start-time').text(json_response.result.start_time);
-                    $('#end-time').text(json_response.result.end_time);
-                    $('#cell-x-size').text(json_response.result.cell_x_size);
-                    $('#cell-y-size').text(json_response.result.cell_y_size);
-                    $('#epsg-code').text(json_response.result.epsg_code);
+                    if (json_response.status == 'Success'){
+                        // show metadata elements info
+                        $('#res-id').text(json_response.result.res_id);
+                        $('#north-lat').text(json_response.result.north_lat);
+                        $('#south-lat').text(json_response.result.south_lat);
+                        $('#east-lon').text(json_response.result.east_lon);
+                        $('#west-lon').text(json_response.result.west_lon);
+                        $('#outlet-x').text(json_response.result.outlet_x);
+                        $('#outlet-y').text(json_response.result.outlet_y);
+                        $('#start-time').text(json_response.result.start_time);
+                        $('#end-time').text(json_response.result.end_time);
+                        $('#cell-x-size').text(json_response.result.cell_x_size);
+                        $('#cell-y-size').text(json_response.result.cell_y_size);
+                        $('#epsg-code').text(json_response.result.epsg_code);
 
 
-                    document.getElementById('load-metadata-response').style.display = 'block';
-                    document.getElementById('submit-model-run-btn').style.display = 'block';
+                        document.getElementById('load-metadata-response').style.display = 'block';
+                        document.getElementById('submit-model-run-btn').style.display = 'block';
+                    }
+                    else {
+                        $('#load-metadata-error').text(json_response.result);
+                        $('#load-metadata-fail').show();
+                    }
 
                 },
 
@@ -68,6 +76,7 @@ $(document).ready(function() {
 
                 complete: function(){
                     alert('complete');
+                    $('#wait').modal('hide');
                 }
             });
             return false;
