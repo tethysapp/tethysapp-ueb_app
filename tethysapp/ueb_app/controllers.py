@@ -211,28 +211,71 @@ def model_run(request):
 
 @login_required()
 def model_run_load_metadata(request):
-    res_id = request.POST['resource_list']
-    # md_dict = xmltodict.parse(hs.getScienceMetadata(res_id))
-    result = {
-        'res_id': res_id,
-        'north_lat': 'str(md_dict)',
-        'south_lat': '1',
-        'east_lon': '2',
-        'west_lon': '3',
-        'outlet_x': '4',
-        'outlet_y': '5',
-        'outlet_point': 'unknown',
-        'start_time': '6',
-        'end_time': '7',
-        'cell_x_size': '8',
-        'cell_y_size': '9',
-        'epsg_code': 'unknown',
 
-    }
-    ajax_response = {
-        'status': 'Success',
-        'result': result
-    }
+    try:
+        # authentication
+        auth = HydroShareAuthBasic(hs_name, hs_password)
+        hs = HydroShare(auth=auth)
+
+        # retrieve metadata dict and resource id
+        res_id = request.POST['resource_list']
+        md_dict = xmltodict.parse(hs.getScienceMetadata(res_id))
+
+        # retrieve bounding box
+        north_lat = 'unknown'
+        south_lat = 'unknown'
+        east_lon = 'unknown'
+        west_lon = 'unknown'
+        start_time = 'unknown'
+        end_time = 'unknown'
+
+        cov_dict = md_dict['rdf:RDF']['rdf:Description'][0]['dc:coverage']
+        for item in cov_dict:
+            if 'dcterms:box' in item.keys():
+                bounding_box_list = item['dcterms:box']['rdf:value'].split(';')
+                for item in bounding_box_list:
+                    if 'northlimit' in item:
+                        north_lat = item.split('=')[1]
+                    elif 'southlimit' in item:
+                        south_lat = item.split('=')[1]
+                    elif 'eastlimit' in item:
+                        east_lon = item.split('=')[1]
+                    elif 'westlimit' in item:
+                        west_lon = item.split('=')[1]
+
+            elif 'dcterms:period' in item.keys():
+                time_list = item['dcterms:period']['rdf:value'].split(';')
+                for item in time_list:
+                    if 'start' in item:
+                        start_time = item.split('=')[1]
+                    elif 'end' in item:
+                        end_time = item.split('=')[1]
+
+        result = {
+            'res_id': res_id,
+            'north_lat': north_lat,
+            'south_lat': south_lat,
+            'east_lon': east_lon,
+            'west_lon': west_lon,
+            'outlet_x': 'unknown',
+            'outlet_y': 'unknown',
+            'outlet_point': 'unknown',
+            'start_time': start_time,
+            'end_time': end_time,
+            'cell_x_size': 'unknown',
+            'cell_y_size': 'unknown',
+            'epsg_code': 'unknown',
+
+        }
+        ajax_response = {
+            'status': 'Success',
+            'result': result
+        }
+    except Exception as e:
+        ajax_response = {
+            'status': 'Error',
+            'result': 'Failed to retrieve the model instance resource metadata. '+ e.message
+        }
 
     return HttpResponse(json.dumps(ajax_response))
 
