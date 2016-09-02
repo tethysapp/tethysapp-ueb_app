@@ -256,8 +256,10 @@ def model_run_load_metadata(request):
                     for item in time_list:
                         if 'start' in item:
                             start_time = item.split('=')[1]
+                            start_time = start_time.split('T')[0]
                         elif 'end' in item:
                             end_time = item.split('=')[1]
+                            end_time = end_time.split('T')[0]
 
         result = {
             'res_id': res_id,
@@ -346,6 +348,8 @@ def model_run_submit_execution(request):
         zf.close()
         upload_zip_file_url = client.upload_file(file_to_upload=zip_file_path)
         client.delete_my_file(upload_zip_file_url.split('/')[-1])
+
+        # TODO: call model run service
 
         ajax_response = {
             'status': 'Success',
