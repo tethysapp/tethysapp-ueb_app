@@ -258,7 +258,7 @@ def model_run_load_metadata(request):
             'south_lat': south_lat,
             'east_lon': east_lon,
             'west_lon': west_lon,
-            'outlet_x': '109.9',
+            'outlet_x': '-109.9',
             'outlet_y': '43.3',
             'outlet_point': 'unknown',
             'start_time': start_time,
@@ -278,6 +278,15 @@ def model_run_load_metadata(request):
             'result': 'Failed to retrieve the model instance resource metadata. '+ e.message
         }
 
+    return HttpResponse(json.dumps(ajax_response))
+
+
+@login_required()
+def model_run_submit_execution(request):
+    ajax_response = {
+        'status': 'Success',
+        'result': 'job submitted'
+    }
     return HttpResponse(json.dumps(ajax_response))
 
 

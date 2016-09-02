@@ -10,18 +10,19 @@ $(document).ready(function() {
         $('#submit-model-run-btn').hide();
         $('#load-metadata-response').hide();
         $('#load-metadata-fail').hide();
+        $('#submit-response').hide();
     })
 
-    // ajax call function to submit the form for metadat loading or
+    // ajax call function to submit the form for metadata loading or run model service
     var user_form= $('#user-form');
 
     user_form.submit(function(){
         var btn_val = $(this).find("input[type=submit]:focus" ).val();
+        $('#wait').modal();
 
         if (btn_val == 'Load Resource Metadata') {
-            $('#wait').modal();
-
             $(this).attr('action','model_run_load_metadata/');
+            $('#submit-response').hide();
 
             $.ajax({
                 type: user_form.attr('method'),
@@ -91,14 +92,51 @@ $(document).ready(function() {
             });
             return false;
 
-        }
-        else {
-        // run service
-        }
+        } // end of load metadata
+        else if (btn_val == "Submit Model Execution"){
+            $(this).attr('action','model_run_submit_execution/');
 
-    });
+            $.ajax({
+                type: user_form.attr('method'),
+                url: user_form.attr('action'),
+                data: user_form.serialize(),
 
-});
+                success: function(result) {
+                    console.log(result);
+                    json_response = JSON.parse(result);
+                    console.log(json_response);
+                    alert('happy');
+                    $('#submit-response').show()
+                    if (json_response.status == 'Error'){
+                        document.getElementById("submit-response").style.backgroundColor = '#ffebe6';
+                    }
+                    else {
+                        document.getElementById("submit-response").style.backgroundColor = '#eafaea';
+                    }
+
+                    $('#response-status').text(json_response.status)
+                    $('#response-result').text(json_response.result);
+                },
+
+                error: function() {
+                    alert('sad');
+                    $('#submit-response').show()
+                    $('#response-status').text('Error')
+                    $('#response-result').text('Failed to run the web service. Please try it again.');
+                },
+
+                complete: function(){
+                    alert('complete');
+                    $('#wait').modal('hide');
+                }
+            });
+            return false;
+
+        } // end of run model service
+
+    }); // end of user submit function
+
+});  // end of the main function
 
 function initMap() {
 var mapDiv = document.getElementById('map');
