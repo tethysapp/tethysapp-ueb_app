@@ -391,6 +391,14 @@ def check_status(request):
     return render(request, 'ueb_app/check_status.html', context)
 
 
+# help views
+@login_required
+def help_page(request):
+    context = {}
+
+    return render(request, 'ueb_app/help.html', context)
+
+
 # test part #
 def test(request):
     """

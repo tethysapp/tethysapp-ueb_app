@@ -51,6 +51,11 @@ class UebApp(TethysAppBase):
                            url='ueb-app/check_status',
                            controller='ueb_app.controllers.check_status'),
 
+                    # url for help
+                    UrlMap(name='help_page',
+                           url='ueb-app/help_page',
+                           controller='ueb_app.controllers.help_page'),
+
                     # testing url
                     UrlMap(name='test',
                            url='ueb-app/test',
