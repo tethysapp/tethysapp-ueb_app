@@ -1,8 +1,8 @@
 #form-container {
     margin-top: 100px;
     background-color:#efefef;
-    height: 1000px;
-    overflow:auto;
+    height: 1200px;
+    overflow-y:auto;
 
 }
 
@@ -48,5 +48,5 @@
 .metadata-title {
     color:#0059b3;
     font-size:130%;
-    margin-top:35px
+    margin-top:30px
 }
