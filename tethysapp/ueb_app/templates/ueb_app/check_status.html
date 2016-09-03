@@ -1,0 +1,71 @@
+{% extends "ueb_app/base.html" %}
+{% load staticfiles %}
+{% load tethys_gizmos %}
+
+{% block app_content_override %}
+
+<!--Model simulation user form-->
+<div id='form-container' class='col-md-2'style="margin-bottom:30px">
+</div>
+
+
+
+<!--Google map-->
+<div id='map-container' class="col-md-8">
+    <!-- app intro-->
+    <div id='title' style="margin-bottom:20px">
+        <h3 style="color:#0073e6">UEB Model Submit for Execution</h3>
+        <p style="font-size:120%">
+            This service will help you to check your submitted job of model inputs preparation or model simulation. <br>
+            The Job submission date should be within the latest 30 days. Otherwise, it will be expired for job status check.
+        </p>
+
+    </div>
+
+    <form id='user-form' method="post" >
+        {% csrf_token %}
+
+        <!-- job id search box-->
+        <table>
+            <tr >
+                <td ><div style="margin-top:20px">{% gizmo text_input job_id %}</div></td>
+                <td width="30px"></td>
+                <td><input id='submit-model-run-btn' type="submit" value="Check Status" name='run-service' class="btn btn-success btn-lg pull-right" ></td>
+            </tr>
+        </table>
+
+        <!-- job status response-->
+        <div id="submit-response" >
+            <p id="response-status"></p>
+            <p id="response-result"></p>
+        </div>
+
+
+
+    </form>
+
+    <div id="wait" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Please wait for processing..</h4>
+                </div>
+                <div class="modal-body">
+                    <img align="middle" src="{% static 'ueb_app/images/waiting.gif' %}" width="550px" height="20px"/>
+                </div>
+            </div>
+            <!--End modal content-->
+        </div>
+    </div>
+
+</div>
+
+
+{%endblock%}
+
+
+{% block content_dependent_styles %}
+  {{ block.super }}
+  <link href="{% static 'ueb_app/css/check_status.css' %}" rel="stylesheet"/>
+{% endblock %}

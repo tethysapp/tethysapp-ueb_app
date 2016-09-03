@@ -46,6 +46,11 @@ class UebApp(TethysAppBase):
                            url='ueb-app/model_run/model_run_submit_execution',
                            controller='ueb_app.controllers.model_run_submit_execution'),
 
+                    # url for check status
+                    UrlMap(name='check_status',
+                           url='ueb-app/check_status',
+                           controller='ueb_app.controllers.check_status'),
+
                     # testing url
                     UrlMap(name='test',
                            url='ueb-app/test',

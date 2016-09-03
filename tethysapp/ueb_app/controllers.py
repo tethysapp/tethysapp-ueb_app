@@ -376,6 +376,21 @@ def model_run_submit_execution(request):
     return HttpResponse(json.dumps(ajax_response))
 
 
+# check status views and ajax submit
+@login_required
+def check_status(request):
+    # job_id
+    job_id = TextInput(display_text='',
+                       name='job_id',
+                       placeholder='Enter the Job ID Here',
+                       attributes={'required': True, 'style': 'width:800px;height:41px'}
+                          )
+
+    context = {'job_id': job_id}
+
+    return render(request, 'ueb_app/check_status.html', context)
+
+
 # test part #
 def test(request):
     """
