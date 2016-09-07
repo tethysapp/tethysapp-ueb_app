@@ -18,24 +18,10 @@
 
 }
 
-
-#response-status {
-    color: #000000;
-    font-size: 120%;
+.sub-title {
+    color:#0059b3;
 }
 
-#response-result {
-    color: #000000;
-    font-size: 120%;
-}
-
-#submit-response {
-    display:none;
-    padding-left: 10px;
-    padding-right: 5px;
-    padding-bottom: 5px;
-    padding-top:5px;
-    margin-bottom:20px;
-    margin-top:10px;
-    margin-right:10px;
+.sub-section {
+    margin-bottom:40px;
 }
