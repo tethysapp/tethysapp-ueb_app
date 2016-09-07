@@ -18,6 +18,14 @@ def submit_model_run_job(res_id, hs_name, hs_password, hydrods_name, hydrods_pas
         auth = HydroShareAuthBasic(hs_name, hs_password)
         hs = HydroShare(auth=auth)
         client = HydroDS(username=hydrods_name, password=hydrods_password)
+        
+        # clean up the HydroDS space
+        for item in client.list_my_files():
+            try:
+                client.delete_my_file(item.split('/')[-1])
+
+            except Exception as e:
+                continue
 
         # download resource bag
         temp_dir = tempfile.mkdtemp()
@@ -39,7 +47,7 @@ def submit_model_run_job(res_id, hs_name, hs_password, hydrods_name, hydrods_pas
             # upload the model input and parameter files to HydroDS
 
             if validation['is_valid']:
-                zip_file_path = os.path.join(model_input_folder, res_id+'.zip')
+                zip_file_path = os.path.join(model_input_folder, 'input_package.zip')
                 zf = zipfile.ZipFile(zip_file_path, 'w')
                 for file_path in validation['result']:
                     zf.write(file_path)
@@ -220,7 +228,7 @@ def validate_data_files(model_input_folder, model_param_files_dict):
         if watershed_name not in os.listdir(model_input_folder):
             missing_file_names.append(watershed_name)
 
-        # check the siteinitial.dat
+        # check the missing files in siteinitial.dat
         site_file_names = []
 
         for var_name in site_initial_variable_codes:
@@ -234,7 +242,7 @@ def validate_data_files(model_input_folder, model_param_files_dict):
                 if name not in os.listdir(model_input_folder):
                     missing_file_names.append(name)
 
-        # check the inputcontrol.dat
+        # check the missing files in inputcontrol.dat
         input_file_names = []
         for var_name in input_vairable_codes:
             for index, content in enumerate(model_param_files_dict['input_file']['file_contents']):
@@ -250,16 +258,15 @@ def validate_data_files(model_input_folder, model_param_files_dict):
                 if name not in os.listdir(model_input_folder):
                     missing_file_names.append(name)
 
-        # TODO: remove output files by checking outputcontrol.dat file
         if missing_file_names:
             validation = {
                 'is_valid': False,
-                'result': 'Please provide the missing model input data files: {}.'.format(','.join(missing_file_names))
+                'result': 'Please provide the missing model input data files: {}'.format(',\n'.join(missing_file_names))
             }
         else:
             validation = {
                 'is_valid': True,
-                'result':[os.path.join(model_input_folder, name) for name in os.listdir(model_input_folder)]
+                'result': [os.path.join(model_input_folder, name) for name in os.listdir(model_input_folder)]
             }
 
     except Exception as e:
