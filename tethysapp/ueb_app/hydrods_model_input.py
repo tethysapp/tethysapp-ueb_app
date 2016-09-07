@@ -20,10 +20,15 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
     try:
         HDS = HydroDS(username=hydrods_name, password=hydrods_password)
         for item in HDS.list_my_files():
-            HDS.delete_my_file(item.split('/')[-1])
-    except:
+            try:
+                HDS.delete_my_file(item.split('/')[-1])
+
+            except Exception as e:
+                continue
+
+    except Exception as e:
         service_response['status'] = 'Error'
-        service_response['result'] = 'Please provide the correct user name and password to use HydroDS web services.'
+        service_response['result'] = 'Please provide the correct user name and password to use HydroDS web services.' + e.message
         return service_response
 
     # TODO: create new folder for new job
