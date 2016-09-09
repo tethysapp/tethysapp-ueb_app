@@ -178,7 +178,7 @@ def validate_model_input_form(request):
 
     # create job parameter if input is valid
     if validation['is_valid']:
-        # TODO: prepare the authentication info
+        # TODO: pass the hydroshare token, client-id, client-secret not the user name and password
        validation['result'] = {
             'hs_name': hs_name,
             'hs_password': hs_password,
@@ -207,7 +207,7 @@ def validate_model_input_form(request):
 
 
 def submit_model_input_job(job_parameters):
-
+    # TODO: pass the hydroshare token, client-id, client-secret not the user name and password
     # generate parameter dict
     model_input_parameters = {
         'hs_name': job_parameters['hs_name'],

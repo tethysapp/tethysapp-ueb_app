@@ -7,16 +7,16 @@ import os
 import zipfile
 import tempfile
 
-from hs_restclient import HydroShare, HydroShareAuthBasic
 from hydrogate import HydroDS
 from model_parameters_list import site_initial_variable_codes, input_vairable_codes
 
 
-def submit_model_run_job(res_id, hs_name, hs_password, hydrods_name, hydrods_password):
+def submit_model_run_job(res_id, OAuthHS, hydrods_name, hydrods_password):
+    # TODO: call model run service
+
     try:
         # authentication
-        auth = HydroShareAuthBasic(hs_name, hs_password)
-        hs = HydroShare(auth=auth)
+        hs = OAuthHS['hs']
         client = HydroDS(username=hydrods_name, password=hydrods_password)
         
         # clean up the HydroDS space
@@ -45,7 +45,6 @@ def submit_model_run_job(res_id, hs_name, hs_password, hydrods_name, hydrods_pas
             validation = validate_model_input_files(model_input_folder)
 
             # upload the model input and parameter files to HydroDS
-
             if validation['is_valid']:
                 zip_file_path = os.path.join(model_input_folder, 'input_package.zip')
                 zf = zipfile.ZipFile(zip_file_path, 'w')
@@ -54,8 +53,6 @@ def submit_model_run_job(res_id, hs_name, hs_password, hydrods_name, hydrods_pas
                 zf.close()
                 upload_zip_file_url = client.upload_file(file_to_upload=zip_file_path)
                 client.delete_my_file(upload_zip_file_url.split('/')[-1])  # TODO clean this line for testing
-
-                # TODO: call model run service
 
                 model_run_job = {
                     'status': 'Success',

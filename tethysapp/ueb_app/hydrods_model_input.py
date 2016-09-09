@@ -6,11 +6,13 @@ import os
 from hydrogate import HydroDS
 from model_parameters_list import file_contents_dict
 
-# TODO make the streamthreshold and watershedname as user inputs!!!
+
 def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_password, topY, bottomY, leftX, rightX,
                                 lat_outlet, lon_outlet, streamThreshold, watershedName,
                                 epsgCode, startDateTime, endDateTime, dx, dy, dxRes, dyRes, res_title, res_keywords,
                                  **kwargs):
+
+    # TODO: pass the HydroShare user token, client id, client secret not the user name and password
     service_response = {
         'status': 'Success',
         'result': 'The model input has been shared in HydroShare'
