@@ -1,4 +1,4 @@
-{% extends "ueb_app/base.html" %}
+{% extends "ueb_app/home.html" %}
 {% load staticfiles %}
 {% load tethys_gizmos %}
 
@@ -24,9 +24,9 @@
                     <td/>
                 </tr>
                 <tr>
-                    <td width="200px">{% gizmo text_input east_lon %}</td>
-                    <td width="200px"/>
                     <td width="200px">{% gizmo text_input west_lon %}</td>
+                    <td width="200px"/>
+                    <td width="200px">{% gizmo text_input east_lon %}</td>
                 </tr>
                     <td/>
                     <td >{% gizmo text_input south_lat %}</td>
