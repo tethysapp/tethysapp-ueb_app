@@ -32,6 +32,7 @@ def home(request):
 # model input views and ajax submit
 @login_required()
 def model_input(request):
+    res_id = request.GET.get('res_id', None)
 
     # bounding box
     north_lat = TextInput(display_text='North Latitude',
@@ -158,6 +159,7 @@ def model_input(request):
                'dy_size': dy_size,
                'res_title': res_title,
                'res_keywords': res_keywords,
+               'res_id': res_id
                }
 
     return render(request, 'ueb_app/model_input.html', context)
@@ -225,7 +227,9 @@ def model_run(request):
 
         # context
         context = {'resource_list': resource_list,
-                   'user_name': OAuthHS.get('user_name')}
+                   'user_name': OAuthHS.get('user_name'),
+                   'res_id': request.GET.get('res_id', None)
+                   }
 
     return render(request, 'ueb_app/model_run.html', context)
 
@@ -336,6 +340,9 @@ def model_run_submit_execution(request):
 # check status views and ajax submit
 @login_required
 def check_status(request):
+    # res_id
+    res_id = request.GET.get('res_id', None)
+
     # job_id
     job_id = TextInput(display_text='',
                        name='job_id',
@@ -343,7 +350,9 @@ def check_status(request):
                        attributes={'required': True, 'style': 'width:800px;height:41px'}
                           )
 
-    context = {'job_id': job_id}
+    context = {'job_id': job_id,
+               'res_id': res_id,
+               }
 
     return render(request, 'ueb_app/check_status.html', context)
 
@@ -351,7 +360,10 @@ def check_status(request):
 # help views
 @login_required
 def help_page(request):
-    context = {}
+    # res_id
+    res_id = request.GET.get('res_id', None)
+
+    context = {'res_id': res_id,}
 
     return render(request, 'ueb_app/help.html', context)
 

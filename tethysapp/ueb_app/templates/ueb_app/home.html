@@ -3,7 +3,11 @@
 
 {% block app_icon_override %}
   {# The path you provided in your app.py is accessible through the tethys_app.icon context variable #}
-  <a href="/apps/ueb-app/?res_id={{res_id}}"><img src="{% static tethys_app.icon %}" width="110px" hight="160px" align="left"></a>
+  {% if res_id  %}
+    <a href="/apps/ueb-app/?res_id={{res_id}}"><img src="{% static tethys_app.icon %}" width="110px" hight="160px" align="left"></a>
+  {% else %}
+    <a href="/apps/ueb-app/"><img src="{% static tethys_app.icon %}" width="110px" hight="160px" align="left"></a>
+  {% endif %}
 {% endblock %}
 
 
@@ -35,26 +39,30 @@
         {% if res_id  %}
           <td width="300px"><a href="model_input/?res_id={{res_id}}"><img align="middle" src="{% static 'ueb_app/images/model_input.png' %}" width="200px" hight="200px"/></a></td>
           <td width="300px"><a href="model_run/?res_id={{res_id}}"><img align="middle" src="{% static 'ueb_app/images/model_simu.png' %}" width="200px" hight="200px"/></a></td>
+          <td width="300px"><a href="check_status/?res_id={{res_id}}"><img align="middle" src="{% static 'ueb_app/images/model_stat.png' %}" width="200px" hight="200px"/></a></td>
+          <td width="300px"><a href="help_page/?res_id={{res_id}}"><img align="middle" src="{% static 'ueb_app/images/model_help.png' %}" width="200px" hight="200px"/></a></td>
         {% else %}
           <td width="300px"><a href="model_input/"><img align="middle" src="{% static 'ueb_app/images/model_input.png' %}" width="200px" hight="200px"/></a></td>
           <td width="300px"><a href="model_run/"><img align="middle" src="{% static 'ueb_app/images/model_simu.png' %}" width="200px" hight="200px"/></a></td>
+          <td width="300px"><a href="check_status/"><img align="middle" src="{% static 'ueb_app/images/model_stat.png' %}" width="200px" hight="200px"/></a></td>
+          <td width="300px"><a href="help_page/"><img align="middle" src="{% static 'ueb_app/images/model_help.png' %}" width="200px" hight="200px"/></a></td>
         {% endif %}
 
-        <td width="300px"><a href="check_status/"><img align="middle" src="{% static 'ueb_app/images/model_stat.png' %}" width="200px" hight="200px"/></a></td>
-        <td width="300px"><a href="help_page/"><img align="middle" src="{% static 'ueb_app/images/model_help.png' %}" width="200px" hight="200px"/></a></td>
+
       </tr>
 
       <tr align="center">
         {% if res_id %}
           <td><a href= "model_input/?res_id={{res_id}}"><p style="font-size:150%;margin-top:20px"> Input data preparation </p></a></td>
           <td><a href="model_run/?res_id={{res_id}}"><p style="font-size:150%;margin-top:20px"> Submit for execution </p></a></td>
+          <td><a href="check_status/?res_id={{res_id}}"><p style="font-size:150%;margin-top:20px"> Check status </p></a></td>
+          <td><a href="help_page/?res_id={{res_id}}"><p style="font-size:150%;margin-top:20px">Help </p></a></td>
         {% else %}
           <td><a href= "model_input/"><p style="font-size:150%;margin-top:20px"> Input data preparation </p></a></td>
           <td><a href="model_run/"><p style="font-size:150%;margin-top:20px"> Submit for execution </p></a></td>
+          <td><a href="check_status/"><p style="font-size:150%;margin-top:20px"> Check status </p></a></td>
+          <td><a href="help_page/"><p style="font-size:150%;margin-top:20px">Help </p></a></td>
         {% endif%}
-
-        <td><a href="check_status/"><p style="font-size:150%;margin-top:20px"> Check status </p></a></td>
-        <td><a href="help_page/"><p style="font-size:150%;margin-top:20px">Help </p></a></td>
 
       </tr>
     </table>
