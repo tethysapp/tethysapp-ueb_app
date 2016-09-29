@@ -6,6 +6,8 @@ import shutil
 import os
 import zipfile
 import tempfile
+import subprocess
+import datetime
 
 from hydrogate import HydroDS
 from model_parameters_list import site_initial_variable_codes, input_vairable_codes
@@ -46,18 +48,66 @@ def submit_model_run_job(res_id, OAuthHS, hydrods_name, hydrods_password):
 
             # upload the model input and parameter files to HydroDS
             if validation['is_valid']:
-                zip_file_path = os.path.join(model_input_folder, 'input_package.zip')
-                zf = zipfile.ZipFile(zip_file_path, 'w')
-                for file_path in validation['result']:
-                    zf.write(file_path)
-                zf.close()
-                upload_zip_file_url = client.upload_file(file_to_upload=zip_file_path)
-                client.delete_my_file(upload_zip_file_url.split('/')[-1])  # TODO clean this line for testing
+                # copy ueb executable
+                ueb_exe_path = r'/home/jamy/ueb/UEBGrid_Parallel_Linuxp/ueb'
+                shutil.copy(ueb_exe_path, model_input_folder)
 
-                model_run_job = {
-                    'status': 'Success',
-                    'result': upload_zip_file_url
-                }
+                # run ueb model
+                process = subprocess.Popen(['./ueb', 'control.dat'], stdout=subprocess.PIPE, cwd=model_input_folder).wait()
+
+                # check simulation result
+                if process == 0:
+                    # get point output file
+                    output_file_name_list = []
+                    model_param_files_dict = validation['result']
+                    point_index = 1
+                    output_control_contents = model_param_files_dict['output_file']['file_contents']
+                    point_num = int(output_control_contents[point_index].split(' ')[0])
+
+                    if point_num != 0:
+                        for i in range(point_index+1, point_index+1+point_num):
+                            output_file_name_list.append(output_control_contents[i].split(' ')[2])
+
+                    # get netcdf output file
+                    netcdf_index = point_index+1+point_num
+                    netcdf_num = int(output_control_contents[netcdf_index].split(' ')[0])
+
+                    if netcdf_num != 0:
+                        for i in range(netcdf_index+1, netcdf_index+1+netcdf_num):
+                            output_file_name_list.append(output_control_contents[i].split(' ')[1])
+
+                    # get aggregation file
+                    output_file_name_list.append(model_param_files_dict['control_file']['file_contents'][5].split(' ')[0])
+
+                    # zip all the input files
+                    zip_file_path = os.path.join(model_input_folder, datetime.datetime.now().strftime("%Y%m%d_%H%M%S_") +'output_package.zip')
+                    zf = zipfile.ZipFile(zip_file_path, 'w')
+                    for file_path in [os.path.join(model_input_folder, file_name) for file_name in output_file_name_list]:
+                        if os.path.isfile(file_path):
+                            zf.write(file_path)
+                    zf.close()
+
+                    # TODO:Share the file to HydroShare
+
+
+                    model_run_job = {
+                        'status': 'Success',
+                        'result': zip_file_path
+                    }
+
+
+
+
+                    # add file to HydroShare
+
+                else:
+                    model_run_job = {
+                        'status': 'Error',
+                        'result': 'Failed to execute the UEB model.'
+                    }
+
+
+
 
             else:
                 model_run_job = {
@@ -164,7 +214,7 @@ def validate_param_files(model_input_folder):
             # get the control file path and contents
             file_path = os.path.join(model_input_folder, 'control.dat')
             with open(file_path) as para_file:
-                file_contents = [line.replace('\r\n', '').replace('\n', '') for line in para_file.readlines()]  # remember the repalce symble is '\r\n'. otherwise, it fails to recoganize the parameter file names
+                file_contents = [line.replace('\r\n', '').replace('\n', '').replace('\t', ' ') for line in para_file.readlines()]  # remember the repalce symble is '\r\n'. otherwise, it fails to recoganize the parameter file names
 
             param_files_dict = {
                 'control_file': {'file_path': file_path,
@@ -263,7 +313,7 @@ def validate_data_files(model_input_folder, model_param_files_dict):
         else:
             validation = {
                 'is_valid': True,
-                'result': [os.path.join(model_input_folder, name) for name in os.listdir(model_input_folder)]
+                'result': model_param_files_dict
             }
 
     except Exception as e:
