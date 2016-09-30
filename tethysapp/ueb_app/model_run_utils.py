@@ -31,13 +31,22 @@ def submit_model_run_job(res_id, OAuthHS, hydrods_name, hydrods_password):
                 continue
 
         # download resource bag
-        temp_dir = tempfile.mkdtemp()
-        hs.getResource(res_id, temp_dir, unzip=False)
-        bag_path = os.path.join(temp_dir, res_id + '.zip')
-        zf = zipfile.ZipFile(bag_path)
-        zf.extractall(temp_dir)
-        zf.close()
-        os.remove(bag_path)
+        try:
+            temp_dir = tempfile.mkdtemp()
+            hs.getResource(res_id, temp_dir, unzip=False)
+            bag_path = os.path.join(temp_dir, res_id + '.zip')
+            zf = zipfile.ZipFile(bag_path)
+            zf.extractall(temp_dir)
+            zf.close()
+            os.remove(bag_path)
+        except:
+            model_run_job = {
+                'status': 'Error',
+                'result': 'Failed to retrieve the resource content files from HydroShare. '
+                          'Please refresh the page and click on the submit button again'
+            }
+
+            return model_run_job
 
         # validate files and run model service
         model_input_folder = os.path.join(temp_dir, res_id, 'data', 'contents')
