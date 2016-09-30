@@ -8,6 +8,7 @@ import zipfile
 import tempfile
 import subprocess
 import datetime
+import json
 
 from hydrogate import HydroDS
 from model_parameters_list import site_initial_variable_codes, input_vairable_codes
@@ -79,35 +80,45 @@ def submit_model_run_job(res_id, OAuthHS, hydrods_name, hydrods_password):
                     # get aggregation file
                     output_file_name_list.append(model_param_files_dict['control_file']['file_contents'][5].split(' ')[0])
 
-                    # zip all the input files
-                    zip_file_path = os.path.join(model_input_folder, datetime.datetime.now().strftime("%Y%m%d_%H%M%S_") +'output_package.zip')
+                    # zip all the output files
+                    zip_file_name = datetime.datetime.now().strftime("%Y%m%d_%H%M%S_") +'output_package.zip'
+                    zip_file_path = os.path.join(model_input_folder, zip_file_name)
                     zf = zipfile.ZipFile(zip_file_path, 'w')
                     for file_path in [os.path.join(model_input_folder, file_name) for file_name in output_file_name_list]:
                         if os.path.isfile(file_path):
-                            zf.write(file_path)
+                            zf.write(file_path,os.path.basename(file_path))
                     zf.close()
 
-                    # TODO:Share the file to HydroShare
+                    # Share output package to HydroShare
+                    res_list = [res['resource_id'] for res in hs.getResourceList(owner=OAuthHS.get('user_name'), types=["ModelInstanceResource"])]
 
+                    # create a new resource
+                    current_dir = os.getcwd()
+                    os.chdir(model_input_folder)
+                    if res_id in res_list:
+                        resource_id = hs.addResourceFile(res_id, zip_file_name)
+                    else:
+                        rtype = 'ModelInstanceResource'
+                        title = 'UEB model simulation output'
+                        abstract = 'This resource includes the UEB model simulation output files derived from the model' \
+                                   ' instance package http://www.hydroshare.org/resource/{}. The model simulation was conducted ' \
+                                   'using the UEB web application http://localhost:8000/apps/ueb-app'.format(res_id)
+                        keywords = ('UEB', 'Snowmelt simulation')
+                        metadata = [{"source": {'derived_from': 'http://www.hydroshare.org/resource/{}'.format(res_id)}}]
+                        resource_id = hs.createResource(rtype, title, resource_file=zip_file_name, keywords=keywords,
+                                                        abstract=abstract, metadata=json.dumps(metadata))
+                    os.chdir(current_dir)
 
                     model_run_job = {
                         'status': 'Success',
-                        'result': zip_file_path
+                        'result': 'The UEB model simualtion is completed. Please check resource http://www.hydroshare.org/resource/{}'.format(resource_id)
                     }
-
-
-
-
-                    # add file to HydroShare
 
                 else:
                     model_run_job = {
                         'status': 'Error',
                         'result': 'Failed to execute the UEB model.'
                     }
-
-
-
 
             else:
                 model_run_job = {
@@ -118,10 +129,10 @@ def submit_model_run_job(res_id, OAuthHS, hydrods_name, hydrods_password):
         else:  # the resource doesn't have files
             model_run_job = {
                 'status': 'Error',
-                'result': 'The model instance resource includes no model input data and parameter files.'
+                'result': 'No model input data and parameter files is retrieved. Please check the resource files or rerun the model simulation app.'
             }
 
-        # remove the tempdir
+        # # remove the tempdir
         shutil.rmtree(temp_dir)
 
     except Exception as e:
@@ -131,7 +142,7 @@ def submit_model_run_job(res_id, OAuthHS, hydrods_name, hydrods_password):
 
         model_run_job = {
             'status': 'Error',
-            'result': 'Failed to submit the model execution.' + e.message
+            'result': 'Failed to run the model execution service.' + e.message
         }
 
     return model_run_job
