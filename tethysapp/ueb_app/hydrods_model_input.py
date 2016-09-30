@@ -40,13 +40,13 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
     try:
         input_static_DEM  = 'nedWesternUS.tif'
         subsetDEM_request = HDS.subset_raster(input_raster=input_static_DEM, left=leftX, top=topY, right=rightX,
-                                          bottom=bottomY,output_raster=watershedName + 'DEM84.tif')
+                                          bottom=bottomY, output_raster=watershedName + 'DEM84.tif')
 
         #Options for projection with epsg full list at: http://spatialreference.org/ref/epsg/
         myWatershedDEM = watershedName + 'Proj' + str(dx) + '.tif'
         WatershedDEM = HDS.project_resample_raster(input_raster_url_path=subsetDEM_request['output_raster'],
                                                           cell_size_dx=dx, cell_size_dy=dy, epsg_code=epsgCode,
-                                                          output_raster=myWatershedDEM,resample='bilinear')
+                                                          output_raster=myWatershedDEM, resample='bilinear')
 
         outlet_shapefile_result = HDS.create_outlet_shapefile(point_x=lon_outlet, point_y=lat_outlet,
                                                           output_shape_file_name=watershedName+'Outlet.shp')
@@ -62,7 +62,10 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
         #HDS.download_file(file_url_path=Watershed_hires['output_raster'], save_as=workingDir+watershedName+str(dx)+'.tif')
 
         ####Resample watershed grid to coarser grid
-        Watershed =  HDS.resample_raster(input_raster_url_path= Watershed_hires['output_raster'],
+        if dxRes == dx and dyRes == dy:
+            Watershed = Watershed_hires
+        else:
+            Watershed = HDS.resample_raster(input_raster_url_path = Watershed_hires['output_raster'],
                     cell_size_dx=dxRes, cell_size_dy=dyRes, resample='near', output_raster=watershedName + str(dxRes) + 'WS.tif')
 
         #HDS.download_file(file_url_path=Watershed['output_raster'], save_as=workingDir+watershedName+str(dxRes)+'.tif')
@@ -86,7 +89,11 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
         # aspect
         aspect_hires = HDS.create_raster_aspect(input_raster_url_path=WatershedDEM['output_raster'],
                                     output_raster=watershedName + 'Aspect' + str(dx)+ '.tif')
-        aspect = HDS.resample_raster(input_raster_url_path= aspect_hires['output_raster'], cell_size_dx=dxRes,
+
+        if dx == dxRes and dy == dyRes:
+            aspect = aspect_hires
+        else:
+            aspect = HDS.resample_raster(input_raster_url_path= aspect_hires['output_raster'], cell_size_dx=dxRes,
                                     cell_size_dy=dyRes, resample='near', output_raster=watershedName + 'Aspect' + str(dxRes) + '.tif')
         aspect_temp = HDS.raster_to_netcdf(input_raster_url_path=aspect['output_raster'],output_netcdf='aspect'+str(dxRes)+'.nc')
         aspect_nc = HDS.netcdf_rename_variable(input_netcdf_url_path=aspect_temp['output_netcdf'],
@@ -94,7 +101,11 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
         # slope
         slope_hires = HDS.create_raster_slope(input_raster_url_path=WatershedDEM['output_raster'],
                                     output_raster=watershedName + 'Slope' + str(dx) + '.tif')
-        slope = HDS.resample_raster(input_raster_url_path= slope_hires['output_raster'], cell_size_dx=dxRes,
+
+        if dx == dxRes and dy == dyRes:
+            slope = slope_hires
+        else:
+            slope = HDS.resample_raster(input_raster_url_path= slope_hires['output_raster'], cell_size_dx=dxRes,
                                     cell_size_dy=dyRes, resample='near', output_raster=watershedName + 'Slope' + str(dxRes) + '.tif')
         slope_temp = HDS.raster_to_netcdf(input_raster_url_path=slope['output_raster'], output_netcdf='slope'+str(dxRes)+'.nc')
         slope_nc = HDS.netcdf_rename_variable(input_netcdf_url_path=slope_temp['output_netcdf'],
@@ -234,7 +245,7 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
         #upload ueb input package to hydroshare
         ueb_inputPackage_dict = ['watershed.nc', 'aspect.nc', 'slope.nc', 'cc.nc', 'hcan.nc', 'lai.nc',
                                  'vp0.nc', 'srad0.nc', 'tmin0.nc', 'tmax0.nc', 'prcp0.nc']
-        HDS.zip_files(files_to_zip=ueb_inputPackage_dict+parameter_file_names, zip_file_name=watershedName+str(dxRes)+'.zip')
+        HDS.zip_files(files_to_zip=ueb_inputPackage_dict+parameter_file_names, zip_file_name=watershedName+'_input.zip')
 
         # create resource metadata list
         # TODO create the metadata for ueb model instance: box, time, resolution, watershed name, streamthreshold,epsg code, outlet poi
@@ -257,8 +268,8 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
                                                 "southlimit": str(bottomY),
                                                 "eastlimit": str(rightX),
                                                 "westlimit": str(leftX),
-                                                "units": 'Decimal degrees',
-                                                "projection": 'WGS 84 EPSG:4326'
+                                                "units": "Decimal degrees",
+                                                "projection": "WGS 84 EPSG:4326"
                                                 }
                                       }
                          })
@@ -276,7 +287,7 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
 
         # create resource
         HDS.set_hydroshare_account(hs_name, hs_password)
-        res_info = HDS.create_hydroshare_resource(file_name=watershedName+str(dxRes)+'.zip', resource_type='ModelInstanceResource', title=hs_title,
+        res_info = HDS.create_hydroshare_resource(file_name=watershedName+'_input.zip', resource_type='ModelInstanceResource', title=hs_title,
                                    abstract=hs_abstract, keywords=hs_keywords, metadata=metadata)
     except Exception as e:
         service_response['status'] = 'Error'
