@@ -33,8 +33,11 @@ def submit_model_run_job(res_id, OAuthHS, hydrods_name, hydrods_password):
         # download resource bag
         try:
             temp_dir = tempfile.mkdtemp()
-            hs.getResource(res_id, temp_dir, unzip=False)
             bag_path = os.path.join(temp_dir, res_id + '.zip')
+            res = hs.getResource(res_id)
+            with open(bag_path, 'wb') as fd:
+                for chunk in res:
+                    fd.write(chunk)
             zf = zipfile.ZipFile(bag_path)
             zf.extractall(temp_dir)
             zf.close()
