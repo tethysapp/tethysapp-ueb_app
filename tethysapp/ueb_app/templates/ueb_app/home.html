@@ -14,7 +14,7 @@
 
 {% block app_title_override %}
   <div id='nav'>
-    <h3>{{ tethys_app.name }}</h3>
+    <p>{{ tethys_app.name }}</p>
     <ul >
       {% if res_id  %}
         <li><a href="{% url 'ueb_app:model_input' %}?res_id={{res_id}}">Input Data Preparation</a></li>
