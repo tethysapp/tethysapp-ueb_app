@@ -112,33 +112,37 @@ def model_input(request):
     # model resolution
     x_size = TextInput(display_text='X size(m)',
                        name='x_size',
+                       initial='30',
                        attributes={'required': True}
                        )
 
     y_size = TextInput(display_text='Y size(m)',
                        name='y_size',
+                       initial='30',
                        attributes={'required': True}
                        )
 
     dx_size = TextInput(display_text='dX size(m)',
                        name='dx_size',
+                       initial='100',
                        attributes={'required': True}
                        )
 
     dy_size = TextInput(display_text='dY size(m)',
                         name='dy_size',
+                        initial='100',
                         attributes={'required': True}
                         )
 
     # resource info
     res_title = TextInput(display_text='HydroShare resource title',
                        name='res_title',
-                       placeholder='The title should include at least 5 characters',
+                       placeholder='e.g. UEB model package',
                        attributes={'style': 'width:350px', 'required': True}
                        )
     res_keywords = TextInput(display_text='HydroShare resource keywords',
                        name='res_keywords',
-                       placeholder='e.g. keyword1, keyword2',
+                       placeholder='e.g. Utah Energy Balance Model, Snowmelt',
                        attributes={'style': 'width:350px', 'required': True}
                        )
     # context

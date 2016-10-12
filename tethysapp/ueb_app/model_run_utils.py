@@ -6,6 +6,9 @@ import shutil
 import os
 import zipfile
 import tempfile
+import subprocess
+import datetime
+import json
 
 from hydrogate import HydroDS
 from model_parameters_list import site_initial_variable_codes, input_vairable_codes
@@ -28,13 +31,25 @@ def submit_model_run_job(res_id, OAuthHS, hydrods_name, hydrods_password):
                 continue
 
         # download resource bag
-        temp_dir = tempfile.mkdtemp()
-        hs.getResource(res_id, temp_dir, unzip=False)
-        bag_path = os.path.join(temp_dir, res_id + '.zip')
-        zf = zipfile.ZipFile(bag_path)
-        zf.extractall(temp_dir)
-        zf.close()
-        os.remove(bag_path)
+        try:
+            temp_dir = tempfile.mkdtemp()
+            bag_path = os.path.join(temp_dir, res_id + '.zip')
+            res = hs.getResource(res_id)
+            with open(bag_path, 'wb') as fd:
+                for chunk in res:
+                    fd.write(chunk)
+            zf = zipfile.ZipFile(bag_path)
+            zf.extractall(temp_dir)
+            zf.close()
+            os.remove(bag_path)
+        except:
+            model_run_job = {
+                'status': 'Error',
+                'result': 'Failed to retrieve the resource content files from HydroShare. '
+                          'Please refresh the page and click on the submit button again'
+            }
+
+            return model_run_job
 
         # validate files and run model service
         model_input_folder = os.path.join(temp_dir, res_id, 'data', 'contents')
@@ -46,18 +61,76 @@ def submit_model_run_job(res_id, OAuthHS, hydrods_name, hydrods_password):
 
             # upload the model input and parameter files to HydroDS
             if validation['is_valid']:
-                zip_file_path = os.path.join(model_input_folder, 'input_package.zip')
-                zf = zipfile.ZipFile(zip_file_path, 'w')
-                for file_path in validation['result']:
-                    zf.write(file_path)
-                zf.close()
-                upload_zip_file_url = client.upload_file(file_to_upload=zip_file_path)
-                client.delete_my_file(upload_zip_file_url.split('/')[-1])  # TODO clean this line for testing
+                # copy ueb executable
+                ueb_exe_path = r'/home/jamy/ueb/UEBGrid_Parallel_Linuxp/ueb'
+                shutil.copy(ueb_exe_path, model_input_folder)
 
-                model_run_job = {
-                    'status': 'Success',
-                    'result': upload_zip_file_url
-                }
+                # run ueb model
+                process = subprocess.Popen(['./ueb', 'control.dat'], stdout=subprocess.PIPE, cwd=model_input_folder).wait()
+
+                # check simulation result
+                if process == 0:
+                    # get point output file
+                    output_file_name_list = []
+                    model_param_files_dict = validation['result']
+                    point_index = 1
+                    output_control_contents = model_param_files_dict['output_file']['file_contents']
+                    point_num = int(output_control_contents[point_index].split(' ')[0])
+
+                    if point_num != 0:
+                        for i in range(point_index+1, point_index+1+point_num):
+                            output_file_name_list.append(output_control_contents[i].split(' ')[2])
+
+                    # get netcdf output file
+                    netcdf_index = point_index+1+point_num
+                    netcdf_num = int(output_control_contents[netcdf_index].split(' ')[0])
+
+                    if netcdf_num != 0:
+                        for i in range(netcdf_index+1, netcdf_index+1+netcdf_num):
+                            output_file_name_list.append(output_control_contents[i].split(' ')[1])
+
+                    # get aggregation file
+                    output_file_name_list.append(model_param_files_dict['control_file']['file_contents'][5].split(' ')[0])
+
+                    # zip all the output files
+                    zip_file_name = datetime.datetime.now().strftime("%Y%m%d_%H%M%S_") +'output_package.zip'
+                    zip_file_path = os.path.join(model_input_folder, zip_file_name)
+                    zf = zipfile.ZipFile(zip_file_path, 'w')
+                    for file_path in [os.path.join(model_input_folder, file_name) for file_name in output_file_name_list]:
+                        if os.path.isfile(file_path):
+                            zf.write(file_path,os.path.basename(file_path))
+                    zf.close()
+
+                    # Share output package to HydroShare
+                    res_list = [res['resource_id'] for res in hs.getResourceList(owner=OAuthHS.get('user_name'), types=["ModelInstanceResource"])]
+
+                    # create a new resource
+                    current_dir = os.getcwd()
+                    os.chdir(model_input_folder)
+                    if res_id in res_list:
+                        resource_id = hs.addResourceFile(res_id, zip_file_name)
+                    else:
+                        rtype = 'ModelInstanceResource'
+                        title = 'UEB model simulation output'
+                        abstract = 'This resource includes the UEB model simulation output files derived from the model' \
+                                   ' instance package http://www.hydroshare.org/resource/{}. The model simulation was conducted ' \
+                                   'using the UEB web application http://localhost:8000/apps/ueb-app'.format(res_id)
+                        keywords = ('UEB', 'Snowmelt simulation')
+                        metadata = [{"source": {'derived_from': 'http://www.hydroshare.org/resource/{}'.format(res_id)}}]
+                        resource_id = hs.createResource(rtype, title, resource_file=zip_file_name, keywords=keywords,
+                                                        abstract=abstract, metadata=json.dumps(metadata))
+                    os.chdir(current_dir)
+
+                    model_run_job = {
+                        'status': 'Success',
+                        'result': 'The UEB model simualtion is completed. Please check resource http://www.hydroshare.org/resource/{}'.format(resource_id)
+                    }
+
+                else:
+                    model_run_job = {
+                        'status': 'Error',
+                        'result': 'Failed to execute the UEB model.'
+                    }
 
             else:
                 model_run_job = {
@@ -68,10 +141,10 @@ def submit_model_run_job(res_id, OAuthHS, hydrods_name, hydrods_password):
         else:  # the resource doesn't have files
             model_run_job = {
                 'status': 'Error',
-                'result': 'The model instance resource includes no model input data and parameter files.'
+                'result': 'No model input data and parameter files is retrieved. Please check the resource files or rerun the model simulation app.'
             }
 
-        # remove the tempdir
+        # # remove the tempdir
         shutil.rmtree(temp_dir)
 
     except Exception as e:
@@ -81,7 +154,7 @@ def submit_model_run_job(res_id, OAuthHS, hydrods_name, hydrods_password):
 
         model_run_job = {
             'status': 'Error',
-            'result': 'Failed to submit the model execution.' + e.message
+            'result': 'Failed to run the model execution service.' + e.message
         }
 
     return model_run_job
@@ -164,7 +237,7 @@ def validate_param_files(model_input_folder):
             # get the control file path and contents
             file_path = os.path.join(model_input_folder, 'control.dat')
             with open(file_path) as para_file:
-                file_contents = [line.replace('\r\n', '').replace('\n', '') for line in para_file.readlines()]  # remember the repalce symble is '\r\n'. otherwise, it fails to recoganize the parameter file names
+                file_contents = [line.replace('\r\n', '').replace('\n', '').replace('\t', ' ') for line in para_file.readlines()]  # remember the repalce symble is '\r\n'. otherwise, it fails to recoganize the parameter file names
 
             param_files_dict = {
                 'control_file': {'file_path': file_path,
@@ -263,7 +336,7 @@ def validate_data_files(model_input_folder, model_param_files_dict):
         else:
             validation = {
                 'is_valid': True,
-                'result': [os.path.join(model_input_folder, name) for name in os.listdir(model_input_folder)]
+                'result': model_param_files_dict
             }
 
     except Exception as e:
