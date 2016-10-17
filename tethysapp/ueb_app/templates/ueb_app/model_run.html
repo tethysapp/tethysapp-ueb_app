@@ -17,10 +17,10 @@
         <!--load metadata info-->
         <input id='load-metadata-btn' type="submit" value="Load Resource Metadata" name='load-metadata' class="btn btn-primary btn-lg pull-left" > <br><br>
 
-        <div id="load-metadata-response" style="margin-top:50px; margin-bottom:50px; display:none">
+        <div id="load-metadata-response" style="margin-top:50px; margin-bottom:50px;">
 
             <p class="metadata-title"> Resource ID</p>
-            <p id='res-id' class='metadata-result'></p>
+            <p id='res-id' class='metadata-result'>{{res_metadata.res_id}}</p>
 
             <p class="metadata-title">Bounding Box</p>
             <table id="bounding-box-table">
@@ -28,26 +28,26 @@
                     <td width="150px"></td>
                     <td width='150px'>
                         <label>North Latitude</label>
-                        <p id="north-lat"></p>
+                        <p id="north-lat">{{res_metadata.north_lat}}</p>
                     </td>
                     <td width="150px"></td>
                 </tr>
                 <tr>
                     <td>
                         <label>West Longitude</label>
-                        <p id="west-lon"></p>
+                        <p id="west-lon">{{res_metadata.west_lon}}</p>
                     </td>
                     <td ></td>
                     <td>
                         <label>East Longitude</label>
-                        <p id="east-lon"></p>
+                        <p id="east-lon">{{res_metadata.east_lon}}</p>
                     </td>
                 </tr>
                 <tr>
                     <td ></td>
                     <td>
                         <label>South Latitude</label>
-                        <p id="south-lat"></p>
+                        <p id="south-lat">{{res_metadata.south_lat}}</p>
                     </td>
                     <td ></td>
                 </tr>
@@ -57,9 +57,9 @@
             <table id="outlet-point-table">
                 <tr>
                     <td width="200px"><label>Outlet Longitude </label></td>
-                    <td width="200px" id="outlet-x"></td>
+                    <td width="100px" id="outlet-x">{{res_metadata.outlet_x}}</td>
                     <td width="200px"><label>Outlet Latitude</label></td>
-                    <td width="200px" id="outlet-y"></td>
+                    <td width="100px" id="outlet-y">{{res_metadata.outlet_y}}</td>
                 </tr>
             </table>
 
@@ -67,22 +67,22 @@
             <table id="time-period-table">
                 <tr>
                     <td width="100px"><label>Start Time </label></td>
-                    <td width="200px" id="start-time"></td>
+                    <td width="100px" id="start-time">{{res_metadata.start_time}}</td>
                     <td width="100px"><label>End Time</label></td>
-                    <td width="200px" id="end-time"></td>
+                    <td width="100px" id="end-time">{{res_metadata.end_time}}</td>
                 </tr>
             </table>
 
             <p class="metadata-title">Spatial Coordinate System</p>
-            <p id="epsg-code"></p>
+            <p id="epsg-code">{{res_metadata.epsg_code}}</p>
 
             <p class="metadata-title">Model Simulation Cell Size</p>
             <table id="model-cell-size-table">
                 <tr>
                     <td width="100px"><label>Cell X Size </label></td>
-                    <td width="200px" id="cell-x-size" style="text-align:left;"></td>
+                    <td width="100px" id="cell-x-size" style="text-align:left;">{{res_metadata.cell_x_size}}</td>
                     <td width="100px"><label>Cell Y Size</label></td>
-                    <td width="200px" id="cell-y-size" style="text-align:left;"></td>
+                    <td width="100px" id="cell-y-size" style="text-align:left;">{{res_metadata.cell_y_size}}</td>
                 </tr>
             </table>
 

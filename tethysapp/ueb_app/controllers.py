@@ -215,6 +215,9 @@ def model_run(request):
 
         options = hs_editable_res_name_list if hs_editable_res_name_list else [('No model instance resource is available', '')]
 
+        # get the resource metadata
+        model_resource_metadata = get_model_resource_metadata(hs, res_id)
+
     except Exception:
         options = [('Failed to retrieve the model instance resources list', '')]
         initial = ['Failed to retrieve the model instance resources list']
@@ -232,7 +235,8 @@ def model_run(request):
         # context
         context = {'resource_list': resource_list,
                    'user_name': OAuthHS.get('user_name'),
-                   'res_id': request.GET.get('res_id', None)
+                   'res_id': request.GET.get('res_id', None),
+                   'res_metadata': model_resource_metadata
                    }
 
     return render(request, 'ueb_app/model_run.html', context)
@@ -245,61 +249,13 @@ def model_run_load_metadata(request):
         # authentication
         OAuthHS = get_OAuthHS(request)
 
+        # retrieve metadata
         if OAuthHS.get('hs'):
-            # retrieve metadata dict and resource id
             res_id = request.POST['resource_list']
-            md_dict = xmltodict.parse(OAuthHS.get('hs').getScienceMetadata(res_id))
+            hs = OAuthHS['hs']
 
-            # retrieve bounding box
-            north_lat = 'unknown'
-            south_lat = 'unknown'
-            east_lon = 'unknown'
-            west_lon = 'unknown'
-            start_time = 'unknown'
-            end_time = 'unknown'
-
-            cov_dict = md_dict['rdf:RDF']['rdf:Description'][0].get('dc:coverage')
-            if cov_dict:
-                for item in cov_dict:
-                    if 'dcterms:box' in item.keys():
-                        bounding_box_list = item['dcterms:box']['rdf:value'].split(';')
-                        for item in bounding_box_list:
-                            if 'northlimit' in item:
-                                north_lat = item.split('=')[1]
-                            elif 'southlimit' in item:
-                                south_lat = item.split('=')[1]
-                            elif 'eastlimit' in item:
-                                east_lon = item.split('=')[1]
-                            elif 'westlimit' in item:
-                                west_lon = item.split('=')[1]
-
-                    elif 'dcterms:period' in item.keys():
-                        time_list = item['dcterms:period']['rdf:value'].split(';')
-                        for item in time_list:
-                            if 'start' in item:
-                                start_time = item.split('=')[1]
-                                start_time = start_time.split('T')[0]
-                            elif 'end' in item:
-                                end_time = item.split('=')[1]
-                                end_time = end_time.split('T')[0]
-
+            result = get_model_resource_metadata(hs, res_id)
             status = 'Success'
-            result = {
-                'res_id': res_id,
-                'north_lat': north_lat,
-                'south_lat': south_lat,
-                'east_lon': east_lon,
-                'west_lon': west_lon,
-                'outlet_x': '-109.9',
-                'outlet_y': '43.3',
-                'outlet_point': 'unknown',
-                'start_time': start_time,
-                'end_time': end_time,
-                'cell_x_size': 'unknown',
-                'cell_y_size': 'unknown',
-                'epsg_code': 'unknown',
-
-            }
 
         else:
             status = 'Error'
