@@ -14,8 +14,17 @@
         <p id='model-input-list' class="form-subtitle">Select a model instance resource from HydroShare</p>
         <div width="30%">{% gizmo select_input resource_list %}</div>
 
+        <!-- model simulation submit info-->
+        <div id="submit-response" >
+            <p id="response-status"></p>
+            <p id="response-result"></p>
+        </div>
+        <input id='submit-model-run-btn' type="submit" value="Submit Model Execution" name='run-service' class="btn btn-success pull-right"><br>
+
+
         <!--load metadata info-->
-        <input id='load-metadata-btn' type="submit" value="Load Resource Metadata" name='load-metadata' class="btn btn-primary btn-lg pull-left" > <br><br>
+
+        <!--<input id='load-metadata-btn' type="submit" value="Load Resource Metadata" name='load-metadata' class="btn btn-primary btn-lg pull-left" > <br><br>-->
 
         <div id="load-metadata-response" style="margin-top:50px; margin-bottom:50px;">
 
@@ -92,13 +101,9 @@
             <p id="load-metadata-error"></p>
         </div>
 
-        <!-- model simulation submit info-->
-        <div id="submit-response" >
-            <p id="response-status"></p>
-            <p id="response-result"></p>
-        </div>
 
-        <input id='submit-model-run-btn' type="submit" value="Submit Model Execution" name='run-service' class="btn btn-success btn-lg pull-right">
+
+
 
     </form>
 
