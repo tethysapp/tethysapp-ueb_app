@@ -105,7 +105,7 @@ $(document).ready(function() {
                     console.log(result);
                     json_response = JSON.parse(result);
                     console.log(json_response);
-                    alert('happy');
+//                    alert('happy');
                     $('#submit-response').show()
                     if (json_response.status == 'Error'){
                         document.getElementById("submit-response").style.backgroundColor = '#ffebe6';
@@ -127,7 +127,7 @@ $(document).ready(function() {
                 },
 
                 complete: function(){
-                    alert('complete');
+//                    alert('complete');
                     $('#wait').modal('hide');
                 }
             });
@@ -147,6 +147,18 @@ map = new google.maps.Map(mapDiv, {
 });
 
 map.setMapTypeId('terrain');
+
+// draw the bounding box and outlet point based on the metadata
+if ($('#north-lat').text() != 'unknown' && $('#south-lat').text() != 'unknown' &&
+    $('#east-lon').text() != 'unknown' && $('#west-lon').text() != 'unknown'){
+    var bounds = {
+            north: parseFloat($('#north-lat').text()),
+            south: parseFloat($('#south-lat').text()),
+            east: parseFloat($('#east-lon').text()),
+            west: parseFloat($('#west-lon').text())
+        };
+    drawRectangleOnTextChange(bounds);
+}
 
 } // end of initmap function
 

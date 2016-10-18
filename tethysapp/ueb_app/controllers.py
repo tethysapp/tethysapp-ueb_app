@@ -212,6 +212,7 @@ def model_run(request):
             initial = [option[0] for option in hs_editable_res_name_list if option[1] == res_id]
         else:
             initial = [hs_editable_res_name_list[0][0]]
+            res_id = hs_editable_res_name_list[0][1]
 
         options = hs_editable_res_name_list if hs_editable_res_name_list else [('No model instance resource is available', '')]
 
