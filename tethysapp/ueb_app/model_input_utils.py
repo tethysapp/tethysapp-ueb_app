@@ -6,6 +6,7 @@ from epsg_list import EPSG_List
 from hydrods_model_input import hydrods_model_input_service
 from user_settings import *
 
+
 def validate_model_input_form(request):
 
     validation = {
@@ -82,14 +83,6 @@ def validate_model_input_form(request):
         if error_info:
             validation['is_valid'] = False
             validation['result']['point_title'] = ' '.join(error_info)
-
-
-    # check watershed name and stream threshold
-    watershed_name = request.POST['watershed_name']
-    if watershed_name:
-        watershed_name = watershed_name.replace(' ', '_') + '_'
-    else:
-        watershed_name = 'my_watershed_'
 
 
    # check stream threshold
@@ -190,7 +183,7 @@ def validate_model_input_form(request):
             'east_lon': east_lon,
             'outlet_x': outlet_x,
             'outlet_y': outlet_y,
-            'watershed_name': watershed_name,
+            'watershed_name': 'UEB_model_',
             'stream_threshold': stream_threshold,
             'epsg_code': epsg_code,
             'start_time': start_time_str,

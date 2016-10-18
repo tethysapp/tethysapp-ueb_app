@@ -9,11 +9,61 @@ import tempfile
 import subprocess
 import datetime
 import json
+import xmltodict
 
 from hydrogate import HydroDS
 from model_parameters_list import site_initial_variable_codes, input_vairable_codes
 
 
+# utils for loading the metadata
+def get_model_resource_metadata(hs, res_id):
+
+    model_resource_metadata = dict.fromkeys(
+        ['north_lat', 'south_lat', 'east_lon', 'west_lon', 'outlet_x', 'outlet_y',
+         'start_time','end_time', 'cell_x_size','cell_y_size', 'epsg_code'],
+        'unknown'
+    )
+    model_resource_metadata['res_id'] = res_id
+
+    try:
+
+        # get metadata xml file and parse as dict
+        md_dict = xmltodict.parse(hs.getScienceMetadata(res_id))
+
+
+        # retrieve bounding box and time
+        cov_dict = md_dict['rdf:RDF']['rdf:Description'][0].get('dc:coverage')
+        if cov_dict:
+            for item in cov_dict:
+                if 'dcterms:box' in item.keys():
+                    bounding_box_list = item['dcterms:box']['rdf:value'].split(';')
+                    for item in bounding_box_list:
+                        if 'northlimit' in item:
+                            model_resource_metadata['north_lat'] = item.split('=')[1]
+                        elif 'southlimit' in item:
+                            model_resource_metadata['south_lat'] = item.split('=')[1]
+                        elif 'eastlimit' in item:
+                            model_resource_metadata['east_lon'] = item.split('=')[1]
+                        elif 'westlimit' in item:
+                            model_resource_metadata['west_lon'] = item.split('=')[1]
+
+                elif 'dcterms:period' in item.keys():
+                    time_list = item['dcterms:period']['rdf:value'].split(';')
+                    for item in time_list:
+                        if 'start' in item:
+                            start_time = item.split('=')[1]
+                            model_resource_metadata['start_time'] = start_time.split('T')[0]
+                        elif 'end' in item:
+                            end_time = item.split('=')[1]
+                            model_resource_metadata['end_time'] = end_time.split('T')[0]
+
+    except Exception as e:
+        pass
+
+    return model_resource_metadata
+
+
+## utils for running the model service
 def submit_model_run_job(res_id, OAuthHS, hydrods_name, hydrods_password):
     # TODO: call model run service
 
@@ -42,7 +92,8 @@ def submit_model_run_job(res_id, OAuthHS, hydrods_name, hydrods_password):
             zf.extractall(temp_dir)
             zf.close()
             os.remove(bag_path)
-        except:
+            
+        except Exception as e:
             model_run_job = {
                 'status': 'Error',
                 'result': 'Failed to retrieve the resource content files from HydroShare. '

@@ -13,10 +13,7 @@
 
         <div id="model domain">
 
-            <p id='name_title' class="form-subtitle"> Name</p>
-            {% gizmo text_input watershed_name %}
-
-            <p id='box_title' class="form-subtitle"> Bounding Box and Outlet Point (US continent only)</p>
+            <p id='box_title' class="form-subtitle"> Bounding Box (US continent only)</p>
             <table>
                 <tr>
                     <td/>
@@ -34,11 +31,11 @@
                 </tr>
             </table>
 
-            <!--<p id='point_title' class="form-subtitle">Watershed Outlet Point (US continent only)</p>-->
+            <p id='point_title' class="form-subtitle">Watershed Outlet Point (Optional)</p>
             <table style="margin-top:20px">
                 <tr>
                     <td>{% gizmo text_input outlet_x %}</td>
-                    <td width="100px"/>
+                    <td width="10px"/>
                     <td>{% gizmo text_input outlet_y %}</td>
                 </tr>
             </table>
@@ -87,7 +84,7 @@
             <p id="response-result"></p>
         </div>
 
-        <input id='submit-model-input-btn' type="submit" value="Run Service" name='run-service' class="btn btn-success btn-lg pull-right">
+        <input id='submit-model-input-btn' type="submit" value="Input Data Preparation" name='run-service' class="btn btn-success btn-lg pull-right">
     </form>
 
     <div id="wait" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
