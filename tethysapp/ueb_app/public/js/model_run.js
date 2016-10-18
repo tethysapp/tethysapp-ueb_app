@@ -54,6 +54,18 @@ $(document).ready(function() {
                         document.getElementById('load-metadata-response').style.display = 'block';
                         document.getElementById('submit-model-run-btn').style.display = 'block';
 
+                        // Delete previous drawings and center to default
+                        for (var i = 0; i < allMarkers.length; i++) {
+                                    allMarkers[i].setMap(null);
+                             };
+
+                        for (var i = 0; i < allRectangles.length; i++) {
+                                    allRectangles[i].setMap(null);
+                             };
+
+                        map.setCenter(new google.maps.LatLng(37.09024, -95.712891))
+                        map.setZoom(4)
+
                         // draw marker on map
                         if (json_response.result.outlet_x != 'unknown' && json_response.result.outlet_y != 'unknown'){
                             var myLatLng = {lat: parseFloat(json_response.result.outlet_y),
