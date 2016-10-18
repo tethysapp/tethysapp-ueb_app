@@ -196,6 +196,7 @@ def model_input_submit(request):
 @login_required()
 def model_run(request):
     try:
+
         # authentication:
         OAuthHS = get_OAuthHS(request)
 
@@ -207,7 +208,8 @@ def model_run(request):
             hs_editable_res_name_list.append((resource['resource_title'], resource['resource_id']))
 
         # get the initial list item
-        res_id = request.GET.get('res_id', None)
+        res_id = request.POST.get('resource_list', None) if request.POST.get('resource_list', None) else request.GET.get('res_id', None)
+
         if res_id:
             initial = [option[0] for option in hs_editable_res_name_list if option[1] == res_id]
         else:
@@ -243,36 +245,36 @@ def model_run(request):
     return render(request, 'ueb_app/model_run.html', context)
 
 
-@login_required()
-def model_run_load_metadata(request):
-
-    try:
-        # authentication
-        OAuthHS = get_OAuthHS(request)
-
-        # retrieve metadata
-        if OAuthHS.get('hs'):
-            res_id = request.POST['resource_list']
-            hs = OAuthHS['hs']
-
-            result = get_model_resource_metadata(hs, res_id)
-            status = 'Success'
-
-        else:
-            status = 'Error'
-            result = OAuthHS.get('error')
-
-    except Exception as e:
-        status = 'Error'
-        result = 'Failed to retrieve the model instance resource metadata. ' + e.message
-
-    finally:
-        ajax_response = {
-            'status': status,
-            'result': result
-        }
-
-    return HttpResponse(json.dumps(ajax_response))
+# @login_required()
+# def model_run_load_metadata(request):
+#
+#     try:
+#         # authentication
+#         OAuthHS = get_OAuthHS(request)
+#
+#         # retrieve metadata
+#         if OAuthHS.get('hs'):
+#             res_id = request.POST['resource_list']
+#             hs = OAuthHS['hs']
+#
+#             result = get_model_resource_metadata(hs, res_id)
+#             status = 'Success'
+#
+#         else:
+#             status = 'Error'
+#             result = OAuthHS.get('error')
+#
+#     except Exception as e:
+#         status = 'Error'
+#         result = 'Failed to retrieve the model instance resource metadata. ' + e.message
+#
+#     finally:
+#         ajax_response = {
+#             'status': status,
+#             'result': result
+#         }
+#
+#     return HttpResponse(json.dumps(ajax_response))
 
 
 @login_required()

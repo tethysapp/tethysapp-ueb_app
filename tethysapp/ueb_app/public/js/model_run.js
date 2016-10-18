@@ -21,92 +21,93 @@ $(document).ready(function() {
         $('#wait').modal();
 
         if (btn_val == 'Load Resource Metadata') {
-            $(this).attr('action','model_run_load_metadata/');
+            $(this).attr('action','');  // to enable ajax call update action as 'model_run_load_metadata/'
             $('#submit-response').hide();
 
-            $.ajax({
-                type: user_form.attr('method'),
-                url: user_form.attr('action'),
-                data: user_form.serialize(),
-
-                success: function(result) {
-                    console.log(result);
-                    json_response = JSON.parse(result);
-                    console.log(json_response);
-                    alert('happy');
-
-                    if (json_response.status == 'Success'){
-                        // show metadata elements info
-                        $('#res-id').text(json_response.result.res_id);
-                        $('#north-lat').text(json_response.result.north_lat);
-                        $('#south-lat').text(json_response.result.south_lat);
-                        $('#east-lon').text(json_response.result.east_lon);
-                        $('#west-lon').text(json_response.result.west_lon);
-                        $('#outlet-x').text(json_response.result.outlet_x);
-                        $('#outlet-y').text(json_response.result.outlet_y);
-                        $('#start-time').text(json_response.result.start_time);
-                        $('#end-time').text(json_response.result.end_time);
-                        $('#cell-x-size').text(json_response.result.cell_x_size);
-                        $('#cell-y-size').text(json_response.result.cell_y_size);
-                        $('#epsg-code').text(json_response.result.epsg_code);
-
-
-                        document.getElementById('load-metadata-response').style.display = 'block';
-                        document.getElementById('submit-model-run-btn').style.display = 'block';
-
-                        // Delete previous drawings and center to default
-                        for (var i = 0; i < allMarkers.length; i++) {
-                                    allMarkers[i].setMap(null);
-                             };
-
-                        for (var i = 0; i < allRectangles.length; i++) {
-                                    allRectangles[i].setMap(null);
-                             };
-
-                        map.setCenter(new google.maps.LatLng(37.09024, -95.712891))
-                        map.setZoom(4)
-
-                        // draw marker on map
-                        if (json_response.result.outlet_x != 'unknown' && json_response.result.outlet_y != 'unknown'){
-                            var myLatLng = {lat: parseFloat(json_response.result.outlet_y),
-                                            lng: parseFloat(json_response.result.outlet_x)};
-                            drawMarkerOnTextChange(myLatLng);
-                        }
-
-                        // draw rectangle on map
-                        if (json_response.result.north_lat != 'unknown' && json_response.result.south_lat != 'unknown' &&
-                        json_response.result.east_lon != 'unknown' && json_response.result.west_lon != 'unknown'){
-                            var bounds = {
-                                    north: parseFloat(json_response.result.north_lat),
-                                    south: parseFloat(json_response.result.south_lat ),
-                                    east: parseFloat(json_response.result.east_lon),
-                                    west: parseFloat(json_response.result.west_lon)
-                                };
-                            drawRectangleOnTextChange(bounds);
-                        }
-
-                    }
-                    else {
-                        $('#load-metadata-error').text(json_response.result);
-                        $('#load-metadata-fail').show();
-                    }
-
-                },
-
-                error: function() {
-                    alert('sad');
-                },
-
-                complete: function(){
-                    alert('complete');
-                    $('#wait').modal('hide');
-                }
-            });
-            return false;
+//            $.ajax({
+//                type: user_form.attr('method'),
+//                url: user_form.attr('action'),
+//                data: user_form.serialize(),
+//
+//                success: function(result) {
+//                    console.log(result);
+//                    json_response = JSON.parse(result);
+//                    console.log(json_response);
+//                    alert('happy');
+//
+//                    if (json_response.status == 'Success'){
+//                        // show metadata elements info
+//                        $('#res-id').text(json_response.result.res_id);
+//                        $('#north-lat').text(json_response.result.north_lat);
+//                        $('#south-lat').text(json_response.result.south_lat);
+//                        $('#east-lon').text(json_response.result.east_lon);
+//                        $('#west-lon').text(json_response.result.west_lon);
+//                        $('#outlet-x').text(json_response.result.outlet_x);
+//                        $('#outlet-y').text(json_response.result.outlet_y);
+//                        $('#start-time').text(json_response.result.start_time);
+//                        $('#end-time').text(json_response.result.end_time);
+//                        $('#cell-x-size').text(json_response.result.cell_x_size);
+//                        $('#cell-y-size').text(json_response.result.cell_y_size);
+//                        $('#epsg-code').text(json_response.result.epsg_code);
+//
+//
+//                        document.getElementById('load-metadata-response').style.display = 'block';
+//                        document.getElementById('submit-model-run-btn').style.display = 'block';
+//
+//                        // Delete previous drawings and center to default
+//                        for (var i = 0; i < allMarkers.length; i++) {
+//                                    allMarkers[i].setMap(null);
+//                             };
+//
+//                        for (var i = 0; i < allRectangles.length; i++) {
+//                                    allRectangles[i].setMap(null);
+//                             };
+//
+//                        map.setCenter(new google.maps.LatLng(37.09024, -95.712891))
+//                        map.setZoom(4)
+//
+//                        // draw marker on map
+//                        if (json_response.result.outlet_x != 'unknown' && json_response.result.outlet_y != 'unknown'){
+//                            var myLatLng = {lat: parseFloat(json_response.result.outlet_y),
+//                                            lng: parseFloat(json_response.result.outlet_x)};
+//                            drawMarkerOnTextChange(myLatLng);
+//                        }
+//
+//                        // draw rectangle on map
+//                        if (json_response.result.north_lat != 'unknown' && json_response.result.south_lat != 'unknown' &&
+//                        json_response.result.east_lon != 'unknown' && json_response.result.west_lon != 'unknown'){
+//                            var bounds = {
+//                                    north: parseFloat(json_response.result.north_lat),
+//                                    south: parseFloat(json_response.result.south_lat ),
+//                                    east: parseFloat(json_response.result.east_lon),
+//                                    west: parseFloat(json_response.result.west_lon)
+//                                };
+//                            drawRectangleOnTextChange(bounds);
+//                        }
+//
+//                    }
+//                    else {
+//                        $('#load-metadata-error').text(json_response.result);
+//                        $('#load-metadata-fail').show();
+//                    }
+//
+//                },
+//
+//                error: function() {
+//                    alert('sad');
+//                },
+//
+//                complete: function(){
+//                    alert('complete');
+//                    $('#wait').modal('hide');
+//                }
+//            });
+//            return false;
 
         } // end of load metadata
         else if (btn_val == "Submit Model Execution"){
             $(this).attr('action','model_run_submit_execution/');
+
 
             $.ajax({
                 type: user_form.attr('method'),
