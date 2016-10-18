@@ -66,14 +66,7 @@ def model_input(request):
                        attributes={'required': True}
                        )
 
-    # wathershed name and threshold
-    watershed_name = TextInput(
-                       # display_text='Watershed Name',
-                       name='watershed_name',
-                       initial='my watershed',
-                       attributes={'style': 'width:350px'}
-                       )
-
+    # stream threshold
     stream_threshold = TextInput(
                        # display_text='Stream Threshold',
                        name='stream_threshold',
@@ -152,7 +145,6 @@ def model_input(request):
                'east_lon': east_lon,
                'outlet_x': outlet_x,
                'outlet_y': outlet_y,
-               'watershed_name': watershed_name,
                'stream_threshold': stream_threshold,
                'epsg_code': epsg_code,
                'start_time': start_time,
