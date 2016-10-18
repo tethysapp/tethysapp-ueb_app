@@ -92,7 +92,8 @@ def submit_model_run_job(res_id, OAuthHS, hydrods_name, hydrods_password):
             zf.extractall(temp_dir)
             zf.close()
             os.remove(bag_path)
-        except:
+            
+        except Exception as e:
             model_run_job = {
                 'status': 'Error',
                 'result': 'Failed to retrieve the resource content files from HydroShare. '
