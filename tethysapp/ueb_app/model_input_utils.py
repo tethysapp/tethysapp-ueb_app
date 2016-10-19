@@ -90,7 +90,7 @@ def validate_model_input_form(request):
     try:
         stream_threshold = int(stream_threshold)
         thresh_type_valid = True
-    except:
+    except Exception:
         validation['is_valid'] = False
         validation['result']['threshold_title'] = 'The stream threshold should be an integer or as default value 1000.'
 
@@ -111,7 +111,7 @@ def validate_model_input_form(request):
         start_time_obj = datetime.strptime(start_time_str, '%Y/%M/%d')
         end_time_obj = datetime.strptime(end_time_str, '%Y/%M/%d')
         time_type_valid = True
-    except:
+    except Exception:
         validation['is_valid'] = False
         validation['result']['time_title'] = 'Please provide time information.'
         time_type_valid = False
@@ -140,7 +140,7 @@ def validate_model_input_form(request):
         if x_size < 1 or y_size < 1:
             validation['is_valid'] = False
             validation['result']['model_cell_title'] = 'The cell size for reprojection should not be smaller than 1 meter.'
-    except:
+    except Exception:
         validation['is_valid'] = False
         validation['result']['proj_cell_title'] = 'The cell size for reprojection should be number input.'
 
@@ -155,9 +155,27 @@ def validate_model_input_form(request):
         if dx_size < 1 or dy_size < 1:
             validation['is_valid'] = False
             validation['result']['model_cell_title'] = 'The cell size for model simulation should not be smaller than 1 meter.'
-    except:
+    except Exception:
         validation['is_valid'] = False
         validation['result']['model_cell_title'] = 'The cell size for model simulation should be number input.'
+
+
+    # check site initial variables
+    usic = request.POST['usic']
+    wsic = request.POST['wsic']
+    tic = request.POST['tic']
+    wcic = request.POST['wcic']
+    ts_last = request.POST['ts_last']
+
+    try:
+        usic= float(usic)
+        wsic = float(wsic)
+        tic = float(tic)
+        wcic = float(wcic)
+        ts_last = float(ts_last)
+    except Exception:
+        validation['is_valid'] = False
+        validation['result']['site_title'] = 'Please provide numerical values for site initial conditions.'
 
 
     # check HS res name and keywords
@@ -192,6 +210,11 @@ def validate_model_input_form(request):
             'y_size': y_size,
             'dx_size': dx_size,
             'dy_size': dy_size,
+            'usic': usic,
+            'wsic': wsic,
+            'tic': tic,
+            'wcic': wcic,
+            'ts_last': ts_last,
             'res_title': res_title,
             'res_keywords': res_keywords
         }
@@ -222,6 +245,11 @@ def submit_model_input_job(job_parameters):
         'dy': job_parameters['y_size'],
         'dxRes': job_parameters['dx_size'],
         'dyRes': job_parameters['dy_size'],
+        'usic': job_parameters['usic'],
+        'wsic': job_parameters['wsic'],
+        'tic': job_parameters['tic'],
+        'wcic': job_parameters['wcic'],
+        'ts_last': job_parameters['ts_last'],
         'res_title': job_parameters['res_title'],
         'res_keywords': job_parameters['res_keywords'],
     }

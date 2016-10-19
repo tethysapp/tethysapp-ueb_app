@@ -74,6 +74,7 @@ def model_input(request):
                        attributes={'style': 'width:350px'}
                        )
 
+
     # epsg code
     epsg_code = SelectInput(display_text='',
                             name='epsg_code',
@@ -127,6 +128,47 @@ def model_input(request):
                         attributes={'required': True}
                         )
 
+    # site initial parameters
+    usic = TextInput(
+        display_text='Energy content initial condition (kg m-3)',
+        name='usic',
+        placeholder='e.g. 0 (for no snow season)',
+        # initial='0',
+        attributes={'style': 'width:350px', 'required': True}
+    )
+
+    wsic = TextInput(
+        display_text='Snow water equivalent initial condition (m)',
+        name='wsic',
+        placeholder='e.g. 0 (for no snow season)',
+        # initial='0',
+        attributes={'style': 'width:350px', 'required': True}
+    )
+
+    tic = TextInput(
+        display_text='Snow surface dimensionless age initial condition',
+        name='tic',
+        placeholder='e.g. 0 (for no snow season)',
+        # initial='0',
+        attributes={'style': 'width:350px', 'required': True}
+    )
+
+    wcic = TextInput(
+        display_text='Snow water equivalent of canopy condition(m)',
+        name='wcic',
+        placeholder='e.g. 0 (for no snow season)',
+        # initial='0',
+        attributes={'style': 'width:350px', 'required': True}
+    )
+
+    ts_last = TextInput(
+        display_text=' Snow surface temperature one day prior to the model starting time (degree celsius)',
+        name='ts_last',
+        placeholder='e.g. 0 (for no snow season)',
+        # initial='0',
+        attributes={'style': 'width:350px', 'required': True}
+    )
+
     # resource info
     res_title = TextInput(display_text='HydroShare resource title',
                        name='res_title',
@@ -153,6 +195,11 @@ def model_input(request):
                'y_size': y_size,
                'dx_size': dx_size,
                'dy_size': dy_size,
+               'usic': usic,
+               'wsic': wsic,
+               'tic': tic,
+               'wcic': wcic,
+               'ts_last': ts_last,
                'res_title': res_title,
                'res_keywords': res_keywords,
                'res_id': res_id
@@ -235,38 +282,6 @@ def model_run(request):
                    }
 
     return render(request, 'ueb_app/model_run.html', context)
-
-
-# @login_required()
-# def model_run_load_metadata(request):
-#
-#     try:
-#         # authentication
-#         OAuthHS = get_OAuthHS(request)
-#
-#         # retrieve metadata
-#         if OAuthHS.get('hs'):
-#             res_id = request.POST['resource_list']
-#             hs = OAuthHS['hs']
-#
-#             result = get_model_resource_metadata(hs, res_id)
-#             status = 'Success'
-#
-#         else:
-#             status = 'Error'
-#             result = OAuthHS.get('error')
-#
-#     except Exception as e:
-#         status = 'Error'
-#         result = 'Failed to retrieve the model instance resource metadata. ' + e.message
-#
-#     finally:
-#         ajax_response = {
-#             'status': status,
-#             'result': result
-#         }
-#
-#     return HttpResponse(json.dumps(ajax_response))
 
 
 @login_required()

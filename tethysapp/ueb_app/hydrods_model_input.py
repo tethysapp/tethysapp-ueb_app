@@ -9,7 +9,9 @@ from model_parameters_list import file_contents_dict
 
 def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_password, topY, bottomY, leftX, rightX,
                                 lat_outlet, lon_outlet, streamThreshold, watershedName,
-                                epsgCode, startDateTime, endDateTime, dx, dy, dxRes, dyRes, res_title, res_keywords,
+                                epsgCode, startDateTime, endDateTime, dx, dy, dxRes, dyRes,
+                                usic, wsic, tic,wcic, ts_last,
+                                res_title, res_keywords,
                                  **kwargs):
 
     # TODO: pass the HydroShare user token, client id, client secret not the user name and password
@@ -32,7 +34,6 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
         service_response['status'] = 'Error'
         service_response['result'] = 'Please provide the correct user name and password to use HydroDS web services.' + e.message
         return service_response
-
     # TODO: create new folder for new job
 
 
@@ -216,6 +217,12 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
         file_contents_dict['siteinitial.dat'][45] = str(lat)
         file_contents_dict['siteinitial.dat'][96] = str(lon)
 
+        file_contents_dict['siteinitial.dat'][3] = str(usic)
+        file_contents_dict['siteinitial.dat'][6] = str(wsic)
+        file_contents_dict['siteinitial.dat'][9] = str(tic)
+        file_contents_dict['siteinitial.dat'][12] = str(wcic)
+        file_contents_dict['siteinitial.dat'][93] = str(ts_last)
+
         # write list in parameter files
         for file_name, file_content in file_contents_dict.items():
             file_path = os.path.join(temp_dir, file_name)
@@ -233,11 +240,6 @@ def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_pass
     except Exception as e:
         parameter_file_names = []
         shutil.rmtree(temp_dir)
-
-        # # TODO remove the lines below
-        # service_response['status'] = 'Error'
-        # service_response['result'] = 'Failed to prepare the parameter files.' + e.message
-        # return service_response
 
 
     # share result to HydroShare
