@@ -24,7 +24,7 @@ def hydrods_model_input_service_single_call(hs_client_id, hs_client_secret, toke
 
     try:
         url = 'http://129.123.41.195:20199/api/dataservice/createuebinput'  # TODO: change to production server link
-        auth = testing_server_auth
+        auth = testing_server_auth  # TODO: change to production account info
         payload = {
             'hs_client_id': hs_client_id,
             'hs_client_secret': hs_client_secret,
@@ -60,12 +60,12 @@ def hydrods_model_input_service_single_call(hs_client_id, hs_client_secret, toke
 
         if response.status_code == 200:
             if response_dict['error']:
-                service_response['result'] = 'HydroDS web service returns error: {}.'.format(response_dict['data']['error'])
+                service_response['result'] = format(response_dict['error'])
             elif response_dict['data']['info']:
                 service_response['status'] = 'Success'
                 service_response['result'] = response_dict['data']['info']
         else:
-            service_response['result'] = 'HydroDS web service returns error'
+            service_response['result'] = 'Failed to run HydroDS web service for model inputs preparation.'
     except Exception:
         pass
 

@@ -10,6 +10,8 @@ import subprocess
 import datetime
 import json
 import xmltodict
+import requests
+import user_settings
 
 from hydrogate import HydroDS
 from model_parameters_list import site_initial_variable_codes, input_vairable_codes
@@ -64,6 +66,43 @@ def get_model_resource_metadata(hs, res_id):
 
 
 ## utils for running the model service
+def submit_model_run_job_single_call(res_id, OAuthHS, hydrods_name, hydrods_password):
+    model_run_job = {
+        'status': 'Error',
+        'result': 'Failed to make the HydroDS web service call.'
+    }
+
+    try:
+
+
+        url = 'http://hydro-ds.uwrl.usu.edu/api/dataservice/runuebmodel'
+        auth = (hydrods_name, hydrods_password)
+        payload = {'resource_id': res_id,
+                   'hs_client_id': OAuthHS['client_id'],
+                   'hs_client_secret': OAuthHS['client_secret'],
+                   'token': json.dumps(OAuthHS['token'])
+                   }
+        response = requests.get(url, params=payload, auth=auth)
+        response_dict = json.loads(response.text)
+
+        if response.status_code == 200:
+            if response_dict['error']:
+                model_run_job['result'] = response_dict['error']
+            elif response_dict['data']['info']:
+                model_run_job['status'] = 'Success'
+                model_run_job['result'] = response_dict['data']['info']
+        else:
+            model_run_job['result'] = 'Failed to run HydroDS web service for model execution.'
+
+    except Exception as e:
+        model_run_job = {
+            'status': 'Error',
+            'result': 'Failed to make the HydroDS web service call.'
+        }
+
+    return model_run_job
+
+
 def submit_model_run_job(res_id, OAuthHS, hydrods_name, hydrods_password):
     # TODO: call model run service
 
