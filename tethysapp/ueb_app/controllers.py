@@ -278,7 +278,10 @@ def model_run(request):
         context = {'resource_list': resource_list,
                    'user_name': OAuthHS.get('user_name'),
                    'res_id': request.GET.get('res_id', None),
-                   'res_metadata': model_resource_metadata
+                   'res_metadata': model_resource_metadata,
+                   'client_id':OAuthHS.get('client_id'),
+                   'client_secret': OAuthHS.get('client_secret'),
+                   'token': OAuthHS.get('token')
                    }
 
     return render(request, 'ueb_app/model_run.html', context)

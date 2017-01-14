@@ -2,9 +2,75 @@ import shutil
 from datetime import datetime
 import tempfile
 import os
+import requests,json
+from user_settings import *
 
 from hydrogate import HydroDS
 from model_parameters_list import file_contents_dict
+
+
+def hydrods_model_input_service_single_call(hs_client_id, hs_client_secret, token, hydrods_name, hydrods_password,
+                                 topY, bottomY, leftX, rightX,
+                                lat_outlet, lon_outlet, streamThreshold, watershedName,
+                                epsgCode, startDateTime, endDateTime, dx, dy, dxRes, dyRes,
+                                usic, wsic, tic, wcic, ts_last,
+                                res_title, res_keywords,
+                                 **kwargs):
+
+    service_response = {
+        'status': 'Error',
+        'result': 'Failed to make the HydroDS request.'
+    }
+
+    try:
+        url = 'http://129.123.41.195:20199/api/dataservice/createuebinput'  # TODO: change to production server link
+        auth = testing_server_auth
+        payload = {
+            'hs_client_id': hs_client_id,
+            'hs_client_secret': hs_client_secret,
+            'token': token,
+            'hydrods_name': hydrods_name,
+            'hydrods_password': hydrods_password,
+            'topY': topY,
+            'bottomY': bottomY,
+            'leftX': leftX,
+            'rightX': rightX,
+            'lat_outlet': lat_outlet,
+            'lon_outlet': lon_outlet,
+            'streamThreshold': streamThreshold,
+            'watershedName': watershedName,
+            'epsgCode': epsgCode,
+            'startDateTime': startDateTime,
+            'endDateTime': endDateTime,
+            'dx': dx,
+            'dy': dy,
+            'dxRes': dxRes,
+            'dyRes': dyRes,
+            'usic': usic,
+            'wsic': wsic,
+            'tic': tic,
+            'wcic': wcic,
+            'ts_last': ts_last,
+            'res_title': res_title,
+            # 'res_keywords': res_keywords,
+        }
+
+        response = requests.get(url, params=payload, auth=auth)
+        response_dict = json.loads(response.text)
+
+        if response.status_code == 200:
+            if response_dict['error']:
+                service_response['result'] = 'HydroDS web service returns error: {}.'.format(response_dict['data']['error'])
+            elif response_dict['data']['info']:
+                service_response['status'] = 'Success'
+                service_response['result'] = response_dict['data']['info']
+        else:
+            service_response['result'] = 'HydroDS web service returns error'
+    except Exception:
+        pass
+
+    return service_response
+
 
 
 def hydrods_model_input_service(hs_name, hs_password, hydrods_name, hydrods_password, topY, bottomY, leftX, rightX,

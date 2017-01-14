@@ -3,8 +3,9 @@ Utilities for model input preparation web services
 """
 from datetime import datetime
 from epsg_list import EPSG_List
-from hydrods_model_input import hydrods_model_input_service
+from hydrods_model_input import *
 from user_settings import *
+import json
 
 
 def validate_model_input_form(request):
@@ -186,13 +187,22 @@ def validate_model_input_form(request):
         validation['is_valid'] = False
         validation['result']['res_title'] = 'The resource title should include at least 5 characters.'
 
+    # get hydroshare oauth object
+    from controllers import get_OAuthHS
+    OAuthHS = get_OAuthHS(request)
+    if OAuthHS.get('error'):
+        validation['is_valid'] = False
+        validation['result']['authentication'] = 'Failed to get the HydroShare OAuth:{}'.format(OAuthHS['error'])
 
     # create job parameter if input is valid
     if validation['is_valid']:
         # TODO: pass the hydroshare token, client-id, client-secret not the user name and password
-       validation['result'] = {
+        validation['result'] = {
             'hs_name': hs_name,
             'hs_password': hs_password,
+            'hs_client_id': OAuthHS['client_id'],
+            'hs_client_secret': OAuthHS['client_secret'],
+            'token': json.dumps(OAuthHS['token']),
             'hydrods_name': hydrods_name,
             'hydrods_password': hydrods_password,
             'north_lat': north_lat,
@@ -228,6 +238,9 @@ def submit_model_input_job(job_parameters):
     model_input_parameters = {
         'hs_name': job_parameters['hs_name'],
         'hs_password': job_parameters['hs_password'],
+        'hs_client_id': job_parameters['hs_client_id'],
+        'hs_client_secret': job_parameters['hs_client_secret'],
+        'token': job_parameters['token'],
         'hydrods_name': job_parameters['hydrods_name'],
         'hydrods_password': job_parameters['hydrods_password'],
         'topY': job_parameters['north_lat'],
@@ -255,11 +268,12 @@ def submit_model_input_job(job_parameters):
     }
 
     # call the hs model input preparation service
-    service_response = hydrods_model_input_service(** model_input_parameters)
+    # service_response = hydrods_model_input_service(** model_input_parameters)
+    service_response = hydrods_model_input_service_single_call(** model_input_parameters)
 
     # service_response = {
     #     'status': 'Success',
-    #     'result': model_input_parameters
+    #     'result': 'The model input has been shared in HydroShare'
     # }
 
     return service_response
