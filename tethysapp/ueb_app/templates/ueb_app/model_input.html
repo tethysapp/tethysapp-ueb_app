@@ -31,7 +31,7 @@
                 </tr>
             </table>
 
-            <p id='point_title' class="form-subtitle">Watershed Outlet Point</p>
+            <p id='point_title' class="form-subtitle">Watershed Outlet Point (Optional)</p>
             <table style="margin-top:20px">
                 <tr>
                     <td>{% gizmo text_input outlet_x %}</td>
@@ -39,6 +39,13 @@
                     <td>{% gizmo text_input outlet_y %}</td>
                 </tr>
             </table>
+
+            <p id='site_title' class="form-subtitle"> Site Initial Conditions</p>
+            {% gizmo text_input usic %}
+            {% gizmo text_input wsic %}
+            {% gizmo text_input tic %}
+            {% gizmo text_input wcic %}
+            {% gizmo text_input ts_last %}
 
             <p id='threshold_title' class="form-subtitle"> Watershed Delineation Stream Threshold</p>
             {% gizmo text_input stream_threshold %}
@@ -54,6 +61,8 @@
                     <td>{% gizmo date_picker end_time %}</td>
                 </tr>
             </table>
+
+
 
             <p id='proj_cell_title' class="form-subtitle">Cell size for reprojection </p>
             <table>
@@ -73,14 +82,9 @@
                 </tr>
             </table>
 
-            <p id='site_title' class="form-subtitle"> Site Initial Conditions</p>
-            {% gizmo text_input usic %}
-            {% gizmo text_input wsic %}
-            {% gizmo text_input tic %}
-            {% gizmo text_input wcic %}
-            {% gizmo text_input ts_last %}
 
-            <p id='res_title' class="form-subtitle"> HydroShare resource for model inputs </p>
+
+            <p id='res_title' class="form-subtitle"> HydroShare resource for model inputs (Optional) </p>
             {% gizmo text_input res_title %}
             {% gizmo text_input res_keywords %}
 

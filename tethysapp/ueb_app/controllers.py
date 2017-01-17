@@ -58,12 +58,12 @@ def model_input(request):
     # outlet point
     outlet_x = TextInput(display_text='Point Longitude',
                        name='outlet_x',
-                       attributes={'required': True}
+                       # attributes={'required': False}
                        )
 
     outlet_y = TextInput(display_text='Point Latitude',
                        name='outlet_y',
-                       attributes={'required': True}
+                       # attributes={'required': False}
                        )
 
     # stream threshold
@@ -172,13 +172,17 @@ def model_input(request):
     # resource info
     res_title = TextInput(display_text='HydroShare resource title',
                        name='res_title',
-                       placeholder='e.g. UEB model package',
-                       attributes={'style': 'width:350px', 'required': True}
+                       placeholder='UEB model package',
+                       attributes={'style': 'width:350px',
+                                   # 'required': True
+                                   }
                        )
     res_keywords = TextInput(display_text='HydroShare resource keywords',
                        name='res_keywords',
-                       placeholder='e.g. Utah Energy Balance Model, Snowmelt',
-                       attributes={'style': 'width:350px', 'required': True}
+                       placeholder='Utah Energy Balance Model, Snowmelt',
+                       attributes={'style': 'width:350px',
+                                   # 'required': True
+                                   }
                        )
     # context
     context = {'north_lat': north_lat,

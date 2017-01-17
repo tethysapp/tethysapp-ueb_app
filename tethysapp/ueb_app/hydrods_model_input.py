@@ -35,8 +35,8 @@ def hydrods_model_input_service_single_call(hs_client_id, hs_client_secret, toke
             'bottomY': bottomY,
             'leftX': leftX,
             'rightX': rightX,
-            'lat_outlet': lat_outlet,
-            'lon_outlet': lon_outlet,
+            # 'lat_outlet': lat_outlet,
+            # 'lon_outlet': lon_outlet,
             'streamThreshold': streamThreshold,
             'watershedName': watershedName,
             'epsgCode': epsgCode,
@@ -52,8 +52,12 @@ def hydrods_model_input_service_single_call(hs_client_id, hs_client_secret, toke
             'wcic': wcic,
             'ts_last': ts_last,
             'res_title': res_title,
-            # 'res_keywords': res_keywords,
+            'res_keywords': json.dumps(res_keywords.split(',')),
         }
+
+        if lat_outlet and lon_outlet:
+            payload['lat_outlet'] = lat_outlet
+            payload['lon_outlet'] = lon_outlet
 
         response = requests.get(url, params=payload, auth=auth)
         response_dict = json.loads(response.text)

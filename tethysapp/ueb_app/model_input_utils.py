@@ -1,7 +1,7 @@
 """
 Utilities for model input preparation web services
 """
-from datetime import datetime
+
 from epsg_list import EPSG_List
 from hydrods_model_input import *
 from user_settings import *
@@ -63,27 +63,28 @@ def validate_model_input_form(request):
     outlet_x = request.POST['outlet_x']
     outlet_y = request.POST['outlet_y']
 
-    try:
-        outlet_x = float(outlet_x)
-        outlet_y = float(outlet_y)
-        point_type_valid = True
+    if outlet_x and outlet_y:
+        try:
+            outlet_x = float(outlet_x)
+            outlet_y = float(outlet_y)
+            point_type_valid = True
 
-    except Exception:
-        validation['is_valid'] = False
-        validation['result']['point_title'] = 'Please enter number values for outlet point.'
-        point_type_valid = False
-
-    if point_type_valid:
-        error_info = []
-        if not (outlet_x >= west_lon and outlet_x <= east_lon):
-            error_info.append('The outlet point longitude should be in the bounding box.')
-
-        if not (outlet_y >= south_lat and outlet_y <= north_lat):
-            error_info.append('The outlet point latitude should be in the bounding box.')
-
-        if error_info:
+        except Exception:
             validation['is_valid'] = False
-            validation['result']['point_title'] = ' '.join(error_info)
+            validation['result']['point_title'] = 'Please enter number values for outlet point.'
+            point_type_valid = False
+
+        if point_type_valid:
+            error_info = []
+            if not (outlet_x >= west_lon and outlet_x <= east_lon):
+                error_info.append('The outlet point longitude should be in the bounding box.')
+
+            if not (outlet_y >= south_lat and outlet_y <= north_lat):
+                error_info.append('The outlet point latitude should be in the bounding box.')
+
+            if error_info:
+                validation['is_valid'] = False
+                validation['result']['point_title'] = ' '.join(error_info)
 
 
    # check stream threshold
@@ -180,12 +181,15 @@ def validate_model_input_form(request):
 
 
     # check HS res name and keywords
-    res_title = request.POST['res_title']
-    res_keywords = request.POST['res_keywords']
+    res_title = request.POST['res_title'] if request.POST['res_title'] else 'UEB model package'
+    res_keywords = request.POST['res_keywords'] if request.POST['res_keywords'] else 'Utah Energy Balance Model, Snowmelt'
 
-    if len(res_title) < 5:
-        validation['is_valid'] = False
-        validation['result']['res_title'] = 'The resource title should include at least 5 characters.'
+
+    # if res_title and res_keywords:
+    #     if len(res_title) < 5:
+    #         validation['is_valid'] = False
+    #         validation['result']['res_title'] = 'The resource title should include at least 5 characters.'
+
 
     # get hydroshare oauth object
     from controllers import get_OAuthHS
@@ -196,7 +200,6 @@ def validate_model_input_form(request):
 
     # create job parameter if input is valid
     if validation['is_valid']:
-        # TODO: pass the hydroshare token, client-id, client-secret not the user name and password
         validation['result'] = {
             'hs_name': hs_name,
             'hs_password': hs_password,
@@ -233,7 +236,6 @@ def validate_model_input_form(request):
 
 
 def submit_model_input_job(job_parameters):
-    # TODO: pass the hydroshare token, client-id, client-secret not the user name and password
     # generate parameter dict
     model_input_parameters = {
         'hs_name': job_parameters['hs_name'],
