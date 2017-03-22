@@ -10,6 +10,7 @@ from model_parameters_list import file_contents_dict
 
 
 def hydrods_model_input_service_single_call(hs_client_id, hs_client_secret, token, hydrods_name, hydrods_password,
+                                            hs_name, hs_password,
                                  topY, bottomY, leftX, rightX,
                                 lat_outlet, lon_outlet, streamThreshold, watershedName,
                                 epsgCode, startDateTime, endDateTime, dx, dy, dxRes, dyRes,
@@ -26,6 +27,8 @@ def hydrods_model_input_service_single_call(hs_client_id, hs_client_secret, toke
         url = 'http://129.123.41.195:20199/api/dataservice/createuebinput'  # TODO: change to production server link
         auth = testing_server_auth  # TODO: change to production account info
         payload = {
+            'hs_username': hs_name,
+            'hs_password': hs_password,
             'hs_client_id': hs_client_id,
             'hs_client_secret': hs_client_secret,
             'token': token,

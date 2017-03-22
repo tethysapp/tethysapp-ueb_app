@@ -201,8 +201,8 @@ def validate_model_input_form(request):
     # create job parameter if input is valid
     if validation['is_valid']:
         validation['result'] = {
-            'hs_name': hs_name,
-            'hs_password': hs_password,
+            'hs_name': OAuthHS['user_name'],
+            'hs_password': OAuthHS.get('user_password'),   # this needs to change if not using the new hydrods service
             'hs_client_id': OAuthHS['client_id'],
             'hs_client_secret': OAuthHS['client_secret'],
             'token': json.dumps(OAuthHS['token']),
