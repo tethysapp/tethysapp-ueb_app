@@ -46,7 +46,7 @@
   <h1>Welcome to UEB Model Services! </h1>
   <p style="font-size:125%; margin-bottom: 50px">
     The Utah Energy Balance model is a snowmelt model developed for the prediction of snow accumulation and melt, driven by inputs of
-     precipitation, wind, humidity, temperature <br>and radiation at sub diurnal time scales.
+     precipitation, wind, humidity, temperature and radiation at sub diurnal time scales.
     <a target='_blanck'href="http://hydrology.usu.edu/dtarb/snow/snow.html"> See more details </a> <br>
 
     This application provides  services to prepare a complete UEB model input package for a user
@@ -62,18 +62,16 @@
     <table style="width:1200px">
       <tr id='img' align="center">
         {% if res_id  %}
-          <td><a href="model_input/?res_id={{res_id}}"><img align="middle" src="{% static 'ueb_app/images/model_input.png' %}" /></a></td>
-          <td><a href="model_run/?res_id={{res_id}}"><img align="middle" src="{% static 'ueb_app/images/model_simu.png' %}"/></a></td>
-          <td><a href="check_status/?res_id={{res_id}}"><img align="middle" src="{% static 'ueb_app/images/model_stat.png' %}"/></a></td>
-          <td><a href="help_page/?res_id={{res_id}}"><img align="middle" src="{% static 'ueb_app/images/model_help.png' %}" /></a></td>
+          <td width="210px" height="210px"><a href="model_input/?res_id={{res_id}}"><img align="middle" src="{% static 'ueb_app/images/model_input.png' %}" /></a></td>
+          <td width="210px" height="210px"><a href="model_run/?res_id={{res_id}}"><img align="middle" src="{% static 'ueb_app/images/model_simu.png' %}"/></a></td>
+          <td width="210px" height="210px"><a href="check_status/?res_id={{res_id}}"><img align="middle" src="{% static 'ueb_app/images/model_stat.png' %}"/></a></td>
+          <td width="210px" height="210px"><a href="help_page/?res_id={{res_id}}"><img align="middle" src="{% static 'ueb_app/images/model_help.png' %}" /></a></td>
         {% else %}
-          <td><a href="model_input/"><img align="middle" src="{% static 'ueb_app/images/model_input.png' %}"/></a></td>
-          <td><a href="model_run/"><img align="middle" src="{% static 'ueb_app/images/model_simu.png' %}"/></a></td>
-          <td><a href="check_status/"><img align="middle" src="{% static 'ueb_app/images/model_stat.png' %}"/></a></td>
-          <td><a href="help_page/"><img align="middle" src="{% static 'ueb_app/images/model_help.png' %}"/></a></td>
+          <td width="210px" height="210px"><a href="model_input/"><img align="middle" src="{% static 'ueb_app/images/model_input.png' %}"/></a></td>
+          <td width="210px" height="210px"><a href="model_run/"><img align="middle" src="{% static 'ueb_app/images/model_simu.png' %}"/></a></td>
+          <td width="210px" height="210px"><a href="check_status/"><img align="middle" src="{% static 'ueb_app/images/model_stat.png' %}"/></a></td>
+          <td width="210px" height="210px"><a href="help_page/"><img align="middle" src="{% static 'ueb_app/images/model_help.png' %}"/></a></td>
         {% endif %}
-
-
       </tr>
 
       <tr align="center">
