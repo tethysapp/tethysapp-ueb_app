@@ -21,9 +21,8 @@ from model_parameters_list import site_initial_variable_codes, input_vairable_co
 def get_model_resource_metadata(hs, res_id):
 
     model_resource_metadata = dict.fromkeys(
-        ['north_lat', 'south_lat', 'east_lon', 'west_lon', 'outlet_x', 'outlet_y',
-         'start_time','end_time', 'cell_x_size','cell_y_size', 'epsg_code'],
-        'unknown'
+        ['north_lat', 'south_lat', 'east_lon', 'west_lon', 'start_time', 'end_time'],
+        None
     )
     model_resource_metadata['res_id'] = res_id
 
@@ -58,6 +57,12 @@ def get_model_resource_metadata(hs, res_id):
                         elif 'end' in item:
                             end_time = item.split('=')[1]
                             model_resource_metadata['end_time'] = end_time.split('T')[0]
+
+        # retrieve extended metadata
+        ext_dict = md_dict['rdf:RDF']['rdf:Description'][0].get('hsterms:extendedMetadata')
+        for item in ext_dict:
+            key = item['rdf:Description']['hsterms:key'].replace(' ', '_').lower()
+            model_resource_metadata[key] = item['rdf:Description']['hsterms:value']
 
     except Exception as e:
         pass
