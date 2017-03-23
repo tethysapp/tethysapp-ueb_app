@@ -327,12 +327,34 @@ def check_status(request):
                        placeholder='Enter the Job ID Here',
                        attributes={'required': True, 'style': 'width:800px;height:41px'}
                           )
+    OAuthHS = get_OAuthHS(request)
+    job_list = get_job_status_list(hs_username=OAuthHS['user_name'])
 
-    context = {'job_id': job_id,
+    context = {
+               'job_id': job_id,
                'res_id': res_id,
+               'job_list': job_list
                }
 
     return render(request, 'ueb_app/check_status.html', context)
+
+
+def get_job_status_list(hs_username):
+    url = 'http://129.123.41.195:20199/api/dataservice/job/check_job_status'
+    auth = testing_server_auth
+    payload = {
+        'extra_data': 'HydroShare: ' + hs_username
+    }
+
+    response = requests.get(url, params=payload,auth=auth)
+
+    if response.status_code == 200:
+        result = json.loads(response.text)
+        job_list = result['data']
+    else:
+        job_list = []
+
+    return job_list
 
 
 # help views

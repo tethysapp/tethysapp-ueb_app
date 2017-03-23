@@ -22,27 +22,56 @@
 
     </div>
 
-    <form id='user-form' method="post" >
-        {% csrf_token %}
+    <!--<form id='user-form' method="post" >-->
+        <!--{% csrf_token %}-->
 
-        <!-- job id search box-->
-        <table>
-            <tr >
-                <td ><div style="margin-top:20px">{% gizmo text_input job_id %}</div></td>
-                <td width="30px"></td>
-                <td><input id='submit-model-run-btn' type="submit" value="Check Status" name='run-service' class="btn btn-success btn-lg pull-right" ></td>
-            </tr>
+        <!--&lt;!&ndash; job id search box&ndash;&gt;-->
+        <!--<table>-->
+            <!--<tr >-->
+                <!--<td ><div style="margin-top:20px">{% gizmo text_input job_id %}</div></td>-->
+                <!--<td width="30px"></td>-->
+                <!--<td><input id='submit-model-run-btn' type="submit" value="Check Status" name='run-service' class="btn btn-success btn-lg pull-right" ></td>-->
+            <!--</tr>-->
+        <!--</table>-->
+
+        <!--&lt;!&ndash; job status response&ndash;&gt;-->
+        <!--<div id="submit-response" >-->
+            <!--<p id="response-status"></p>-->
+            <!--<p id="response-result"></p>-->
+        <!--</div>-->
+
+    <!--</form>-->
+    <!--{{ job_list }}-->
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width:75px">Job ID</th>
+                    <th style="width:75px">Status</th>
+                    <th style="width:120px">Start Time</th>
+                    <th style="width:120px">End Time</th>
+                    <th style="width:120px">Description</th>
+                    <th style="width:120px">Is Success</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in job_list %}
+                    <tr>
+                        <th>{{job.id}}</th>
+                        <th>{{job.status}}</th>
+                        <th>{{job.start_time}}</th>
+                        <th>{{job.end_time}}</th>
+                        <th>{{job.job_description}}</th>
+                        <th>{{job.is_success}}</th>
+                        <th class="message">{{job.message}}</th>
+                    </tr>
+                {% endfor %}
+            </tbody>
         </table>
 
-        <!-- job status response-->
-        <div id="submit-response" >
-            <p id="response-status"></p>
-            <p id="response-result"></p>
-        </div>
-
-
-
-    </form>
+    </div>
 
     <div id="wait" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
@@ -68,4 +97,28 @@
 {% block content_dependent_styles %}
   {{ block.super }}
   <link href="{% static 'ueb_app/css/check_status.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{% block scripts %}
+  {{ block.super }}
+   <script>
+        $(document).ready(function(){
+            <!--alert('test')-->
+            <!--alert($('.message').length)-->
+            $('.message').each(function(){
+
+                str = $(this).text().replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,
+                                            function(x) {
+                                                return "<a href='" + x + "' target='_blank'>Link</a>"
+                                             })
+                $(this).text('')
+                $(this).append(str)
+
+            })
+
+
+        })
+   </script>
+
 {% endblock %}
