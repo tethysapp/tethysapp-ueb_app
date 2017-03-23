@@ -83,8 +83,8 @@ map = new google.maps.Map(mapDiv, {
 map.setMapTypeId('terrain');
 
 // draw the bounding box and outlet point based on the metadata
-if ($('#north-lat').text() != 'unknown' && $('#south-lat').text() != 'unknown' &&
-    $('#east-lon').text() != 'unknown' && $('#west-lon').text() != 'unknown'){
+if ($('#north-lat').text() != 'None' && $('#south-lat').text() != 'None' &&
+    $('#east-lon').text() != 'None' && $('#west-lon').text() != 'None'){
     var bounds = {
             north: parseFloat($('#north-lat').text()),
             south: parseFloat($('#south-lat').text()),
@@ -92,6 +92,11 @@ if ($('#north-lat').text() != 'unknown' && $('#south-lat').text() != 'unknown' &
             west: parseFloat($('#west-lon').text())
         };
     drawRectangleOnTextChange(bounds);
+}
+
+if ($('#outlet-x').length == 1 && $('#outlet-y').length == 1){
+    var myLatLng = {lat: parseFloat($("#outlet-y").text()), lng: parseFloat($("#outlet-x").text())};
+    drawMarkerOnTextChange(myLatLng);
 }
 
 } // end of initmap function
