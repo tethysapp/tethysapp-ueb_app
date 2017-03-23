@@ -21,7 +21,8 @@ from model_parameters_list import site_initial_variable_codes, input_vairable_co
 def get_model_resource_metadata(hs, res_id):
 
     model_resource_metadata = dict.fromkeys(
-        ['north_lat', 'south_lat', 'east_lon', 'west_lon', 'start_time', 'end_time'],
+        ['north_lat', 'south_lat', 'east_lon', 'west_lon', 'start_time', 'end_time','outlet_x','outlet_y','epsg_code',
+         'cell_x_size', 'cell_y_size'],
         None
     )
     model_resource_metadata['res_id'] = res_id
@@ -60,9 +61,15 @@ def get_model_resource_metadata(hs, res_id):
 
         # retrieve extended metadata
         ext_dict = md_dict['rdf:RDF']['rdf:Description'][0].get('hsterms:extendedMetadata')
+        info_dict = {}
         for item in ext_dict:
             key = item['rdf:Description']['hsterms:key'].replace(' ', '_').lower()
-            model_resource_metadata[key] = item['rdf:Description']['hsterms:value']
+            info_dict[key] = item['rdf:Description']['hsterms:value']
+        model_resource_metadata['cell_y_size']= info_dict.get('modeling_resolution_dy_(m)')
+        model_resource_metadata['cell_x_size'] = info_dict.get('modeling_resolution_dx_(m)')
+        model_resource_metadata['outlet_x'] = info_dict.get('outlet_longitude')
+        model_resource_metadata['outlet_y'] = info_dict.get('outlet_latitude')
+        model_resource_metadata['epsg_code'] = info_dict.get('epsg_code_for_data')
 
     except Exception as e:
         pass

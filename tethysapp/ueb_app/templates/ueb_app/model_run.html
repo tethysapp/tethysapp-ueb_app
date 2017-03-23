@@ -74,31 +74,31 @@
                 </tr>
             </table>
 
-            {% if res_metadata.outlet_latitude and res_metadata.outlet_longitude %}
+            {% if res_metadata.outlet_y or res_metadata.outlet_x %}
             <p class="metadata-title">Outlet Point</p>
             <table id="outlet-point-table">
                 <tr>
                     <td width="200px"><label>Outlet Longitude </label></td>
-                    <td width="100px" id="outlet-x">{{res_metadata.outlet_longitude}}</td>
+                    <td width="100px" id="outlet-x">{{res_metadata.outlet_x}}</td>
                     <td width="200px"><label>Outlet Latitude</label></td>
-                    <td width="100px" id="outlet-y">{{res_metadata.outlet_latitude}}</td>
+                    <td width="100px" id="outlet-y">{{res_metadata.outlet_y}}</td>
                 </tr>
             </table>
             {% endif %}
 
-            {% if res_metadata.epsg_code_for_data %}
+            {% if res_metadata.epsg_code %}
             <p class="metadata-title">Spatial Coordinate System EPSG Code</p>
-            <p id="epsg-code">{{res_metadata.epsg_code_for_data}}</p>
+            <p id="epsg-code">{{res_metadata.epsg_code}}</p>
             {% endif %}
 
-            {% if res_metadata.modeling_resolution_dx and res_metadata.modeling_resolution_dy %}
+            {% if res_metadata.cell_x_size or res_metadata.cell_y_size %}
             <p class="metadata-title">Model Simulation Cell Size</p>
             <table id="model-cell-size-table">
                 <tr>
                     <td width="100px"><label>Cell X Size(m) </label></td>
-                    <td width="100px" id="cell-x-size" style="text-align:left;">{{res_metadata.modeling_resolution_dx}}</td>
+                    <td width="100px" id="cell-x-size" style="text-align:left;">{{res_metadata.cell_x_size}}</td>
                     <td width="100px"><label>Cell Y Size(m)</label></td>
-                    <td width="100px" id="cell-y-size" style="text-align:left;">{{res_metadata.modeling_resolution_dy}}</td>
+                    <td width="100px" id="cell-y-size" style="text-align:left;">{{res_metadata.cell_y_size}}</td>
                 </tr>
             </table>
             {% endif %}
