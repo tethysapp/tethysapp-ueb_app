@@ -45,4 +45,8 @@
     margin-right:10px;
 }
 
+#job-table {
+    height:750px;
+    overflow:auto;
+}
 
