@@ -1,6 +1,8 @@
 #form-container {
     margin-top: 100px;
     background-color:#efefef;
+    height: 1000px;
+    overflow-y:auto;
 
 }
 

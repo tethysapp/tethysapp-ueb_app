@@ -8,87 +8,219 @@
 <!--Model inputs user form-->
 <div id='form-container' class='col-md-3'style="margin-bottom:30px">
 
+    <!--Input parameter settings form-->
     <form id='user-form' method="post" action='model_input_submit/'>
         {% csrf_token %}
 
         <div id="model domain">
 
-            <p id='box_title' class="form-subtitle"> Bounding Box (US continent only)</p>
-            <table>
-                <tr>
-                    <td/>
-                    <td >{% gizmo text_input north_lat %}</td>
-                    <td/>
-                </tr>
-                <tr>
-                    <td width="200px">{% gizmo text_input west_lon %}</td>
-                    <td width="200px"/>
-                    <td width="200px">{% gizmo text_input east_lon %}</td>
-                </tr>
-                    <td/>
-                    <td >{% gizmo text_input south_lat %}</td>
-                    <td/>
-                </tr>
-            </table>
+             <div class="panel-group" id="accordion">
+                  <!--Research Domain info-->
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                            Research Area Information (Required)</a>
+                      </h4>
+                    </div>
 
-            <p id='point_title' class="form-subtitle">Watershed Outlet Point (Optional)</p>
-            <table style="margin-top:20px">
-                <tr>
-                    <td>{% gizmo text_input outlet_x %}</td>
-                    <td width="10px"/>
-                    <td>{% gizmo text_input outlet_y %}</td>
-                </tr>
-            </table>
+                    <div id="collapse1" class="panel-collapse collapse">
+                      <div class="panel-body">
+                          <p id='box_title' class="form-subtitle"> Bounding Box (US continent only)</p>
+                            <table>
+                                <tr>
+                                    <td/>
+                                    <td >{% gizmo text_input north_lat %}</td>
+                                    <td/>
+                                </tr>
+                                <tr>
+                                    <td width="200px">{% gizmo text_input west_lon %}</td>
+                                    <td width="200px"/>
+                                    <td width="200px">{% gizmo text_input east_lon %}</td>
+                                </tr>
+                                    <td/>
+                                    <td >{% gizmo text_input south_lat %}</td>
+                                    <td/>
+                                </tr>
+                            </table>
 
-            <p id='site_title' class="form-subtitle"> Site Initial Conditions</p>
-            {% gizmo text_input usic %}
-            {% gizmo text_input wsic %}
-            {% gizmo text_input tic %}
-            {% gizmo text_input wcic %}
-            {% gizmo text_input ts_last %}
+                          <p id='site_title' class="form-subtitle"> Site Initial Conditions</p>
+                            {% gizmo text_input usic %}
+                            {% gizmo text_input wsic %}
+                            {% gizmo text_input tic %}
+                            {% gizmo text_input wcic %}
+                            {% gizmo text_input ts_last %}
+                      </div>
+                    </div>
+                  </div>
 
-            <p id='threshold_title' class="form-subtitle"> Watershed Delineation Stream Threshold</p>
-            {% gizmo text_input stream_threshold %}
+                 <!--Model input settings-->
+                 <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                            Model Input Settings (Required)</a>
+                      </h4>
+                    </div>
 
-            <p id='epsg_title' class="form-subtitle">Spatial Coordinate System</p>
-            <div width="30%">{% gizmo select_input epsg_code %}</div>
+                    <div id="collapse2" class="panel-collapse collapse">
+                      <div class="panel-body">
+                            <p id='epsg_title' class="form-subtitle">Spatial Coordinate System</p>
+                            <div width="30%">{% gizmo select_input epsg_code %}</div>
 
-            <p id='time_title' class="form-subtitle">Time Period</p>
-            <table>
-                <tr>
-                    <td>{% gizmo date_picker start_time %}</td>
-                    <td width="10px"/>
-                    <td>{% gizmo date_picker end_time %}</td>
-                </tr>
-            </table>
+                            <p id='time_title' class="form-subtitle">Time Period</p>
+                            <table>
+                                <tr>
+                                    <td>{% gizmo date_picker start_time %}</td>
+                                    <td width="10px"/>
+                                    <td>{% gizmo date_picker end_time %}</td>
+                                </tr>
+                            </table>
+
+                            <p id='proj_cell_title' class="form-subtitle">Cell size for reprojection </p>
+                            <table>
+                                <tr>
+                                    <td>{% gizmo text_input x_size %}</td>
+                                    <td width="10px"/>
+                                    <td>{% gizmo text_input y_size %}</td>
+                                </tr>
+                            </table>
+
+                            <p id='model_cell_title' class="form-subtitle">Cell size for model simulation </p>
+                            <table>
+                                <tr>
+                                    <td>{% gizmo text_input dx_size %}</td>
+                                    <td width="10px"/>
+                                    <td>{% gizmo text_input dy_size %}</td>
+                                </tr>
+                            </table>
+                      </div>
+                    </div>
+                  </div>
+
+                 <!--Watershed info-->
+                 <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                            Watershed Delineation (Optional)</a>
+                      </h4>
+                    </div>
+
+                    <div id="collapse3" class="panel-collapse collapse">
+                      <div class="panel-body">
+                            <p id='point_title' class="form-subtitle">Watershed Outlet Point</p>
+                            <table style="margin-top:20px">
+                                <tr>
+                                    <td>{% gizmo text_input outlet_x %}</td>
+                                    <td width="10px"/>
+                                    <td>{% gizmo text_input outlet_y %}</td>
+                                </tr>
+                            </table>
+                            <p id='threshold_title' class="form-subtitle"> Watershed Delineation Stream Threshold</p>
+                            {% gizmo text_input stream_threshold %}
+                      </div>
+                    </div>
+                  </div>
+
+                 <!--UEB Input HydroShare Resource -->
+                 <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+                            New Resource Settings (Optional)</a>
+                      </h4>
+                    </div>
+
+                    <div id="collapse4" class="panel-collapse collapse">
+                      <div class="panel-body">
+                        <p id='res_title' class="form-subtitle"> HydroShare resource for model inputs</p>
+                        {% gizmo text_input res_title %}
+                        {% gizmo text_input res_keywords %}
+                      </div>
+                    </div>
+                 </div>
+
+             </div> <!--end of accordion block-->
 
 
+            <!--<div id='backup'>-->
+                <!--<p id='box_title' class="form-subtitle"> Bounding Box (US continent only)</p>-->
+                <!--<table>-->
+                    <!--<tr>-->
+                        <!--<td/>-->
+                        <!--<td >{% gizmo text_input north_lat %}</td>-->
+                        <!--<td/>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td width="200px">{% gizmo text_input west_lon %}</td>-->
+                        <!--<td width="200px"/>-->
+                        <!--<td width="200px">{% gizmo text_input east_lon %}</td>-->
+                    <!--</tr>-->
+                        <!--<td/>-->
+                        <!--<td >{% gizmo text_input south_lat %}</td>-->
+                        <!--<td/>-->
+                    <!--</tr>-->
+                <!--</table>-->
+        <!---->
+                <!--<p id='point_title' class="form-subtitle">Watershed Outlet Point (Optional)</p>-->
+                <!--<table style="margin-top:20px">-->
+                    <!--<tr>-->
+                        <!--<td>{% gizmo text_input outlet_x %}</td>-->
+                        <!--<td width="10px"/>-->
+                        <!--<td>{% gizmo text_input outlet_y %}</td>-->
+                    <!--</tr>-->
+                <!--</table>-->
+        <!---->
+                <!--<p id='site_title' class="form-subtitle"> Site Initial Conditions</p>-->
+                <!--{% gizmo text_input usic %}-->
+                <!--{% gizmo text_input wsic %}-->
+                <!--{% gizmo text_input tic %}-->
+                <!--{% gizmo text_input wcic %}-->
+                <!--{% gizmo text_input ts_last %}-->
+        <!---->
+                <!--<p id='threshold_title' class="form-subtitle"> Watershed Delineation Stream Threshold</p>-->
+                <!--{% gizmo text_input stream_threshold %}-->
+        <!---->
+                <!--<p id='epsg_title' class="form-subtitle">Spatial Coordinate System</p>-->
+                <!--<div width="30%">{% gizmo select_input epsg_code %}</div>-->
+        <!---->
+                <!--<p id='time_title' class="form-subtitle">Time Period</p>-->
+                <!--<table>-->
+                    <!--<tr>-->
+                        <!--<td>{% gizmo date_picker start_time %}</td>-->
+                        <!--<td width="10px"/>-->
+                        <!--<td>{% gizmo date_picker end_time %}</td>-->
+                    <!--</tr>-->
+                <!--</table>-->
+        <!---->
+        <!---->
+        <!---->
+                <!--<p id='proj_cell_title' class="form-subtitle">Cell size for reprojection </p>-->
+                <!--<table>-->
+                    <!--<tr>-->
+                        <!--<td>{% gizmo text_input x_size %}</td>-->
+                        <!--<td width="10px"/>-->
+                        <!--<td>{% gizmo text_input y_size %}</td>-->
+                    <!--</tr>-->
+                <!--</table>-->
+        <!---->
+                <!--<p id='model_cell_title' class="form-subtitle">Cell size for model simulation </p>-->
+                <!--<table>-->
+                    <!--<tr>-->
+                        <!--<td>{% gizmo text_input dx_size %}</td>-->
+                        <!--<td width="10px"/>-->
+                        <!--<td>{% gizmo text_input dy_size %}</td>-->
+                    <!--</tr>-->
+                <!--</table>-->
+        <!---->
+        <!---->
+                <!--<p id='res_title' class="form-subtitle"> HydroShare resource for model inputs (Optional) </p>-->
+                <!--{% gizmo text_input res_title %}-->
+                <!--{% gizmo text_input res_keywords %}-->
+            <!--</div> &lt;!&ndash;end of backup setciont &ndash;&gt;-->
 
-            <p id='proj_cell_title' class="form-subtitle">Cell size for reprojection </p>
-            <table>
-                <tr>
-                    <td>{% gizmo text_input x_size %}</td>
-                    <td width="10px"/>
-                    <td>{% gizmo text_input y_size %}</td>
-                </tr>
-            </table>
-
-            <p id='model_cell_title' class="form-subtitle">Cell size for model simulation </p>
-            <table>
-                <tr>
-                    <td>{% gizmo text_input dx_size %}</td>
-                    <td width="10px"/>
-                    <td>{% gizmo text_input dy_size %}</td>
-                </tr>
-            </table>
-
-
-
-            <p id='res_title' class="form-subtitle"> HydroShare resource for model inputs (Optional) </p>
-            {% gizmo text_input res_title %}
-            {% gizmo text_input res_keywords %}
-
-        </div>
+        </div>  <!--end of model domain section-->
 
         <div id="submit-response" >
             <p id="response-status"></p>
@@ -113,6 +245,8 @@
         </div>
     </div>
 
+
+
 </div>
 
 
@@ -127,10 +261,8 @@
             This application helps prepare a complete model input package for UEB model simulation for a user
             defined area (within the bounds of supporting data in the continental US).<br>
             The model input package includes different forcing dataset and model parameter files,
-            which will be automatically created as Model Instance resource in HydroShare.
+            which will be automatically created as Model Instance resource in HydroShare. <span data-toggle="collapse" data-target="#intro-detail" style="color: green; margin-bottom: 20px"><strong><u>See more details here.</u></strong></span>
         </p>
-
-        <p data-toggle="collapse" data-target="#intro-detail" style="color: green; margin-bottom: 20px"><strong><u>See more details</u></strong></p>
 
         <div id="intro-detail" class="collapse" style="background-color:#f2f2f2">
             <p style="font-size:120%">
@@ -140,7 +272,6 @@
                 <strong>Model parameter files:</strong> control.dat, param.dat, siteinitial.dat, inputcontrol.dat, outputcontrol.dat.
             </p>
         </div>
-
     </div>
 
     <!-- map -->
