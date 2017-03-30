@@ -11,7 +11,7 @@ import datetime
 import json
 import xmltodict
 import requests
-import user_settings
+from user_settings import *
 
 from hydrogate import HydroDS
 from model_parameters_list import site_initial_variable_codes, input_vairable_codes
@@ -78,7 +78,7 @@ def get_model_resource_metadata(hs, res_id):
 
 
 ## utils for running the model service
-def submit_model_run_job_single_call(res_id, OAuthHS, hydrods_name, hydrods_password):
+def submit_model_run_job_single_call(res_id, OAuthHS):
     model_run_job = {
         'status': 'Error',
         'result': 'Failed to make the HydroDS web service call.'
@@ -86,13 +86,14 @@ def submit_model_run_job_single_call(res_id, OAuthHS, hydrods_name, hydrods_pass
 
     try:
 
-
-        url = 'http://hydro-ds.uwrl.usu.edu/api/dataservice/runuebmodel'
-        auth = (hydrods_name, hydrods_password)
+        # url = 'http://hydro-ds.uwrl.usu.edu/api/dataservice/runuebmodel'
+        url = 'http://129.123.41.195:20199/api/dataservice/runuebmodel'
+        auth = testing_server_auth
         payload = {'resource_id': res_id,
                    'hs_client_id': OAuthHS['client_id'],
                    'hs_client_secret': OAuthHS['client_secret'],
-                   'token': json.dumps(OAuthHS['token'])
+                   'token': json.dumps(OAuthHS['token']),
+                   'hs_username': OAuthHS['user_name']
                    }
         response = requests.get(url, params=payload, auth=auth)
         response_dict = json.loads(response.text)

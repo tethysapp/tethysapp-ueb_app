@@ -304,7 +304,7 @@ def model_run_submit_execution(request):
 
         else:
             # ajax_response = submit_model_run_job(res_id, OAuthHS, hydrods_name, hydrods_password)
-            ajax_response = submit_model_run_job_single_call(res_id, OAuthHS, hydrods_name, hydrods_password)
+            ajax_response = submit_model_run_job_single_call(res_id, OAuthHS)
 
     else:
         ajax_response = {
