@@ -54,6 +54,10 @@ def validate_model_input_form(request):
         if west_lon >= east_lon:
             error_info.append('The West Longitude should be smaller than the East Longitude.')
 
+        area = abs(north_lat-south_lat)*abs(east_lon-west_lon)
+        if area >= 4:
+            error_info.append('Please specify a smaller research area.')
+
         if error_info:
             validation['is_valid'] = False
             validation['result']['box_title'] = ' '.join(error_info)
@@ -120,8 +124,8 @@ def validate_model_input_form(request):
 
     if time_type_valid:
         # TODO check the supported time period for simulation based on the data source (2009-2015, 2005-2015)
-        start_limit_obj = datetime.strptime('2010/01/01', '%Y/%M/%d')
-        end_limit_obj = datetime.strptime('2011/12/31', '%Y/%M/%d')
+        start_limit_obj = datetime.strptime('2009/01/01', '%Y/%M/%d')
+        end_limit_obj = datetime.strptime('2015/12/31', '%Y/%M/%d')
 
         if start_time_obj > end_time_obj:
             validation['is_valid'] = False

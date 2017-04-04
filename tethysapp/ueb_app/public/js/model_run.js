@@ -26,7 +26,8 @@ $(document).ready(function() {
 
         } // end of load metadata
         else if (btn_val == "Submit Model Execution"){
-            $('#wait').modal();
+//            $('#wait').modal();
+            $('#submit-model-run-btn').hide();
             $(this).attr('action','model_run_submit_execution/');
 
 
@@ -53,7 +54,7 @@ $(document).ready(function() {
                 },
 
                 error: function() {
-                    alert('sad');
+//                    alert('sad');
                     $('#submit-response').show();
                     document.getElementById("submit-response").style.backgroundColor = '#ffebe6';
                     $('#response-status').text('Error');
@@ -62,7 +63,7 @@ $(document).ready(function() {
 
                 complete: function(){
 //                    alert('complete');
-                    $('#wait').modal('hide');
+//                    $('#wait').modal('hide');
                 }
             });
             return false;

@@ -20,7 +20,7 @@ $(document).ready(function() {
     user_form.submit(function(){
         $('#submit-response').hide();
         $('#submit-model-input-btn').prop('disabled', true);
-        $('#wait').modal('show');
+//        $('#wait').modal('show');
 
         $.ajax({
             type: user_form.attr('method'),
@@ -31,7 +31,7 @@ $(document).ready(function() {
                 console.log(result);
                 json_response = JSON.parse(result);
                 console.log(json_response);
-                alert('happy');
+//                alert('happy');
                 $('#submit-response').show()
                 if (json_response.status == 'Error'){
                     document.getElementById("submit-response").style.backgroundColor = '#ffebe6';
@@ -45,7 +45,7 @@ $(document).ready(function() {
             },
 
             error: function() {
-                alert('sad');
+//                alert('sad');
                 $('#submit-response').show();
                 document.getElementById("submit-response").style.backgroundColor = '#ffebe6';
                 $('#response-status').text('Error')
@@ -53,7 +53,7 @@ $(document).ready(function() {
             },
 
             complete: function(){
-                alert('complete');
+//                alert('complete');
                 $('#wait').modal('hide');
                 $('#submit-model-input-btn').prop('disabled', false);
             }
