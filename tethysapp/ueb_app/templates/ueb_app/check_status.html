@@ -44,33 +44,36 @@
     <!--{{ job_list }}-->
 
     <div id="job-table">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th style="width:75px">Job ID</th>
-                    <th style="width:75px">Status</th>
-                    <th style="width:120px">Start Time</th>
-                    <th style="width:120px">End Time</th>
-                    <th style="width:120px">Description</th>
-                    <th style="width:120px">Is Success</th>
-                    <th>Message</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for job in job_list %}
+        {% if job_check_status == 'success' %}
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <th>{{job.id}}</th>
-                        <th>{{job.status}}</th>
-                        <th>{{job.start_time}}</th>
-                        <th>{{job.end_time}}</th>
-                        <th>{{job.job_description}}</th>
-                        <th>{{job.is_success}}</th>
-                        <th class="message">{{job.message}}</th>
+                        <th style="width:75px">Job ID</th>
+                        <th style="width:75px">Status</th>
+                        <th style="width:120px">Start Time</th>
+                        <th style="width:120px">End Time</th>
+                        <th style="width:120px">Description</th>
+                        <th style="width:120px">Is Success</th>
+                        <th>Message</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
+                </thead>
+                <tbody>
+                    {% for job in job_list %}
+                        <tr>
+                            <th>{{job.id}}</th>
+                            <th>{{job.status}}</th>
+                            <th>{{job.start_time}}</th>
+                            <th>{{job.end_time}}</th>
+                            <th>{{job.job_description}}</th>
+                            <th>{{job.is_success}}</th>
+                            <th class="message">{{job.message}}</th>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h3 style="color:green"> Unable to get job status information. Please contact the system administrator.</h3>
+        {% endif %}
     </div>
 
     <div id="wait" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">

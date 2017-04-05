@@ -328,9 +328,10 @@ def check_status(request):
                        attributes={'required': True, 'style': 'width:800px;height:41px'}
                           )
     OAuthHS = get_OAuthHS(request)
-    job_list = get_job_status_list(hs_username=OAuthHS['user_name'])
+    job_list, job_check_status = get_job_status_list(hs_username=OAuthHS['user_name'])
 
     context = {
+               'job_check_status': job_check_status,
                'job_id': job_id,
                'res_id': res_id,
                'job_list': job_list
@@ -340,21 +341,27 @@ def check_status(request):
 
 
 def get_job_status_list(hs_username):
-    url = 'http://129.123.41.218:20199/api/dataservice/job/check_job_status'
-    auth = (hydrods_name, hydrods_password)
-    payload = {
-        'extra_data': 'HydroShare: ' + hs_username
-    }
+    try:
+        url = 'http://129.123.41.218:20199/api/dataservice/job/check_job_status'
+        auth = (hydrods_name, hydrods_password)
+        payload = {
+            'extra_data': 'HydroShare: ' + hs_username
+        }
 
-    response = requests.get(url, params=payload,auth=auth)
+        response = requests.get(url, params=payload,auth=auth)
 
-    if response.status_code == 200:
-        result = json.loads(response.text)
-        job_list = result['data']
-    else:
+        if response.status_code == 200:
+            result = json.loads(response.text)
+            job_list = result['data']
+            job_check_status = 'success'
+        else:
+            job_list = []
+            job_check_status = 'error'
+    except Exception as e:
         job_list = []
+        job_check_status = 'error'
 
-    return job_list
+    return job_list, job_check_status
 
 
 # help views
