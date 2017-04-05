@@ -87,8 +87,8 @@ def submit_model_run_job_single_call(res_id, OAuthHS):
     try:
 
         # url = 'http://hydro-ds.uwrl.usu.edu/api/dataservice/runuebmodel'
-        url = 'http://129.123.41.195:20199/api/dataservice/runuebmodel'
-        auth = testing_server_auth
+        url = 'http://129.123.41.218:20199/api/dataservice/runuebmodel'
+        auth = (hydrods_name, hydrods_password)
         payload = {'resource_id': res_id,
                    'hs_client_id': OAuthHS['client_id'],
                    'hs_client_secret': OAuthHS['client_secret'],

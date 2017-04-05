@@ -340,8 +340,8 @@ def check_status(request):
 
 
 def get_job_status_list(hs_username):
-    url = 'http://129.123.41.195:20199/api/dataservice/job/check_job_status'
-    auth = testing_server_auth
+    url = 'http://129.123.41.218:20199/api/dataservice/job/check_job_status'
+    auth = (hydrods_name, hydrods_password)
     payload = {
         'extra_data': 'HydroShare: ' + hs_username
     }

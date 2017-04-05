@@ -24,8 +24,8 @@ def hydrods_model_input_service_single_call(hs_client_id, hs_client_secret, toke
     }
 
     try:
-        url = 'http://129.123.41.195:20199/api/dataservice/createuebinput'  # TODO: change to production server link
-        auth = testing_server_auth  # TODO: change to production account info
+        url = 'http://129.123.41.218:20199/api/dataservice/createuebinput'  # TODO: change to production server link
+        auth = (hydrods_name, hydrods_password)  # TODO: change to production account info
         payload = {
             'hs_username': hs_name,
             'hs_password': hs_password,
