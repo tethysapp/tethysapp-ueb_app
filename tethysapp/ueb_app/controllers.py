@@ -107,25 +107,29 @@ def model_input(request):
     x_size = TextInput(display_text='X size(m)',
                        name='x_size',
                        initial='30',
-                       attributes={'required': True}
+                       attributes={'required': True},
+                       placeholder='integer value',
                        )
 
     y_size = TextInput(display_text='Y size(m)',
                        name='y_size',
                        initial='30',
-                       attributes={'required': True}
+                       attributes={'required': True},
+                       placeholder='integer value',
                        )
 
     dx_size = TextInput(display_text='dX size(m)',
                        name='dx_size',
                        initial='100',
-                       attributes={'required': True}
+                       attributes={'required': True},
+                       placeholder='integer value',
                        )
 
     dy_size = TextInput(display_text='dY size(m)',
                         name='dy_size',
                         initial='100',
-                        attributes={'required': True}
+                        attributes={'required': True},
+                        placeholder='integer value',
                         )
 
     # site initial parameters
