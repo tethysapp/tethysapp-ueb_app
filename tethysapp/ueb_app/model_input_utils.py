@@ -218,7 +218,7 @@ def validate_model_input_form(request):
             'east_lon': east_lon,
             'outlet_x': outlet_x,
             'outlet_y': outlet_y,
-            'watershed_name': 'UEB_model_',
+            'watershed_name': 'watershed',
             'stream_threshold': stream_threshold,
             'epsg_code': epsg_code,
             'start_time': start_time_str,
