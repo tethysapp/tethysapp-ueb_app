@@ -129,6 +129,11 @@ function processDrawing (coordinates, shape) {
             west: parseFloat(coordinates.getSouthWest().lng())
         };
 
+        // collapse form for bounding box
+        $('[id^=collapse]').removeClass('in')
+        $('#collapse1').addClass('in')
+        $('#collapse1').attr('style','')
+
         // update form fields
         $("#north_lat").val(bounds.north.toFixed(4));
         $("#south_lat").val(bounds.south.toFixed(4));
@@ -136,6 +141,12 @@ function processDrawing (coordinates, shape) {
         $("#west_lon").val(bounds.west.toFixed(4));
     }
     else {
+        // collapse form for outlet point
+        $('[id^=collapse]').removeClass('in')
+        $('#collapse3').addClass('in')
+        $('#collapse3').attr('style','')
+
+        // update form fields
         $("#outlet_x").val(parseFloat(coordinates.lng()).toFixed(4));
         $("#outlet_y").val(parseFloat(coordinates.lat()).toFixed(4));
     }
