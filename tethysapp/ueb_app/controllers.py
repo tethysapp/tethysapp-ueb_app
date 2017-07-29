@@ -1,6 +1,7 @@
 import json
 import xmltodict
 from oauthlib.oauth2 import TokenExpiredError
+from datetime import datetime
 
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -356,11 +357,17 @@ def get_job_status_list(hs_username):
 
         if response.status_code == 200:
             result = json.loads(response.text)
+            for job in result['data'][:]:
+                start_time = datetime.strptime(job['start_time'][:10], '%Y-%m-%d')
+                timedelta = datetime.now() - start_time
+                if timedelta.days >= 30:
+                   result['data'].remove(job)
             job_list = result['data']
             job_check_status = 'success'
         else:
             job_list = []
             job_check_status = 'error'
+
     except Exception as e:
         job_list = []
         job_check_status = 'error'
