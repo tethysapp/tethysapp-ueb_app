@@ -30,7 +30,7 @@ def get_model_resource_metadata(hs, res_id):
     try:
 
         # get metadata xml file and parse as dict
-        md_dict = xmltodict.parse(hs.getScienceMetadata(res_id))
+        md_dict = xmltodict.parse(hs.getScienceMetadataRDF(res_id))
 
 
         # retrieve bounding box and time
@@ -72,7 +72,8 @@ def get_model_resource_metadata(hs, res_id):
         model_resource_metadata['epsg_code'] = info_dict.get('epsg_code_for_data')
 
     except Exception as e:
-        pass
+        import traceback
+        traceback.print_exc()
 
     return model_resource_metadata
 
