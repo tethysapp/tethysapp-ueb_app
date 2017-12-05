@@ -153,9 +153,9 @@ def validate_model_input_form(request):
     try:
         x_size = int(x_size)
         y_size = int(y_size)
-        if x_size < 1 or y_size < 1:
+        if x_size < 30 or y_size < 30:
             validation['is_valid'] = False
-            validation['result']['model_cell_title'] = 'The cell size for reprojection should not be smaller than 1 meter.'
+            validation['result']['model_cell_title'] = 'The cell size for reprojection should not be smaller than 30 meters.'
     except Exception:
         validation['is_valid'] = False
         validation['result']['proj_cell_title'] = 'The cell size for reprojection should be integer input.'
@@ -168,9 +168,9 @@ def validate_model_input_form(request):
     try:
         dx_size = int(dx_size)
         dy_size = int(dy_size)
-        if dx_size < 1 or dy_size < 1:
+        if dx_size < 30 or dy_size < 30:
             validation['is_valid'] = False
-            validation['result']['model_cell_title'] = 'The cell size for model simulation should not be smaller than 1 meter.'
+            validation['result']['model_cell_title'] = 'The cell size for model simulation should not be smaller than 30 meters.'
     except Exception:
         validation['is_valid'] = False
         validation['result']['model_cell_title'] = 'The cell size for model simulation should be integer input.'
