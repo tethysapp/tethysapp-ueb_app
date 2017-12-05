@@ -10,34 +10,97 @@
 
 
 <!--main section -->
-<div id='main-container' class="col-md-8">
+<div id='main-container' class="col-md-7">
     <!-- help intro-->
     <div id='title' style="margin-top:40px;margin-bottom:50px">
         <h3 style="color:#0073e6">Help</h3>
-        <p class="sub-description">
-            This page will provide materials to help you learn about the Utah Energy Balance snow-melt model as well as how to use this web app to easily conduct a modeling research.
-        </p>
+        <p class='sub-description'>This page provides the following information:</p>
+
+        <ul class='help-list'>
+            <li> A tutorial how to use the web app for snowmelt modeling and share the results in HydroShare.</li>
+            <li> The introduction of Utah Energy Balance (UEB) model which the web app was built for. </li>
+            <li> The general design of the web app which can be applied for other hydrologic modeling web services.</li>
+        <ul>
+
+
 
     </div>
+
+    <!-- materials list deprecated-->
+    <!--<div class='sub-section'>-->
+        <!--<a><h5 class="sub-title">Quick Start Tutorial</h5></a>-->
+        <!--<p class="sub-description">This shows you how to use this web app to prepare the UEB model input package and execute the UEB model to estimate the snow water equivalent in an example watershed.</p>-->
+    <!--</div>-->
+
+    <!--<div class='sub-section'>-->
+        <!--<a><h5 class="sub-title">Model Basic Theory</h5></a>-->
+        <!--<p class="sub-description">This will introduce the basic physical concept of the UEB model and will also describe the input and output files.</p>-->
+    <!--</div>-->
+
+    <!--<div class='sub-section'>-->
+        <!--<a><h5 class="sub-title">Frequently Asked Questions</h5></a>-->
+        <!--<p class="sub-description">This will introduce the basic physical concept of the UEB model and will also describe the input and output files.</p>-->
+    <!--</div>-->
 
     <!-- materials list -->
-    <div class='sub-section'>
-        <a><h5 class="sub-title">Quick Start Tutorial</h5></a>
-        <p class="sub-description">This shows you how to use this web app to prepare the UEB model input package and execute the UEB model to estimate the snow water equivalent in an example watershed.</p>
+    <div class="panel-group" id="accordion">
+
+
+        <!-- quick start tutorial -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="accordion-title">
+                    Quick Start Tutorial </a>
+              </h4>
+            </div>
+
+            <div id="collapse1" class="panel-collapse collapse">
+              <div class="panel-body">
+                    <p class="sub-description">This shows how to use this web app to prepare the UEB model input package and execute the UEB model to estimate the snow water equivalent in an example watershed.</p>
+              </div>
+            </div>
+         </div>
+
+
+        <!-- model theory -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2" class="accordion-title">
+                    Basics of UEB Model</a>
+              </h4>
+            </div>
+
+            <div id="collapse2" class="panel-collapse collapse">
+              <div class="panel-body">
+                    <p class="sub-description">This will introduce the basic physical concept of the UEB model and will also describe the input and output files.</p>
+              </div>
+            </div>
+         </div>
+
+        <!-- web app code -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3" class="accordion-title">
+                    Web App Design</a>
+              </h4>
+            </div>
+
+            <div id="collapse3" class="panel-collapse collapse">
+              <div class="panel-body">
+                    <p class="sub-description">T</p>
+              </div>
+            </div>
+         </div>
+
     </div>
 
-    <div class='sub-section'>
-        <a><h5 class="sub-title">Model Basic Theory</h5></a>
-        <p class="sub-description">This will introduce the basic physical concept of the UEB model and will also describe the input and output files.</p>
-    </div>
-
-    <div class='sub-section'>
-        <a><h5 class="sub-title">Frequently Asked Questions</h5></a>
-        <p class="sub-description">This will introduce the basic physical concept of the UEB model and will also describe the input and output files.</p>
-    </div>
 
 
-</div>
+
+</div> <!--end of main section -->
 
 
 {%endblock%}

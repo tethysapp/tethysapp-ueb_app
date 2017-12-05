@@ -18,6 +18,11 @@
 
 }
 
+.help-list li{
+    font-size:120%;
+    color:#666666;
+}
+
 .sub-title {
     color:#0059b3;
 }
@@ -25,6 +30,14 @@
 .sub-description {
     font-size:120%;
 }
+
+
 .sub-section {
     margin-bottom:40px;
 }
+
+.panel-title a {
+    font-size:125%;
+    color:#0059b3;
+}
+
