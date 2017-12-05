@@ -45,17 +45,27 @@ def validate_model_input_form(request):
         if south_lat >= north_lat:
             error_info.append('The South Latitude should be smaller than the North Latitude.')
 
-        if west_lon <= -125.0011 or west_lon >= -66.9326:
-            error_info.append('The West Longitude should be in the US continent.')
+        # if west_lon <= -125.0011 or west_lon >= -66.9326:
+        #     error_info.append('The West Longitude should be in the US continent.')
+        #
+        # if east_lon <= -125.0011 or east_lon >= -66.9326:
+        #     error_info.append('The East Longitude should be in the US continent.')
+        if west_lon <= -125.0011 or west_lon >= -102:
+            error_info.append('The West Longitude should be in the  western US.')
 
-        if east_lon <= -125.0011 or east_lon >= -66.9326:
-            error_info.append('The East Longitude should be in the US continent.')
+        if east_lon <= -125.0011 or east_lon >= -102:
+            error_info.append('The East Longitude should be in the western US.')
 
         if west_lon >= east_lon:
             error_info.append('The West Longitude should be smaller than the East Longitude.')
+        #
+        # area = abs(north_lat-south_lat)*abs(east_lon-west_lon)
+        # if area >= 4:
+        #     error_info.append('Please specify a smaller research area.')
 
-        area = abs(north_lat-south_lat)*abs(east_lon-west_lon)
-        if area >= 4:
+        width1 = abs(north_lat-south_lat)
+        width2 = abs(east_lon-west_lon)
+        if width1 > 1.5 or width2 > 1.5:
             error_info.append('Please specify a smaller research area.')
 
         if error_info:
