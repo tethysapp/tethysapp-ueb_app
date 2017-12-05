@@ -1,3 +1,4 @@
+
 #side-bar-container {
     margin-top: 100px;
     background-color:#efefef;
@@ -18,12 +19,18 @@
 
 }
 
+figure {
+    text-align: center;
+    margin-top:20px;
+    margin-bottom:30px
+}
 .help-list li{
     font-size:120%;
     color:#666666;
 }
 
-.sub-title {
+.panel-title a {
+    font-size:125%;
     color:#0059b3;
 }
 
@@ -31,13 +38,11 @@
     font-size:120%;
 }
 
-
-.sub-section {
-    margin-bottom:40px;
+.sub-title {
+    font-size:160%;
+    font-weight: bold
 }
 
-.panel-title a {
-    font-size:125%;
-    color:#0059b3;
-}
+
+
 

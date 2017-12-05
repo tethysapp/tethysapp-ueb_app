@@ -28,6 +28,7 @@
     <!-- materials list -->
     <div class="panel-group" id="accordion">
 
+
         <!-- quick start tutorial -->
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -72,7 +73,39 @@
 
             <div id="collapse3" class="panel-collapse collapse">
               <div class="panel-body">
-                    <p class="sub-description">T</p>
+
+                  <!-- general idea-->
+                  <p class="sub-title"> General idea </p>
+                  <p class="sub-description">
+                      This web app is part of the work which integrates HydroShare with third party hydrologic modeling
+                      web services HydroDS to support reproducible modeling work. HydroDS is a set of web services for
+                      model input preparation and execution (here applied for the Utah Energy Balance model).
+                  </p>
+                  <p class="sub-description">
+                      We took HydroShare, HydroShare Apps, and HydroDS to play different roles (see Fig1)
+                      </br> -> <strong>HydroShare Apps</strong> provides the graphical user interface (Utah Energy Balance Model App) for the HydroDS web services.
+                      </br> -> <strong>HydroDS</strong> supports model input preparation, model simulation, and data transfer to HydroShare.
+                      </br> -> <strong>HydroShare</strong> curates and shares the data from HydroDS and supports online programing environment (e.g. JupyterHub app) for  data analysis.
+                  </p>
+
+                  <figure>
+                    <img width='55%' height="55%" src="{% static 'ueb_app/images/help_design.png' %}"/>
+                    <figcaption> <strong> Fig1. General design of system integration</strong></figcaption>
+                  </figure>
+
+                  <!-- web app development-->
+                  <p class="sub-title"> Web app development </p>
+                  <p class="sub-description">
+                      This web app is developed as a Tethys web app. Details include:
+                      </br> -> Tethys web app tutorial: <a target="_blank" href="http://docs.tethysplatform.org/en/stable/tutorials.html">http://docs.tethysplatform.org/en/stable/tutorials.html</a>
+                      </br> -> Utah Energy Balance Model App code: <a target="_blank" href="https://github.com/gantian127/tethysapp-ueb_app"> https://github.com/gantian127/tethysapp-ueb_app</a>
+                  </p>
+                  <p class="sub-description">
+                      This web app utilized the HydroDS python client "hydrogate" to send requests to HydroDS. Detials include:
+                      </br> -> HydroDS web services code: <a target="_blank" href='https://github.com/CI-WATER/Hydro-DS'>https://github.com/CI-WATER/Hydro-DS</a>
+                      </br> -> HydroDS python client code: <a target="_blank" href='https://github.com/CI-WATER/hydrogate_python_client'>'https://github.com/CI-WATER/hydrogate_python_client</a>
+                  </p>
+
               </div>
             </div>
          </div>
