@@ -90,6 +90,9 @@ def model_input(request):
                          display_text='Start Date',
                          autoclose=True,
                          format='yyyy/mm/dd',
+                         start_date='2009/01/01',
+                         end_date='2015/12/31',
+                         initial='2010/10/01',
                          today_button=True,
                          multidate='1',
                          attributes={'required': True}
@@ -99,6 +102,9 @@ def model_input(request):
                             display_text='End Date',
                             autoclose=True,
                             format='yyyy/mm/dd',
+                            start_date='2009/01/01',
+                            end_date='2015/12/31',
+                            initial='2011/09/30',
                             today_button=True,
                             multidate='1',
                             attributes={'required': True}
