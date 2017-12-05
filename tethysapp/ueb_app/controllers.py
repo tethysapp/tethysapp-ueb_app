@@ -114,14 +114,14 @@ def model_input(request):
     x_size = TextInput(display_text='X size(m)',
                        name='x_size',
                        initial='30',
-                       attributes={'required': True},
+                       # attributes={'required': True},
                        placeholder='integer value',
                        )
 
     y_size = TextInput(display_text='Y size(m)',
                        name='y_size',
                        initial='30',
-                       attributes={'required': True},
+                       # attributes={'required': True},
                        placeholder='integer value',
                        )
 
