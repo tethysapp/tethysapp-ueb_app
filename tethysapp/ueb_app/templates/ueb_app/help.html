@@ -57,7 +57,62 @@
 
             <div id="collapse2" class="panel-collapse collapse">
               <div class="panel-body">
-                    <p class="sub-description">This will introduce the basic physical concept of the UEB model and will also describe the input and output files.</p>
+
+                  <!-- model theory-->
+                  <p class="sub-title"> Basic model theory </p>
+                  <p class="sub-description">
+                      Utah Energy Balance (UEB) model was developed for the prediction of rapid snowmelt rates potentially
+                      responsible for soil erosion and surface water inputs.
+                      UEB model is driven by inputs of air temperature, precipitation, wind speed, humidity and radiation at time steps
+                      sufficient to resolve the diurnal cycle (hourly or six hourly).
+                      The model uses physically-based calculations of radiative, sensible, latent and advective heat exchanges. (see fig 1-2)
+                  </p>
+
+                  <figure>
+                    <img width='55%' height="55%" src="{% static 'ueb_app/images/help_model_theory1.png' %}"/>
+                    <img width='55%' height="55%" src="{% static 'ueb_app/images/help_model_theory2.png' %}"/>
+                  </figure>
+
+                  <!-- model input/output-->
+                  <p class="sub-title"> Model input/output variables</p>
+                  <p class="sub-description">
+                        <strong>UEB input/output variables can be classified into the following four groups.</strong>
+                        <br> -> Spatially constant and constant in time(SCTC)
+                        <br> -> Spatially variable but constant in time(SVTC)
+                        <br> -> Spatially constant but time varying (SCTV)
+                        <br> -> Spatially variable and variable in time (SVTV)
+                  </p>
+
+                  <p class="sub-description">
+                      <strong> Fig3 illustrates how different model variables are managed.</strong>
+                      <br> -> Model parameters are always SCTC. Site Variables may be SCTC or SVTC.
+                      The strategy for these is to have a text file that either gives the value for the variable
+                      if it is SCTC or the corresponding spatial grid (netCDF) file if it is SVTC.
+
+                      <br> -> Input variables may be SCTV or SVTV.
+                      The strategy for these is to have a text file that either gives the value for the variable for each
+                      time step if it is SCTV, or the name of a grid file holding the value for each time step if it is SVTV.
+
+                      <br> -> Output variables are grouped into grid output and aggregated outputs.Grid outputs are SVTV.
+                      The strategy is to have a text file that lists the grid output variables to be written.
+                      These will then be output as netCDF files.  Similarly a text file will specify which aggregate
+                      variables to output and outputs will go into text files.
+                  </p>
+
+                  <figure>
+                    <img width='100%' height="110%" src="{% static 'ueb_app/images/help_model_theory3.png' %}"/>
+                    <figcaption> <strong> Figure 3. Input/Output control schematic </strong></figcaption>
+                  </figure>
+
+                  <!-- references-->
+                  <p class="sub-title"> References</p>
+                  <ul class="help-list">
+                      <li>Sen Gupta, A., D. G. Tarboton, P. Hummel, M. E. Brown and S. Habib, (2015), "Integration of an energy balance snowmelt model into an open source modeling framework," Environmental Modelling & Software, 68: 205-218, http://dx.doi.org/10.1016/j.envsoft.2015.02.017.</li>
+                      <li>Mahat, V., D. G. Tarboton and N. P. Molotch, (2013), "Testing above and below canopy representations of turbulent fluxes in an energy balance snowmelt model," Water Resources Research, 49(2): 1107-1122, http://dx.doi.org/10.1002/wrcr.20073.</li>
+                      <li>Mahat, V. and D. G. Tarboton, (2012), "Canopy radiation transmission for an energy balance snowmelt model," Water Resour. Res., 48: W01534, http://dx.doi.org/10.1029/2011WR010438. Correction http://dx.doi.org/10.1029/2012WR011964.</li>
+                      <li>Tarboton, D. G. and C. H. Luce, (1996), "Utah Energy Balance Snow Accumulation and Melt Model (UEB)," Computer model technical description and users guide, Utah Water Research Laboratory and USDA Forest Service Intermountain Research Station. http://hydrology.usu.edu/dtarb/snow/snowrep.pdf</li>
+                  </ul>
+
               </div>
             </div>
          </div>
