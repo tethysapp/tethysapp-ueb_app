@@ -40,7 +40,91 @@
 
             <div id="collapse1" class="panel-collapse collapse">
               <div class="panel-body">
-                    <p class="sub-description">This shows how to use this web app to prepare the UEB model input package and execute the UEB model to estimate the snow water equivalent in an example watershed.</p>
+                <!-- brief intro-->
+                <p class="sub-title"> Introduction </p>
+                <p class="sub-description">
+                    This tutorial shows how to use the Utah Energy Balance Model app to prepare the model input package and execute the model
+                    to simulate the snowmelt process for Animas watershed in Colorado River Basin for the 2010 water year.
+                    The corresponding data and metadata will be automatically curated in HydroShare to support data sharing and analysis.
+                </p>
+                <figure>
+                    <img width='55%' height="60%" src="{% static 'ueb_app/images/help_watershed.png' %}"/>
+                    <figcaption> <strong> Figure 1. Map of Animas watershed in Colorado River Basin </strong></figcaption>
+                </figure>
+
+                <!-- model input-->
+                <p class="sub-title"> Create a model input package </p>
+                <p class="sub-description">
+                 In this section, we will use the "Input Data Preparation" to create a complete model input package for Animas watershed.
+                 <br>
+                 <br><strong>Operation steps:</strong>
+                 <br> -> Go to "Input Data Preparation" page.
+                 <br> -> Enter the form using the information shown in Figure 2.
+                 <br> -> Click on "Input Data preparation" green button.
+                 <br> -> Go to "Check status" page to check the job status.(Figure 3 JobID 234)
+                 <br> -> After the job is finished, click on the link of the model instance resource in HydroShare. (Figure 4)
+
+                 <br>
+                 <br><strong>Results:</strong>
+                 <br>-> The model instance resource stores the model input package and associated metadata.
+                        This resource will be used to execute the UEB model.
+                        <a target='_blank' href="https://www.hydroshare.org/resource/1235c26fc4d04b2e987f7b3ed8515840/">Check resource here</a>
+                 <br>-> The model input package includes model input datasets, model parameter setting files, and
+                        a python file which documents the workflow of model input data creation using HydroDS web services.
+                </p>
+
+                <figure>
+                    <img width='80%' height="80%" src="{% static 'ueb_app/images/help_input_1.png' %}"/>
+                    <figcaption> <strong> Figure 2. Form input in Input Data Preparation page </strong></figcaption>
+                </figure>
+
+                <figure>
+                    <img width='80%' height="80%" src="{% static 'ueb_app/images/help_job.png' %}"/>
+                    <figcaption> <strong> Figure 3. Check the job status of the submitted work </strong></figcaption>
+                </figure>
+                  <br>
+                <figure>
+                    <img width='80%' height="80%" src="{% static 'ueb_app/images/help_input_2.png' %}"/>
+                    <figcaption> <strong> Figure 4. Model instance resource sharing model input/output data and metadata </strong></figcaption>
+                </figure>
+                  <br>
+
+
+                <!-- model execution-->
+                <p class="sub-title"> Execute the model </p>
+                <p class="sub-description">
+                 In this section, we will use the "Submit for Execution" page to use UEB model and simulate the snowmelt process for Animas watershed.
+                 <br>
+                 <br><strong>Operation steps:</strong>
+                 <br> -> Go to "Submit for Execution" page.
+                 <br> -> Select the created model instance resource. (Figure 5)
+                 <br> -> Click on "Submit Model Execution" green button.
+                 <br> -> Go to "Check status" page to check the job status.(Figure 3 JobID 235)
+                 <br> -> After the job is finished, click on the link of the model instance resource in HydroShare. (Figure 4)
+
+
+                 <br>
+                 <br><strong>Results:</strong>
+                 <br>-> The same model instance resource now is added with a model output package including snow water equivalent and surface water total input.
+                        <a target='_blank' href="https://www.hydroshare.org/resource/1235c26fc4d04b2e987f7b3ed8515840/">Check resource here</a>
+                 <br>-> Users can have multiple model simulation for the same model instance resource and have multiple model output packages in the resource.
+                 <br>-> If the model instance resource is deleted before the model simulation is completed,
+                         a new model instance resource will be created for data sharing in HydroShare.
+                </p>
+
+                <figure>
+                    <img width='80%' height="80%" src="{% static 'ueb_app/images/help_run.png' %}"/>
+                    <figcaption> <strong> Figure 5. Select model instance resource for model simulation </strong></figcaption>
+                </figure>
+
+
+              <!--&lt;!&ndash; data analysis&ndash;&gt;-->
+              <!--<p class="sub-title"> 3. Data analysis </p>-->
+              <!--<p class="sub-description">-->
+
+
+              <!--</p>-->
+
               </div>
             </div>
          </div>
