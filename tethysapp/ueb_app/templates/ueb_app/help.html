@@ -61,8 +61,8 @@
                  <br> -> Go to "Input Data Preparation" page.
                  <br> -> Enter the form using the information shown in Figure 2.
                  <br> -> Click on "Input Data preparation" green button.
-                 <br> -> Go to "Check status" page to check the job status.(Figure 3 JobID 234)
-                 <br> -> After the job is finished, click on the link of the model instance resource in HydroShare. (Figure 4)
+                 <br> -> Go to "Check status" page to check the job status (Figure 3 JobID 234).
+                 <br> -> After the job is finished, click on the link of the model instance resource in HydroShare (Figure 4).
 
                  <br>
                  <br><strong>Results:</strong>
@@ -93,23 +93,24 @@
                 <!-- model execution-->
                 <p class="sub-title"> Execute the model </p>
                 <p class="sub-description">
-                 In this section, we will use the "Submit for Execution" page to use UEB model and simulate the snowmelt process for Animas watershed.
+                 In this section, we will use the "Submit for Execution" to use UEB model and simulate the snowmelt process for Animas watershed.
                  <br>
                  <br><strong>Operation steps:</strong>
                  <br> -> Go to "Submit for Execution" page.
-                 <br> -> Select the created model instance resource. (Figure 5)
+                 <br> -> Select the created model instance resource (Figure 5).
                  <br> -> Click on "Submit Model Execution" green button.
-                 <br> -> Go to "Check status" page to check the job status.(Figure 3 JobID 235)
-                 <br> -> After the job is finished, click on the link of the model instance resource in HydroShare. (Figure 4)
+                 <br> -> Go to "Check status" page to check the job status (Figure 3 JobID 235).
+                 <br> -> After the job is finished, click on the link of the model instance resource in HydroShare (Figure 4).
 
 
                  <br>
                  <br><strong>Results:</strong>
-                 <br>-> The same model instance resource now is added with a model output package including snow water equivalent and surface water total input.
+                 <br>-> The same model instance resource now is added with a model output package including results of
+                        snow water equivalent and surface water total input.
                         <a target='_blank' href="https://www.hydroshare.org/resource/1235c26fc4d04b2e987f7b3ed8515840/">Check resource here</a>
                  <br>-> Users can have multiple model simulation for the same model instance resource and have multiple model output packages in the resource.
                  <br>-> If the model instance resource is deleted before the model simulation is completed,
-                         a new model instance resource will be created for data sharing in HydroShare.
+                         a new model instance resource will be automatically created for data sharing in HydroShare.
                 </p>
 
                 <figure>
@@ -149,7 +150,7 @@
                       responsible for soil erosion and surface water inputs.
                       UEB model is driven by inputs of air temperature, precipitation, wind speed, humidity and radiation at time steps
                       sufficient to resolve the diurnal cycle (hourly or six hourly).
-                      The model uses physically-based calculations of radiative, sensible, latent and advective heat exchanges. (see fig 1-2)
+                      The model uses physically-based calculations of radiative, sensible, latent and advective heat exchanges (See Figure 1-2).
                   </p>
 
                   <figure>
@@ -221,7 +222,7 @@
                       model input preparation and execution (here applied for the Utah Energy Balance model).
                   </p>
                   <p class="sub-description">
-                      We took HydroShare, HydroShare Apps, and HydroDS to play different roles (see Fig1)
+                      We took HydroShare, HydroShare Apps, and HydroDS to play different roles (See Figure 1):
                       </br> -> <strong>HydroShare Apps</strong> provides the graphical user interface (Utah Energy Balance Model App) for the HydroDS web services.
                       </br> -> <strong>HydroDS</strong> supports model input preparation, model simulation, and data transfer to HydroShare.
                       </br> -> <strong>HydroShare</strong> curates and shares the data from HydroDS and supports online programing environment (e.g. JupyterHub app) for  data analysis.
@@ -229,7 +230,7 @@
 
                   <figure>
                     <img width='55%' height="55%" src="{% static 'ueb_app/images/help_design.png' %}"/>
-                    <figcaption> <strong> Fig1. General design of system integration</strong></figcaption>
+                    <figcaption> <strong> Figure 1. General design of system integration</strong></figcaption>
                   </figure>
 
                   <!-- web app development-->
