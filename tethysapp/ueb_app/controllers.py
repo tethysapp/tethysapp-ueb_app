@@ -72,7 +72,7 @@ def model_input(request):
                        # display_text='Stream Threshold',
                        name='stream_threshold',
                        initial='1000',
-                       attributes={'style': 'width:350px'}
+                       attributes={'size': '40',}
                        )
 
 
@@ -145,7 +145,7 @@ def model_input(request):
         name='usic',
         placeholder='e.g. 0 (for no snow season)',
         # initial='0',
-        attributes={'style': 'width:350px', 'required': True}
+        attributes={'size': '40', 'required': True}
     )
 
     wsic = TextInput(
@@ -153,7 +153,7 @@ def model_input(request):
         name='wsic',
         placeholder='e.g. 0 (for no snow season)',
         # initial='0',
-        attributes={'style': 'width:350px', 'required': True}
+        attributes={'size': '40', 'required': True}
     )
 
     tic = TextInput(
@@ -161,7 +161,7 @@ def model_input(request):
         name='tic',
         placeholder='e.g. 0 (for no snow season)',
         # initial='0',
-        attributes={'style': 'width:350px', 'required': True}
+        attributes={'size': '40', 'required': True}
     )
 
     wcic = TextInput(
@@ -169,7 +169,7 @@ def model_input(request):
         name='wcic',
         placeholder='e.g. 0 (for no snow season)',
         # initial='0',
-        attributes={'style': 'width:350px', 'required': True}
+        attributes={'size': '40', 'required': True}
     )
 
     ts_last = TextInput(
@@ -177,21 +177,21 @@ def model_input(request):
         name='ts_last',
         placeholder='e.g. 0 (for no snow season)',
         # initial='0',
-        attributes={'style': 'width:350px', 'required': True}
+        attributes={'size': '40', 'required': True}
     )
 
     # resource info
     res_title = TextInput(display_text='HydroShare resource title',
                        name='res_title',
                        placeholder='UEB model package',
-                       attributes={'style': 'width:350px',
+                       attributes={'size': '40',
                                    # 'required': True
                                    }
                        )
     res_keywords = TextInput(display_text='HydroShare resource keywords',
                        name='res_keywords',
                        placeholder='Utah Energy Balance Model, Snowmelt',
-                       attributes={'style': 'width:350px',
+                       attributes={'size': '40',
                                    # 'required': True
                                    }
                        )
