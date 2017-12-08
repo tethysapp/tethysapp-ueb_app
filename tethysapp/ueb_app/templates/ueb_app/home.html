@@ -13,47 +13,70 @@
 
 
 {% block app_title_override %}
-  <div id='nav'>
-    <p>{{ tethys_app.name }}</p>
-    <ul >
+  <!--<div id='nav'>-->
+    <!--<p>{{ tethys_app.name }}</p>-->
+    <!--<ul >-->
+      <!--{% if res_id  %}-->
+        <!--<li><a href="{% url 'ueb_app:model_input' %}?res_id={{res_id}}">Input Data Preparation</a></li>-->
+        <!--<li><a href="{% url 'ueb_app:model_run' %}?res_id={{res_id}}">Submit for Execution</a></li>-->
+        <!--<li><a href="{% url 'ueb_app:check_status' %}?res_id={{res_id}}">Check Status</a></li>-->
+        <!--<li><a href="{% url 'ueb_app:help_page' %}?res_id={{res_id}}">Help</a></li>-->
+      <!--{% else %}-->
+        <!--<li><a href="{% url 'ueb_app:model_input' %}">Input Data Preparation</a></li>-->
+        <!--<li><a href="{% url 'ueb_app:model_run' %}">Submit for Execution</a></li>-->
+        <!--<li><a href="{% url 'ueb_app:check_status' %}">Check Status</a></li>-->
+        <!--<li><a href="{% url 'ueb_app:help_page' %}">Help</a></li>-->
+      <!--{% endif %}-->
+
+      <!--<li><a href="/apps">Exit</a></li>-->
+    <!--</ul>-->
+    <!--&lt;!&ndash;<a id='exit'href="/apps" ><button type="button" style="f font-size:15px; hight:30px; width:80px; margin-left:500xp; margin-top:20px">Exit App</button></a>&ndash;&gt;-->
+  <!--</div>-->
+
+  <div class="topnav " id="myTopnav">
       {% if res_id  %}
-        <li><a href="{% url 'ueb_app:model_input' %}?res_id={{res_id}}">Input Data Preparation</a></li>
-        <li><a href="{% url 'ueb_app:model_run' %}?res_id={{res_id}}">Submit for Execution</a></li>
-        <li><a href="{% url 'ueb_app:check_status' %}?res_id={{res_id}}">Check Status</a></li>
-        <li><a href="{% url 'ueb_app:help_page' %}?res_id={{res_id}}">Help</a></li>
+        <a href="/apps/ueb-app/?res_id={{res_id}}" id="name"> Utah Energy Balance Model App </a>
+        <a href="{% url 'ueb_app:model_input' %}?res_id={{res_id}}">Input Data Preparation</a>
+        <a href="{% url 'ueb_app:model_run' %}?res_id={{res_id}}">Submit for Execution</a>
+        <a href="{% url 'ueb_app:check_status' %}?res_id={{res_id}}">Check Status</a>
+        <a href="{% url 'ueb_app:help_page' %}?res_id={{res_id}}">Help</a>
       {% else %}
-        <li><a href="{% url 'ueb_app:model_input' %}">Input Data Preparation</a></li>
-        <li><a href="{% url 'ueb_app:model_run' %}">Submit for Execution</a></li>
-        <li><a href="{% url 'ueb_app:check_status' %}">Check Status</a></li>
-        <li><a href="{% url 'ueb_app:help_page' %}">Help</a></li>
+        <a href="/apps/ueb-app/">Utah Energy Balance Model App</a>
+        <a href="{% url 'ueb_app:model_input' %}">Input Data Preparation</a>
+        <a href="{% url 'ueb_app:model_run' %}">Submit for Execution</a>
+        <a href="{% url 'ueb_app:check_status' %}">Check Status</a>
+        <a href="{% url 'ueb_app:help_page' %}">Help</a>
       {% endif %}
+        <a href="/apps">Exit</a>
 
-      <li><a href="/apps">Exit</a></li>
-    </ul>
-    <!--<a id='exit'href="/apps" ><button type="button" style="f font-size:15px; hight:30px; width:80px; margin-left:500xp; margin-top:20px">Exit App</button></a>-->
+        <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+
   </div>
-
 
 {% endblock %}
 
-{%block app_navigation%}
+{%block app_navigation_override%}
 {%endblock%}
 
 
 {% block app_content %}
 
   <!--intro section-->
+<div class="col-md-12">
   <h1>Welcome to UEB Model Services! </h1>
-  <p style="font-size:125%; margin-bottom: 50px">
-    The Utah Energy Balance model is a snowmelt model developed for the prediction of snow accumulation and melt, driven by inputs of
+  <p style="font-size:125%;">
+    The Utah Energy Balance (UEB) model is a snowmelt model developed for the prediction of snow accumulation and melt, driven by inputs of
      precipitation, wind, humidity, temperature and radiation at sub diurnal time scales.
-    <a target='_blank'href="http://hydrology.usu.edu/dtarb/snow/snow.html"> See more details </a> <br>
+    <a target='_blank'href="http://hydrology.usu.edu/dtarb/snow/snow.html"> See more details </a>
+  </p>
 
+  <p style="font-size:125%;" >
     This application provides  services to prepare a complete UEB model input package for a user
-    defined area (within the bounds of supporting data in the western US) <br>
-
+    defined area (within the bounds of supporting data in the western US).
     The application also provides services to submit a UEB model package for execution on a server or high performance computing center installation.
   </p>
+
+</div>
 
 
 
@@ -104,4 +127,19 @@
 {% block content_dependent_styles %}
   {{ block.super }}
   <link href="{% static 'ueb_app/css/home.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+            x.className += " responsive";
+        } else {
+            x.className = "topnav";
+        }
+      }
+    </script>
+
 {% endblock %}
