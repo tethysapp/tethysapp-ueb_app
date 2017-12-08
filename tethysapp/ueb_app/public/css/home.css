@@ -23,7 +23,7 @@
 }
 
 #nav ul li a:hover {
-    font-size: 155%;
+    font-size: 145%;
     color: #0073e6;
     text-decoration: none;
 }
@@ -40,13 +40,13 @@
 }
 
 #icon img {
-    width:200px;
-    hight:200px;
+    width:85%;
+    hight:85%;
 }
 
 #icon img:hover {
-   width:210px;
-   hight:210px;
+   width:80%;
+   hight:80%;
 }
 
 
