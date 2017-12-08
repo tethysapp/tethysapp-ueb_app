@@ -102,3 +102,11 @@
   }
 
     }
+
+@media only screen and (max-width: 1275px) {
+
+   body {
+      font-size: 0.9em;
+   }
+
+}
