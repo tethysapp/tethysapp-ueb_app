@@ -1,4 +1,5 @@
 # Tethys Web App for Utah Energy Balance Snowmelt Model 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3735456.svg)](https://doi.org/10.5281/zenodo.3735456)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/gantian127/tethysapp-ueb_app/blob/master/LICENSE.txt)
 
 ### Title of Manuscript:
