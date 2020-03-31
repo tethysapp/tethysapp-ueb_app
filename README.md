@@ -4,14 +4,14 @@
 
 
 
-##Tethys Web App for Utah Energy Balance Snowmelt Model 
+## Tethys Web App for Utah Energy Balance Snowmelt Model 
 
 
-###Title of Manuscript:
+### Title of Manuscript:
 
 Integrating hydrologic modeling web services with online data sharing to prepare, store, and execute hydrologic models
 
-###Authors: 
+### Authors: 
 
 Tian Gan, David G. Tarboton, Pabitra Dash, Tseganeh Z. Gichamo, Jeffery S. Horsburgh 
 
@@ -21,7 +21,7 @@ in the manuscript above.
 
 
 
-###Abstract
+### Abstract
 
 
 Web based applications, web services, and online data and model sharing technology are becoming increasingly available 
@@ -35,7 +35,7 @@ encourages collaboration and improves research reproducibility. It can also be a
 hydrologic modeling web services with data sharing systems for different hydrologic models. 
 
 
-###Tethys Platform
+### Tethys Platform
 
 This web app can be installed in the Tethys Platform (for version 1.X). 
 Please check the Tethys Platform [official website](http://docs.tethysplatform.org/en/stable/index.html) for more details. 
