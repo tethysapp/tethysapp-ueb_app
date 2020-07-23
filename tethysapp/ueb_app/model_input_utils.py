@@ -2,9 +2,10 @@
 Utilities for model input preparation web services
 """
 
-from epsg_list import EPSG_List
-from hydrods_model_input import *
-from user_settings import *
+
+from .epsg_list import EPSG_List
+from .hydrods_model_input import *
+from .user_settings import *
 import json
 
 
@@ -206,7 +207,7 @@ def validate_model_input_form(request):
 
 
     # get hydroshare oauth object
-    from controllers import get_OAuthHS
+    from .controllers import get_OAuthHS
     OAuthHS = get_OAuthHS(request)
     if OAuthHS.get('error'):
         validation['is_valid'] = False

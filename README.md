@@ -1,5 +1,5 @@
-# Tethys Web App for Utah Energy Balance Snowmelt Model 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3735456.svg)](https://doi.org/10.5281/zenodo.3735456)
+# Tethys Web Application for the Utah Energy Balance Model 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3735455.svg)](https://doi.org/10.5281/zenodo.3735455)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/gantian127/tethysapp-ueb_app/blob/master/LICENSE.txt)
 
 ### Title of Manuscript:
@@ -12,7 +12,7 @@ Tian Gan, David G. Tarboton, Pabitra Dash, Tseganeh Z. Gichamo, Jeffery S. Horsb
 
 
 This repository contains a reference implementation of a web app presented
-in the manuscript above.
+in the [manuscript](https://doi.org/10.1016/j.envsoft.2020.104731) above.
 
 
 
@@ -32,5 +32,9 @@ hydrologic modeling web services with data sharing systems for different hydrolo
 
 ### Tethys Platform
 
-This web app can be installed in the Tethys Platform (for version 1.X). 
+This web app was developed for the Tethys Platform with version 1.3 or 1.4. 
 Please check the Tethys Platform [official website](http://docs.tethysplatform.org/en/stable/index.html) for more details. 
+
+This web app was deployed for testing and prototyping purpose at [HydroShare Apps Portal](https://apps.hydroshare.org/apps/).
+The deployment status is subject to change when system functions update in HydroShare. 
+ 

@@ -2,11 +2,11 @@ import shutil
 from datetime import datetime
 import tempfile
 import os
-import requests,json
-from user_settings import *
+import requests, json
+from .user_settings import *
 
-from hydrogate import HydroDS
-from model_parameters_list import file_contents_dict
+from .hydrogate import HydroDS
+from .model_parameters_list import file_contents_dict
 
 
 def hydrods_model_input_service_single_call(hs_client_id, hs_client_secret, token, hydrods_name, hydrods_password,

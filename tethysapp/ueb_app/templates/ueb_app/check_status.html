@@ -111,7 +111,7 @@
             <!--alert($('.message').length)-->
             $('.message').each(function(){
 
-                str = $(this).text().replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,
+                var str = $(this).text().replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,
                                             function(x) {
                                                 return "<a href='" + x + "' target='_blank'>Here</a>"
                                              })

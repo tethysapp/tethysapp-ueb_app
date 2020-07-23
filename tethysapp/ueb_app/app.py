@@ -1,4 +1,5 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
+from tethys_sdk.app_settings import CustomSetting
 
 
 class UebApp(TethysAppBase):
@@ -15,6 +16,7 @@ class UebApp(TethysAppBase):
     description = 'UEB APP description'
     enable_feedback = False
     feedback_emails = []
+    tags = ''
 
         
     def url_maps(self):
@@ -63,3 +65,49 @@ class UebApp(TethysAppBase):
         )
 
         return url_maps
+
+    def custom_settings(self):
+        custom_settings = (
+            CustomSetting(
+                name='hs_name',
+                type=CustomSetting.TYPE_STRING,
+                description='Global HydroShare username',
+                required=True,
+
+            ),
+            CustomSetting(
+                name='hs_password',
+                type=CustomSetting.TYPE_STRING,
+                description='Global HydroShare password',
+                required=True,
+            ),
+            CustomSetting(
+                name='hydrods_name',
+                type=CustomSetting.TYPE_STRING,
+                description='Global HydroDS username',
+                required=True,
+
+            ),
+            CustomSetting(
+                name='hydrods_password',
+                type=CustomSetting.TYPE_STRING,
+                description='Global HydroDS password',
+                required=True,
+
+            ),
+            CustomSetting(
+                name='client_id',
+                type=CustomSetting.TYPE_STRING,
+                description='Client ID',
+                required=True,
+
+            ),
+            CustomSetting(
+                name='client_secret',
+                type=CustomSetting.TYPE_STRING,
+                description='Client secret',
+                required=True,
+
+            ),
+        )
+        return custom_settings

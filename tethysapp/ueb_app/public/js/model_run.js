@@ -18,57 +18,47 @@ $(document).ready(function() {
     var user_form= $('#user-form');
 
     user_form.submit(function(){
-        var btn_val = $(this).find("input[type=submit]:focus" ).val();
 
-        if (btn_val != "Submit Model Execution") {
-            $(this).attr('action','');  // to enable ajax call update action as 'model_run_load_metadata/'
-            $('#submit-response').hide();
-
-        } // end of load metadata
-        else if (btn_val == "Submit Model Execution"){
-//            $('#wait').modal();
-            $('#submit-model-run-btn').hide();
-            $(this).attr('action','model_run_submit_execution/');
+        $('#submit-model-run-btn').hide();
+        $(this).attr('action','model_run_submit_execution/');
 
 
-            $.ajax({
-                type: user_form.attr('method'),
-                url: user_form.attr('action'),
-                data: user_form.serialize(),
+        $.ajax({
+            type: user_form.attr('method'),
+            url: user_form.attr('action'),
+            data: user_form.serialize(),
 
-                success: function(result) {
-                    console.log(result);
-                    json_response = JSON.parse(result);
-                    console.log(json_response);
+            success: function(result) {
+                console.log(result);
+                json_response = JSON.parse(result);
+                console.log(json_response);
 //                    alert('happy');
-                    $('#submit-response').show()
-                    if (json_response.status == 'Error'){
-                        document.getElementById("submit-response").style.backgroundColor = '#ffebe6';
-                    }
-                    else {
-                        document.getElementById("submit-response").style.backgroundColor = '#eafaea';
-                    }
-
-                    $('#response-status').text(json_response.status)
-                    $('#response-result').text(json_response.result);
-                },
-
-                error: function() {
-//                    alert('sad');
-                    $('#submit-response').show();
+                $('#submit-response').show()
+                if (json_response.status == 'Error'){
                     document.getElementById("submit-response").style.backgroundColor = '#ffebe6';
-                    $('#response-status').text('Error');
-                    $('#response-result').text('Failed to run the web service. Please try it again.');
-                },
+                }
+                else {
+                    document.getElementById("submit-response").style.backgroundColor = '#eafaea';
+                }
 
-                complete: function(){
+                $('#response-status').text(json_response.status)
+                $('#response-result').text(json_response.result);
+            },
+
+            error: function() {
+//                    alert('sad');
+                $('#submit-response').show();
+                document.getElementById("submit-response").style.backgroundColor = '#ffebe6';
+                $('#response-status').text('Error');
+                $('#response-result').text('Failed to run the web service. Please try it again.');
+            },
+
+            complete: function(){
 //                    alert('complete');
 //                    $('#wait').modal('hide');
-                }
-            });
-            return false;
-
-        } // end of run model service
+            }
+        });
+        return false;
 
     }); // end of user submit function
 

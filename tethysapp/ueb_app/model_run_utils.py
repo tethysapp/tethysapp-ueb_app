@@ -11,10 +11,10 @@ import datetime
 import json
 import xmltodict
 import requests
-from user_settings import *
+from .user_settings import *
 
-from hydrogate import HydroDS
-from model_parameters_list import site_initial_variable_codes, input_vairable_codes
+from .hydrogate import HydroDS
+from .model_parameters_list import site_initial_variable_codes, input_vairable_codes
 
 
 # utils for loading the metadata
@@ -30,7 +30,7 @@ def get_model_resource_metadata(hs, res_id):
     try:
 
         # get metadata xml file and parse as dict
-        md_dict = xmltodict.parse(hs.getScienceMetadataRDF(res_id))
+        md_dict = xmltodict.parse(hs.getScienceMetadataRDF(res_id).strip("bln' \\ ")) #remove single quotes and trailing \n
 
 
         # retrieve bounding box and time
@@ -65,7 +65,7 @@ def get_model_resource_metadata(hs, res_id):
         for item in ext_dict:
             key = item['rdf:Description']['hsterms:key'].replace(' ', '_').lower()
             info_dict[key] = item['rdf:Description']['hsterms:value']
-        model_resource_metadata['cell_y_size']= info_dict.get('modeling_resolution_dy_(m)')
+        model_resource_metadata['cell_y_size'] = info_dict.get('modeling_resolution_dy_(m)')
         model_resource_metadata['cell_x_size'] = info_dict.get('modeling_resolution_dx_(m)')
         model_resource_metadata['outlet_x'] = info_dict.get('outlet_longitude')
         model_resource_metadata['outlet_y'] = info_dict.get('outlet_latitude')

@@ -1,2 +1,0 @@
-tethysapp
-tethysapp.ueb_app
